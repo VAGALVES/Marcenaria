@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0A1220" />
+  <title>Marcenaria Intelligence · Mini-ERP por VS Consulting</title>
+  <meta name="description" content="Mini-ERP editorial para marcenaria sob medida — orçamento técnico, cálculo automático de materiais, formação de preço e KPIs financeiros. Desenvolvido por VS Consulting." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* ── Cores base (alinhado Connectors-VS) ── */
+      --ink: #0A1220;
+      --ink-2: #10192B;
+      --ink-3: #18223A;
+      --ink-4: #202C48;
+      --paper: #F5F1E8;
+      --paper-90: rgba(245,241,232,.90);
+      --paper-80: rgba(245,241,232,.82);
+      --paper-60: rgba(245,241,232,.60);
+      --paper-40: rgba(245,241,232,.40);
+      --paper-20: rgba(245,241,232,.20);
+
+      /* ── Acento dourado (assinatura editorial) ── */
+      --gold: #C9A35C;
+      --gold-soft: rgba(201,163,92,.12);
+      --gold-line: rgba(201,163,92,.28);
+
+      /* ── Sistema cromático tripartite (saúde de KPIs) ── */
+      --sage: #7FA889;
+      --sage-soft: rgba(127,168,137,0.10);
+      --sage-line: rgba(127,168,137,0.32);
+      --amber: #C9A35C;
+      --amber-soft: rgba(201,163,92,0.10);
+      --amber-line: rgba(201,163,92,0.32);
+      --terra: #C77B5C;
+      --terra-soft: rgba(199,123,92,0.10);
+      --terra-line: rgba(199,123,92,0.32);
+
+      /* ── Estados (mantidos do app original p/ não quebrar JS) ── */
+      --danger: #C77B5C;
+      --success: #7FA889;
+      --info: #7C9CF5;
+
+      --line: rgba(245,241,232,.08);
+      --line-strong: rgba(245,241,232,.16);
+
+      /* ── Tipografia ── */
+      --font-display: 'Fraunces', Georgia, serif;
+      --font-body: 'Instrument Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+      /* Escala fluída (alinhado Connectors-VS) */
+      --fs-3xs: 0.6875rem;
+      --fs-2xs: 0.75rem;
+      --fs-xs: 0.8125rem;
+      --fs-sm: 0.9375rem;
+      --fs-base: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
+      --fs-lg: clamp(1rem, 0.95rem + 0.4vw, 1.15rem);
+      --fs-xl: clamp(1.125rem, 1rem + 0.6vw, 1.3125rem);
+      --fs-2xl: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
+      --fs-3xl: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem);
+      --fs-4xl: clamp(2.25rem, 1.6rem + 3vw, 3.5rem);
+      --fs-hero: clamp(2.625rem, 2rem + 4.5vw, 5rem);
+
+      /* Espaçamento */
+      --sp-1: 4px;
+      --sp-2: 8px;
+      --sp-3: 12px;
+      --sp-4: 16px;
+      --sp-5: 24px;
+      --sp-6: 32px;
+      --sp-7: 48px;
+      --sp-8: 64px;
+      --sp-9: 96px;
+
+      --r-sm: 8px;
+      --r-md: 14px;
+      --r-lg: 20px;
+      --r-xl: 28px;
+
+      --gutter: clamp(1rem, 4vw, 2rem);
+      --max-w: 1320px;
+
+      /* ── Animação ── */
+      --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+      --ease: var(--ease-out);
+      --dur-fast: 180ms;
+      --dur-med: 280ms;
+
+      /* ── Sombras ── */
+      --shadow-card: 0 1px 0 rgba(245,241,232,.04) inset, 0 30px 60px -30px rgba(0,0,0,.5);
+
+      --topbar-bg: rgba(10,18,32,0.72);
+    }
+
+    html[data-theme="light"] {
+      --ink: #F5F1E8;
+      --ink-2: #ECE6D6;
+      --ink-3: #DDD5BD;
+      --ink-4: #C5BCA0;
+      --paper: #0A1220;
+      --paper-90: rgba(10,18,32,.92);
+      --paper-80: rgba(10,18,32,.82);
+      --paper-60: rgba(10,18,32,.62);
+      --paper-40: rgba(10,18,32,.42);
+      --paper-20: rgba(10,18,32,.18);
+
+      --gold: #8C6D2E;
+      --gold-soft: rgba(140,109,46,.10);
+      --gold-line: rgba(140,109,46,.30);
+
+      --sage: #3F6E55;
+      --sage-soft: rgba(63,110,85,0.10);
+      --sage-line: rgba(63,110,85,0.32);
+      --amber: #8C6D2E;
+      --amber-soft: rgba(140,109,46,0.10);
+      --amber-line: rgba(140,109,46,0.30);
+      --terra: #9A4D2D;
+      --terra-soft: rgba(154,77,45,0.10);
+      --terra-line: rgba(154,77,45,0.32);
+
+      --danger: #9A4D2D;
+      --success: #3F6E55;
+
+      --line: rgba(10,18,32,0.08);
+      --line-strong: rgba(10,18,32,0.16);
+
+      --shadow-card: 0 1px 0 rgba(255,255,255,0.6) inset, 0 20px 40px -20px rgba(10,18,32,0.15);
+      --topbar-bg: rgba(245,241,232,0.78);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--ink);
+      color: var(--paper-80);
+      font-family: var(--font-body);
+      font-size: var(--fs-base);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      transition: background-color 320ms var(--ease-out), color 280ms var(--ease-out);
+    }
+    /* Noise overlay (assinatura editorial) */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.28;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.35 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    }
+    /* Glow dourado central (radial soft) */
+    body::after {
+      content: "";
+      position: fixed;
+      top: -30vh;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 140vmin;
+      height: 140vmin;
+      pointer-events: none;
+      z-index: 0;
+      background: radial-gradient(circle at center, rgba(201,163,92,0.07) 0%, rgba(201,163,92,0.02) 30%, transparent 60%);
+    }
+    html[data-theme="light"] body::before { opacity: 0.18; mix-blend-mode: multiply; }
+    html[data-theme="light"] body::after {
+      background: radial-gradient(circle at center, rgba(140,109,46,0.05) 0%, rgba(140,109,46,0.01) 30%, transparent 60%);
+    }
+
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: 100%; max-width: var(--max-w); margin: 0 auto; padding-inline: var(--gutter); position: relative; z-index: 2; }
+    :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
+
+    /* Progress bar de scroll (assinatura Connectors-VS) */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--gold), #E0C28E);
+      z-index: 50;
+      transition: width 80ms linear;
+      pointer-events: none;
+    }
+    /* ── TOPBAR (alinhado Connectors-VS) ── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: var(--topbar-bg);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      border-bottom: 1px solid var(--line);
+      transition: background-color 320ms var(--ease-out), border-color 320ms var(--ease-out);
+    }
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sp-4);
+      padding-block: var(--sp-4);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      min-width: 0;
+      flex: 0 1 auto;
+    }
+    .brand-mark {
+      width: 32px; height: 32px;
+      border-radius: var(--r-sm);
+      border: 1px solid var(--gold-line);
+      background: var(--gold-soft);
+      display: grid; place-items: center;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 12px;
+      color: var(--gold);
+      flex-shrink: 0;
+      font-style: italic;
+    }
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .brand-kicker {
+      font-family: var(--font-mono);
+      font-size: var(--fs-3xs);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 3px;
+    }
+    .brand-name {
+      font-family: var(--font-display);
+      font-size: var(--fs-sm);
+      font-weight: 600;
+      color: var(--paper);
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      flex-shrink: 0;
+    }
+
+    /* Botões base */
+    .btn {
+      border: 1px solid var(--line-strong);
+      color: var(--paper-80);
+      background: transparent;
+      min-height: 38px;
+      padding: 0 var(--sp-4);
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: var(--fs-3xs);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      display: inline-flex;
+      gap: var(--sp-2);
+      align-items: center;
+      white-space: nowrap;
+      transition: border-color var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+    }
+    .btn:hover {
+      border-color: var(--gold-line);
+      background: var(--gold-soft);
+      color: var(--paper);
+      transform: translateY(-1px);
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: var(--ink);
+      border-color: var(--gold);
+      font-weight: 600;
+    }
+    .btn-primary:hover {
+      background: var(--gold);
+      color: var(--ink);
+      filter: brightness(1.08);
+    }
+    .btn-danger { border-color: var(--terra-line); color: var(--terra); }
+    .btn-danger:hover { background: var(--terra-soft); border-color: var(--terra); color: var(--terra); }
+
+    /* Theme toggle (estilo Connectors: círculo com ícones sun/moon) */
+    .theme-toggle {
+      width: 38px; height: 38px;
+      min-height: 38px;
+      padding: 0;
+      border-radius: 50%;
+      border: 1px solid var(--line-strong);
+      background: transparent;
+      color: var(--paper);
+      display: grid; place-items: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .theme-toggle:hover { border-color: var(--gold); color: var(--gold); transform: none; background: transparent; }
+    .theme-toggle__icon {
+      width: 16px; height: 16px;
+      position: absolute;
+      transition: opacity var(--dur-med) var(--ease-out), transform var(--dur-med) var(--ease-out);
+    }
+    .theme-toggle__icon--sun { opacity: 0; transform: rotate(-90deg) scale(0.4); }
+    html[data-theme="light"] .theme-toggle__icon--moon { opacity: 0; transform: rotate(90deg) scale(0.4); }
+    html[data-theme="light"] .theme-toggle__icon--sun { opacity: 1; transform: rotate(0) scale(1); }
+
+    /* Versão badge (canto direito) */
+    .topbar-version {
+      font-family: var(--font-mono);
+      font-size: var(--fs-3xs);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--paper-60);
+      padding: var(--sp-2) var(--sp-3);
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    /* Menu overflow (mobile) */
+    .actions-overflow {
+      position: relative;
+    }
+    .actions-overflow__trigger {
+      width: 38px; height: 38px;
+      min-height: 38px;
+      padding: 0;
+      border-radius: 50%;
+      border: 1px solid var(--line-strong);
+      background: transparent;
+      color: var(--paper-80);
+      display: grid; place-items: center;
+      transition: border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+    }
+    .actions-overflow__trigger:hover { border-color: var(--gold); color: var(--gold); }
+    .actions-overflow__menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      min-width: 200px;
+      background: var(--ink-2);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--r-md);
+      padding: var(--sp-2);
+      box-shadow: var(--shadow-card);
+      display: none;
+      flex-direction: column;
+      gap: var(--sp-1);
+      z-index: 50;
+    }
+    .actions-overflow__menu.is-open { display: flex; }
+    .actions-overflow__menu .btn {
+      justify-content: flex-start;
+      width: 100%;
+      border: 1px solid transparent;
+    }
+    .actions-overflow__menu .btn:hover { border-color: var(--gold-line); }
+
+    /* Visibilidade responsiva */
+    @media (max-width: 720px) {
+      .topbar-version { display: none; }
+      .actions .btn-secondary { display: none; }
+    }
+    @media (min-width: 721px) {
+      .actions-overflow { display: none; }
+    }
+
+    /* ── TIPOGRAFIA HEADLINES ── */
+    h1, h2, h3, h4, h5 {
+      margin: 0;
+      color: var(--paper);
+      font-family: var(--font-display);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      font-variation-settings: "opsz" 48, "SOFT" 50;
+    }
+    h1 {
+      font-size: var(--fs-hero);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      font-variation-settings: "opsz" 144, "SOFT" 40;
+    }
+    h2 { font-size: var(--fs-3xl); }
+    h3 { font-size: var(--fs-2xl); font-weight: 600; }
+    h4 { font-size: var(--fs-xl); font-weight: 600; }
+    em, .italic {
+      font-style: italic;
+      color: var(--gold);
+      font-variation-settings: "opsz" 144, "SOFT" 100;
+    }
+    strong { color: var(--paper); font-weight: 600; }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: var(--fs-2xs);
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--paper-60);
+    }
+
+    /* ── HERO (alinhado Connectors-VS) ── */
+    .hero {
+      padding-block: var(--sp-8) var(--sp-7);
+      position: relative;
+    }
+    .hero__meta {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-4);
+      flex-wrap: wrap;
+      margin-bottom: var(--sp-6);
+      font-family: var(--font-mono);
+      font-size: var(--fs-3xs);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--paper-60);
+    }
+    .hero__meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-2);
+    }
+    .hero__meta-item::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+    .hero__meta-sep {
+      width: 1px;
+      height: 12px;
+      background: var(--line-strong);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: clamp(1.4rem, 4vw, 3rem);
+      align-items: start;
+    }
+    @media (min-width: 900px) {
+      .hero-grid { grid-template-columns: 1.25fr 0.75fr; align-items: center; }
+    }
+
+    .hero__title {
+      margin-bottom: var(--sp-5);
+      max-width: 18ch;
+    }
+    .hero__title .stanza {
+      display: block;
+    }
+    .hero__lead {
+      font-family: var(--font-display);
+      font-size: var(--fs-xl);
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--paper-80);
+      max-width: 54ch;
+      margin-bottom: var(--sp-6);
+      font-variation-settings: "opsz" 48, "SOFT" 60;
+    }
+    .hero__tldr {
+      border-left: 2px solid var(--gold);
+      padding-left: var(--sp-4);
+      max-width: 62ch;
+    }
+    .hero__tldr .eyebrow {
+      display: block;
+      margin-bottom: var(--sp-2);
+      color: var(--gold);
+    }
+    .hero__tldr p {
+      margin: 0;
+      font-size: var(--fs-base);
+      color: var(--paper-80);
+    }
+
+    .hero-card {
+      position: relative;
+      padding: var(--sp-5);
+      background: var(--ink-2);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-card);
+    }
+    .hero-svg {
+      width: 100%;
+      aspect-ratio: 4/3;
+      border-radius: var(--r-md);
+      background: rgba(245,241,232,.04);
+      border: 1px solid var(--line);
+    }
+    html[data-theme="light"] .hero-svg { background: rgba(10,18,32,.04); }
+      font-family: var(--font-mono); color: var(--gold); letter-spacing: .18em;
+      text-transform: uppercase; font-size: .72rem; font-weight: 600;
+    }
+    h1, h2, h3 { font-family: var(--font-display); color: var(--paper); margin: 0; line-height: 1.05; letter-spacing: -.03em; }
+    h1 em { color: var(--gold); font-style: italic; }
+
+    .section { padding: 1.4rem 0 3rem; }
+    .grid { display: grid; gap: 1rem; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      background: linear-gradient(180deg, rgba(245,241,232,.035), rgba(245,241,232,.012));
+      padding: 1rem;
+      box-shadow: var(--shadow-card);
+    }
+    .card h2 { font-size: clamp(1.45rem, 3vw, 2rem); margin-bottom: .9rem; }
+    .card h3 { font-size: 1.12rem; margin-bottom: .65rem; letter-spacing: -.01em; }
+    .muted { color: var(--paper-60); }
+    .small { font-size: .86rem; }
+    .form-row { display: grid; gap: .75rem; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: .75rem; }
+    label { display: grid; gap: .28rem; color: var(--paper-60); font-size: .78rem; font-family: var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line-strong);
+      border-radius: 12px;
+      background: rgba(245,241,232,.045);
+      color: var(--paper);
+      min-height: 42px;
+      padding: .7rem .78rem;
+      outline: none;
+    }
+    textarea { min-height: 92px; resize: vertical; }
+    input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-soft); }
+    table { width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; }
+    th, td { padding: .7rem .65rem; text-align: left; border-bottom: 1px solid var(--line); font-size: .9rem; vertical-align: middle; }
+    th { color: var(--gold); font-family: var(--font-mono); font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; background: rgba(201,163,92,.045); }
+    tr:last-child td { border-bottom: none; }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-md); }
+    .row-actions { display: flex; gap: .35rem; justify-content: flex-end; }
+    .icon-btn {
+      width: 32px; height: 32px; border-radius: 999px; border: 1px solid var(--line-strong);
+      background: transparent; color: var(--paper-60); display: grid; place-items: center;
+    }
+    .icon-btn:hover { border-color: var(--gold-line); color: var(--gold); }
+    .kpi {
+      border: 1px solid var(--line); border-radius: var(--r-lg); padding: 1rem; background: rgba(245,241,232,.025);
+    }
+    .kpi strong { display: block; color: var(--paper); font-family: var(--font-display); font-size: clamp(1.35rem, 2.8vw, 2rem); line-height: 1.05; }
+    .kpi span { font-family: var(--font-mono); font-size: .66rem; color: var(--paper-60); text-transform: uppercase; letter-spacing: .13em; }
+    .kpi.good { border-color: rgba(127,199,189,.35); }
+    .kpi.warn { border-color: rgba(217,111,94,.35); }
+    .insight {
+      border-left: 3px solid var(--gold); background: linear-gradient(90deg, var(--gold-soft), transparent);
+      border-radius: 0 var(--r-md) var(--r-md) 0; padding: 1rem; color: var(--paper-80);
+    }
+    .badge {
+      display: inline-flex; align-items: center; border: 1px solid var(--gold-line); background: var(--gold-soft);
+      color: var(--gold); border-radius: 999px; padding: .3rem .55rem; font-family: var(--font-mono); font-size: .65rem;
+      letter-spacing: .1em; text-transform: uppercase;
+    }
+    .hidden { display: none !important; }
+    /* ── FOOTER (alinhado Connectors-VS) ── */
+    .footer {
+      padding-block: var(--sp-8) var(--sp-7);
+      border-top: 1px solid var(--line);
+      margin-top: var(--sp-8);
+      text-align: center;
+      position: relative;
+    }
+    .footer__mark {
+      font-family: var(--font-display);
+      font-size: var(--fs-2xl);
+      font-weight: 900;
+      color: var(--paper);
+      letter-spacing: -0.03em;
+      margin-bottom: var(--sp-3);
+      font-variation-settings: "opsz" 144;
+    }
+    .footer__mark em {
+      font-style: italic;
+      color: var(--gold);
+      font-variation-settings: "opsz" 144, "SOFT" 100;
+    }
+    .footer__tagline {
+      font-family: var(--font-mono);
+      font-size: var(--fs-3xs);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--paper-60);
+      margin-bottom: var(--sp-2);
+    }
+    .footer__meta {
+      font-family: var(--font-body);
+      font-size: var(--fs-xs);
+      color: var(--paper-40);
+      max-width: 56ch;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    .footer__divider {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      margin: var(--sp-5) auto;
+    }
+
+
+    .concept {
+      border: 1px solid var(--gold-line);
+      background: linear-gradient(180deg, var(--gold-soft), rgba(245,241,232,.012));
+      border-radius: var(--r-md);
+      padding: .9rem;
+      margin: .9rem 0;
+      color: var(--paper-80);
+    }
+    .concept strong { color: var(--paper); }
+    .concept-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; margin: .9rem 0; }
+    .concept-mini {
+      border: 1px solid var(--line);
+      background: rgba(245,241,232,.025);
+      border-radius: var(--r-md);
+      padding: .85rem;
+    }
+    .concept-mini b {
+      display: block;
+      color: var(--gold);
+      font-family: var(--font-mono);
+      font-size: .66rem;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      margin-bottom: .35rem;
+    }
+    .heat {
+      display: flex;
+      height: 12px;
+      border-radius: 99px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: rgba(245,241,232,.035);
+    }
+    .heat span { display: block; min-width: 1px; }
+    .heat .h-mat { background: var(--gold); }
+    .heat .h-cd { background: var(--success); }
+    .heat .h-ci { background: var(--info); }
+    .heat .h-desp { background: var(--danger); }
+    .recommendation {
+      display: grid;
+      gap: .65rem;
+      margin-top: 1rem;
+    }
+    .recommendation .rec {
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      padding: .8rem;
+      background: rgba(245,241,232,.025);
+    }
+    .rec.good { border-color: rgba(127,199,189,.35); }
+    .rec.warn { border-color: rgba(217,111,94,.35); }
+
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: .75rem;
+      align-items: center;
+      padding: .65rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .metric-row:last-child { border-bottom: none; }
+    .metric-label { color: var(--paper-80); }
+    .metric-value { font-family: var(--font-mono); color: var(--gold); font-size: .82rem; text-align: right; }
+    .impact-list { display: grid; gap: .55rem; }
+    .impact-item {
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      padding: .75rem;
+      background: rgba(245,241,232,.025);
+    }
+    .impact-top { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: .45rem; }
+    .impact-name { color: var(--paper); font-weight: 700; }
+    .impact-bar { height: 8px; border-radius: 99px; background: rgba(245,241,232,.08); overflow: hidden; }
+    .impact-bar span { display: block; height: 100%; background: var(--gold); border-radius: 99px; }
+    .scenario-table td:nth-child(2), .scenario-table td:nth-child(3), .scenario-table td:nth-child(4) { font-family: var(--font-mono); }
+    .pill-row { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .7rem; }
+    .status-pill {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: .35rem .55rem;
+      font-family: var(--font-mono);
+      font-size: .65rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--paper-60);
+      background: rgba(245,241,232,.025);
+    }
+    .status-pill.ok { color: var(--success); border-color: rgba(127,199,189,.35); }
+    .status-pill.warn { color: var(--danger); border-color: rgba(217,111,94,.35); }
+    .client-proposal {
+      background: var(--ink-2);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: 1.1rem;
+    }
+    .client-proposal h3 { margin-bottom: .75rem; }
+    .client-proposal p { margin: .45rem 0; }
+
+
+    .module-card {
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: 1rem;
+      background: linear-gradient(180deg, rgba(245,241,232,.03), rgba(245,241,232,.01));
+    }
+    .module-title {
+      display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; margin-bottom:.75rem;
+    }
+    .module-title h3 { margin:0; }
+    .module-meta { font-family: var(--font-mono); color: var(--paper-40); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; }
+    .split-3 { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:.75rem; }
+    .estimate-box {
+      border: 1px solid var(--gold-line);
+      background: var(--gold-soft);
+      border-radius: var(--r-md);
+      padding:.85rem;
+    }
+    .estimate-box b { color: var(--paper); display:block; margin-bottom:.25rem; }
+    .price-tier {
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      background: rgba(245,241,232,.025);
+      padding:1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .price-tier.recommended { border-color: var(--gold-line); background: linear-gradient(180deg, var(--gold-soft), rgba(245,241,232,.012)); }
+    .price-tier small { font-family: var(--font-mono); color: var(--paper-40); text-transform:uppercase; letter-spacing:.1em; }
+    .price-tier strong { display:block; font-family: var(--font-display); font-size: clamp(1.4rem, 3vw, 2.2rem); color: var(--paper); line-height:1.05; margin:.35rem 0; }
+    .upload-box {
+      border: 1px dashed var(--gold-line);
+      border-radius: var(--r-md);
+      padding: .9rem;
+      background: rgba(201,163,92,.06);
+    }
+    .logo-preview {
+      max-width: 160px;
+      max-height: 80px;
+      object-fit: contain;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: rgba(245,241,232,.05);
+      padding: .35rem;
+      display: none;
+      margin-top: .6rem;
+    }
+    .proposal-page {
+      background: var(--ink-2);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: clamp(1rem, 3vw, 2rem);
+      color: var(--paper-80);
+    }
+    .proposal-head {
+      display:flex; justify-content:space-between; gap:1rem; align-items:flex-start;
+      border-bottom: 1px solid var(--line);
+      padding-bottom:1rem; margin-bottom:1rem;
+    }
+    .proposal-logo { max-width: 150px; max-height: 70px; object-fit: contain; display:none; }
+    .timeline { display:grid; gap:.6rem; }
+    .timeline-item {
+      border-left: 3px solid var(--gold);
+      padding: .7rem .9rem;
+      background: rgba(245,241,232,.025);
+      border-radius: 0 var(--r-md) var(--r-md) 0;
+    }
+    .timeline-item b { color: var(--paper); }
+    .empty-state {
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--r-md);
+      padding: 1rem;
+      color: var(--paper-60);
+      text-align: center;
+    }
+    @media print {
+      body.print-proposal .topbar,
+      body.print-proposal .tabs,
+      body.print-proposal .footer,
+      body.print-proposal .no-print,
+      body.print-proposal .tab-panel:not(#panel-proposta-pdf) { display:none !important; }
+      body.print-proposal #panel-proposta-pdf { display:block !important; }
+      body.print-proposal .proposal-page { border:none; background:white; color:#111; }
+      body.print-proposal h1, body.print-proposal h2, body.print-proposal h3, body.print-proposal strong { color:#111; }
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid, .grid-2, .grid-3, .grid-4, .form-row, .concept-grid, .split-3 { grid-template-columns: 1fr; }
+      .actions { gap: .35rem; }
+      .btn { font-size: .62rem; padding-inline: .62rem; }
+      .brand-name { max-width: 48vw; }
+    }
+
+    @media print {
+      body { background: #fff; color: #111; }
+      .topbar, .tabs, .footer, .no-print { display: none !important; }
+      .card, .kpi, .table-wrap { box-shadow: none; break-inside: avoid; border-color: #ccc; }
+      h1, h2, h3, .kpi strong { color: #111; }
+      .section { padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#">
+        <span class="brand-mark">VS</span>
+        <span class="brand-text">
+          <span class="brand-kicker">Marcenaria</span>
+          <span class="brand-name">Intelligence Lab</span>
+        </span>
+      </a>
+      <div class="actions">
+        <button class="btn btn-secondary" id="saveBtn" type="button">Salvar</button>
+        <button class="btn btn-secondary" id="importBtn" type="button">Importar</button>
+        <button class="btn btn-secondary" id="csvBtn" type="button">CSV</button>
+        <button class="btn btn-primary" id="exportBtn" type="button">Exportar</button>
+
+        <!-- Menu overflow para mobile -->
+        <div class="actions-overflow">
+          <button class="actions-overflow__trigger" id="overflowTrigger" type="button" aria-label="Mais ações" aria-expanded="false">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
+          </button>
+          <div class="actions-overflow__menu" id="overflowMenu" role="menu">
+            <button class="btn" id="saveBtn2" type="button">Salvar projeto</button>
+            <button class="btn" id="importBtn2" type="button">Importar JSON</button>
+            <button class="btn" id="csvBtn2" type="button">Exportar CSV</button>
+          </div>
+        </div>
+
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Alternar tema">
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+        </button>
+        <div class="topbar-version">v4.1 · Marcenaria</div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="hero__meta">
+            <span class="hero__meta-item">Mini-ERP · Marcenaria</span>
+            <span class="hero__meta-sep"></span>
+            <span>Edição v4.1 · MMXXVI</span>
+            <span class="hero__meta-sep"></span>
+            <span>Orçamento · Custos · KPIs</span>
+          </div>
+          <h1 class="hero__title">
+            <span class="stanza">Troque</span>
+            <span class="stanza"><em>planilhas</em> por</span>
+            <span class="stanza">decisão.</span>
+          </h1>
+          <p class="hero__lead">
+            Um framework executivo para orçamento técnico de móveis sob medida — cálculo automático
+            por ambientes, formação de preço em três estratégias e KPIs financeiros sem planilhas espalhadas.
+          </p>
+          <div class="hero__tldr">
+            <span class="eyebrow">O que você ganha</span>
+            <p>
+              Cada projeto é um <em>histórico consultável</em>: cliente, ambientes, materiais,
+              precificação e proposta comercial em PDF. Tudo num só lugar, classificado
+              por natureza de custo, com diagnóstico financeiro em tempo real.
+            </p>
+          </div>
+        </div>
+        <aside class="hero-card">
+          <svg class="hero-svg" viewBox="0 0 640 480" role="img" aria-label="Ilustração técnica de projeto de marcenaria">
+            <defs>
+              <linearGradient id="g" x1="0" x2="1">
+                <stop offset="0" stop-color="#C9A35C" stop-opacity=".9"/>
+                <stop offset="1" stop-color="#7FA889" stop-opacity=".55"/>
+              </linearGradient>
+            </defs>
+            <rect x="70" y="86" width="500" height="310" rx="26" fill="rgba(245,241,232,.06)" stroke="rgba(201,163,92,.35)" />
+            <rect x="110" y="122" width="150" height="236" rx="14" fill="rgba(201,163,92,.13)" stroke="rgba(201,163,92,.45)"/>
+            <rect x="282" y="122" width="248" height="96" rx="14" fill="rgba(127,168,137,.12)" stroke="rgba(127,168,137,.40)"/>
+            <rect x="282" y="238" width="248" height="120" rx="14" fill="rgba(245,241,232,.07)" stroke="rgba(245,241,232,.16)"/>
+            <line x1="110" y1="206" x2="260" y2="206" stroke="rgba(201,163,92,.45)"/>
+            <line x1="110" y1="280" x2="260" y2="280" stroke="rgba(201,163,92,.45)"/>
+            <circle cx="238" cy="244" r="6" fill="#C9A35C"/>
+            <circle cx="500" cy="286" r="8" fill="#7FA889"/>
+            <path d="M330 312 L384 258 L430 298 L474 248 L512 318" fill="none" stroke="url(#g)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="114" y="405" fill="#C9A35C" font-family="JetBrains Mono" font-size="16" letter-spacing="3">MDF · FITAS · FERRAGENS · MARGEM</text>
+          </svg>
+        </aside>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <nav class="tabs no-print" aria-label="Módulos do app">
+        <button class="btn tab" data-tab="projeto" aria-selected="true">Projeto</button>
+        <button class="btn tab" data-tab="ambientes">Ambientes</button>
+        <button class="btn tab" data-tab="itens">Materiais</button>
+        <button class="btn tab" data-tab="custos">Custos & despesas</button>
+        <button class="btn tab" data-tab="preco">Preço</button>
+        <button class="btn tab" data-tab="simulacoes">Simulações</button>
+        <button class="btn tab" data-tab="cliente">Proposta</button>
+        <button class="btn tab" data-tab="proposta-pdf">PDF</button>
+        <button class="btn tab" data-tab="historico">Histórico</button>
+        <button class="btn tab" data-tab="kpis">KPIs</button>
+      </nav>
+    </div>
+
+    <section class="section tab-panel" id="panel-projeto">
+      <div class="wrap grid grid-2">
+        <div class="card">
+          <h2>Identificação do projeto</h2>
+          <div class="concept">
+            <strong>Objetivo da aba:</strong> registrar o contexto comercial e técnico da proposta. Isso transforma cada orçamento em histórico consultável, e não em uma planilha perdida.
+          </div>
+          <div class="form-row">
+            <label>Cliente<input id="cliente" value="Cliente Exemplo"></label>
+            <label>Ambiente<input id="ambiente" value="Cozinha sob medida"></label>
+            <label>Nº proposta<input id="proposta" value="PROP-001"></label>
+            <label>Data<input id="data" type="date"></label>
+            <label>Status
+              <select id="statusProjeto">
+                <option>Orçamento inicial</option>
+                <option>Em negociação</option>
+                <option>Aprovado</option>
+                <option>Em produção</option>
+                <option>Entregue</option>
+              </select>
+            </label>
+            <label>Prazo estimado/dias<input id="prazoDias" type="number" step="1" value="20"></label>
+            <label>Entrada %<input id="entradaPerc" type="number" step="0.1" value="50"></label>
+          </div>
+          <label>Observações técnicas<textarea id="obs">Projeto com MDF, ferragens, fita de borda, mão de obra e despesas comerciais classificadas separadamente.</textarea></label>
+          <div class="concept-grid">
+            <div class="concept-mini"><b>Empresa</b><input id="empresaNome" value="Marcenaria do Cliente" placeholder="Nome da marcenaria"></div>
+            <div class="concept-mini"><b>Contato</b><input id="empresaContato" value="(51) 99999-9999" placeholder="Telefone / WhatsApp"></div>
+            <div class="concept-mini"><b>Validade da proposta</b><input id="validadeDias" type="number" value="7" step="1"></div>
+          </div>
+          <div class="upload-box no-print">
+            <strong>Logo da empresa</strong>
+            <p class="muted small">Opcional. A logo entra na proposta PDF e deixa o orçamento com cara profissional.</p>
+            <input id="logoUpload" type="file" accept="image/*">
+            <img id="logoPreview" class="logo-preview" alt="Prévia da logo">
+          </div>
+        </div>
+        <div class="card">
+          <h2>Classificação inteligente</h2>
+          <p class="muted">O app separa automaticamente os lançamentos por natureza: material direto, mão de obra direta, custo indireto, despesa comercial, despesa administrativa, imposto e margem desejada.</p>
+          <div class="insight" id="classificationInsight">Preencha materiais e custos. O diagnóstico será atualizado automaticamente.</div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section tab-panel hidden" id="panel-ambientes">
+      <div class="wrap grid">
+        <div class="card">
+          <h2>Ambientes e cálculo técnico</h2>
+          <div class="concept">
+            <strong>Nova lógica:</strong> cadastre cada ambiente com medidas, módulos, portas, gavetas e complexidade. O app estima chapas, fita de borda, dobradiças, corrediças e montagem básica automaticamente.
+          </div>
+          <div class="form-row no-print">
+            <label>Ambiente
+              <select id="envTipo">
+                <option>Cozinha</option><option>Dormitório</option><option>Closet</option><option>Banheiro</option><option>Sala</option><option>Lavanderia</option><option>Escritório</option><option>Área gourmet</option><option>Painel/TV</option><option>Outro</option>
+              </select>
+            </label>
+            <label>Largura total m<input id="envLargura" type="number" step="0.01" value="3.20"></label>
+            <label>Altura m<input id="envAltura" type="number" step="0.01" value="2.40"></label>
+            <label>Profundidade m<input id="envProf" type="number" step="0.01" value="0.60"></label>
+            <label>Módulos<input id="envModulos" type="number" step="1" value="4"></label>
+            <label>Portas<input id="envPortas" type="number" step="1" value="8"></label>
+            <label>Gavetas<input id="envGavetas" type="number" step="1" value="4"></label>
+            <label>Complexidade
+              <select id="envComplexidade">
+                <option value="1">Baixa</option>
+                <option value="1.12" selected>Média</option>
+                <option value="1.25">Alta</option>
+                <option value="1.45">Altíssima</option>
+              </select>
+            </label>
+          </div>
+          <div class="form-row no-print">
+            <label>Preço chapa MDF R$<input id="envPrecoChapa" type="number" step="0.01" value="325"></label>
+            <label>Preço fita/m R$<input id="envPrecoFita" type="number" step="0.01" value="3.20"></label>
+            <label>Preço dobradiça R$<input id="envPrecoDob" type="number" step="0.01" value="14.50"></label>
+            <label>Preço corrediça R$<input id="envPrecoCorr" type="number" step="0.01" value="48"></label>
+          </div>
+          <button class="btn btn-primary no-print" id="addEnvBtn" type="button">Adicionar ambiente e gerar materiais</button>
+        </div>
+        <div class="grid grid-2" id="envCards"></div>
+      </div>
+    </section>
+
+    <section class="section tab-panel hidden" id="panel-itens">
+      <div class="wrap grid">
+        <div class="card">
+          <h2>Materiais necessários e quantidades</h2>
+          <div class="concept">
+            <strong>Como usar:</strong> escolha um material comum de marcenaria ou digite um item próprio. A categoria ajuda a separar material principal, ferragem, acabamento, insumo, serviço terceirizado e equipamento consumível.
+          </div>
+          <div class="form-row no-print">
+            <label>Item
+              <input id="itemNome" list="materiaisList" placeholder="Ex.: MDF BP 18mm Branco">
+              <datalist id="materiaisList"></datalist>
+            </label>
+            <label>Categoria
+              <select id="itemCategoria">
+                <option>Material direto</option>
+                <option>Chapa/Painel</option>
+                <option>Ferragem</option>
+                <option>Acabamento</option>
+                <option>Insumo de produção</option>
+                <option>Vidro/Espelho</option>
+                <option>Iluminação</option>
+                <option>Terceirização</option>
+                <option>Embalagem/Proteção</option>
+              </select>
+            </label>
+            <label>Quantidade<input id="itemQtd" type="number" step="0.01" placeholder="2"></label>
+            <label>Preço unitário R$<input id="itemPreco" type="number" step="0.01" placeholder="350"></label>
+          </div>
+          <button class="btn btn-primary no-print" id="addItemBtn" type="button">Adicionar material</button>
+          <div class="table-wrap" style="margin-top:1rem">
+            <table>
+              <thead><tr><th>Item</th><th>Categoria</th><th>Qtd.</th><th>Preço unit.</th><th>Total</th><th class="no-print">Ação</th></tr></thead>
+              <tbody id="itemsBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tab-panel hidden" id="panel-custos">
+      <div class="wrap grid">
+        <div class="card">
+          <h2>Custos, despesas e impostos</h2>
+          <div class="concept">
+            <strong>Classificação automática:</strong> ao escolher uma descrição, o app identifica a natureza do lançamento. Custo é gasto ligado à execução do móvel. Despesa é gasto de venda, administração ou operação que não vira peça física no projeto.
+          </div>
+          <div class="form-row no-print">
+            <label>Descrição
+              <input id="costNome" list="custosList" placeholder="Ex.: Montagem, frete, comissão">
+              <datalist id="custosList"></datalist>
+            </label>
+            <label>Classificação automática
+              <select id="costTipo">
+                <option>Custo direto</option>
+                <option>Custo indireto</option>
+                <option>Despesa comercial</option>
+                <option>Despesa administrativa</option>
+                <option>Despesa financeira</option>
+                <option>Imposto</option>
+                <option>Investimento/Capex</option>
+              </select>
+            </label>
+            <label>Valor R$<input id="costValor" type="number" step="0.01" placeholder="500"></label>
+            <label>Observação<input id="costObs" placeholder="Preenchido automaticamente, mas editável"></label>
+          </div>
+          <button class="btn btn-primary no-print" id="addCostBtn" type="button">Adicionar lançamento</button>
+          <div class="table-wrap" style="margin-top:1rem">
+            <table>
+              <thead><tr><th>Descrição</th><th>Classificação</th><th>Observação</th><th>Valor</th><th class="no-print">Ação</th></tr></thead>
+              <tbody id="costsBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tab-panel hidden" id="panel-preco">
+      <div class="wrap grid grid-2">
+        <div class="card">
+          <h2>Formação de preço</h2>
+          <div class="concept-grid">
+            <div class="concept-mini"><b>Margem desejada</b>Lucro alvo sobre o preço de venda. Ex.: margem de 28% significa que, após cobrir custos e despesas parametrizadas, o projeto deve sobrar com 28% do preço.</div>
+            <div class="concept-mini"><b>Comissão</b>Percentual destinado à venda/intermediação. Mesmo quando não há vendedor externo, ajuda a enxergar o custo comercial do projeto.</div>
+            <div class="concept-mini"><b>Reserva técnica</b>Colchão de segurança para perdas, retrabalho, variação de preço, erro de medição, pequenos insumos não previstos e ajustes de instalação.</div>
+            <div class="concept-mini"><b>Desconto máximo</b>Limite comercial para negociação. O ideal é simular desconto sem destruir a margem mínima do projeto.</div>
+            <div class="concept-mini"><b>Markup</b>Multiplicador aplicado sobre o custo. Se o custo é R$ 10.000 e o preço é R$ 18.000, o markup é 1,8x.</div>
+            <div class="concept-mini"><b>Preço sugerido</b>Preço mínimo calculado para cobrir custo, despesas variáveis, reserva e lucro alvo informado.</div>
+          </div>
+          <div class="form-row">
+            <label>Margem desejada %<input id="margemDesejada" type="number" step="0.1" value="28"></label>
+            <label>Comissão %<input id="comissaoPerc" type="number" step="0.1" value="4"></label>
+            <label>Reserva técnica %<input id="reservaPerc" type="number" step="0.1" value="5"></label>
+            <label>Desconto máximo %<input id="descontoPerc" type="number" step="0.1" value="7"></label>
+          </div>
+          <p class="muted small">A margem desejada entra como lucro alvo sobre o preço. Comissão e reserva técnica entram na composição do preço mínimo sugerido.</p>
+          <div class="pill-row">
+            <span class="status-pill ok" id="priceHealth">Saúde comercial: —</span>
+            <span class="status-pill" id="entryValue">Entrada sugerida: —</span>
+            <span class="status-pill" id="balanceValue">Saldo na entrega: —</span>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Resumo comercial</h2>
+          <div class="grid grid-2">
+            <div class="kpi"><span>Custo total</span><strong id="kpiCustoTotal">R$ 0,00</strong></div>
+            <div class="kpi"><span>Preço sugerido</span><strong id="kpiPreco">R$ 0,00</strong></div>
+            <div class="kpi"><span>Markup</span><strong id="kpiMarkup">0,00x</strong></div>
+            <div class="kpi"><span>Lucro estimado</span><strong id="kpiLucro">R$ 0,00</strong></div>
+          </div>
+          <div class="grid grid-3" style="margin-top:1rem">
+            <div class="price-tier"><small>Preço mínimo</small><strong id="tierMin">R$ 0,00</strong><p class="muted small">Piso de segurança. Cobre custos, comissão, reserva mínima e uma margem apertada.</p></div>
+            <div class="price-tier recommended"><small>Preço ideal</small><strong id="tierIdeal">R$ 0,00</strong><p class="muted small">Preço recomendado para manter margem saudável e negociação controlada.</p></div>
+            <div class="price-tier"><small>Preço premium</small><strong id="tierPremium">R$ 0,00</strong><p class="muted small">Para projetos complexos, urgentes, personalizados ou com alto valor percebido.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section tab-panel hidden" id="panel-simulacoes">
+      <div class="wrap grid grid-2">
+        <div class="card">
+          <h2>Simulações comerciais</h2>
+          <div class="concept">
+            <strong>Para negociar melhor:</strong> aqui o app compara preço cheio, desconto máximo, margem conservadora e margem agressiva. Isso ajuda a saber até onde dá para ir sem vender barato demais.
+          </div>
+          <div class="table-wrap">
+            <table class="scenario-table">
+              <thead><tr><th>Cenário</th><th>Preço</th><th>Lucro</th><th>Margem</th></tr></thead>
+              <tbody id="scenarioBody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Top itens de impacto</h2>
+          <p class="muted small">Ranking dos materiais e lançamentos que mais pesam no custo total do projeto.</p>
+          <div class="impact-list" id="impactList"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tab-panel hidden" id="panel-cliente">
+      <div class="wrap grid grid-2">
+        <div class="card">
+          <h2>Proposta resumida ao cliente</h2>
+          <div class="concept">
+            <strong>Uso:</strong> este texto é uma versão limpa para WhatsApp, e-mail ou PDF. Ele não mostra sua estrutura interna de custos, apenas valor, escopo e condições.
+          </div>
+          <div class="client-proposal" id="clientProposal"></div>
+          <button class="btn btn-primary no-print" id="copyProposalBtn" type="button" style="margin-top:1rem">Copiar proposta</button>
+        </div>
+        <div class="card">
+          <h2>Checklist de fechamento</h2>
+          <div class="recommendation">
+            <div class="rec good">Confirmar medidas finais antes da compra de materiais.</div>
+            <div class="rec good">Validar acabamento, cor, puxadores e ferragens com o cliente.</div>
+            <div class="rec good">Registrar condição de pagamento e prazo de instalação.</div>
+            <div class="rec warn">Não iniciar produção sem entrada financeira definida.</div>
+            <div class="rec warn">Não conceder desconto acima do limite simulado sem recalcular margem.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section tab-panel hidden" id="panel-proposta-pdf">
+      <div class="wrap grid">
+        <div class="card no-print">
+          <h2>Proposta comercial em PDF</h2>
+          <div class="concept">
+            <strong>Como gerar:</strong> revise a proposta abaixo e clique em “Gerar PDF”. O navegador abrirá a tela de impressão; escolha “Salvar como PDF”.
+          </div>
+          <button class="btn btn-primary" id="printProposalBtn" type="button">Gerar PDF</button>
+        </div>
+        <div class="proposal-page" id="proposalPdf"></div>
+      </div>
+    </section>
+
+    <section class="section tab-panel hidden" id="panel-historico">
+      <div class="wrap grid grid-2">
+        <div class="card">
+          <h2>Histórico local de projetos</h2>
+          <div class="concept">
+            <strong>Sem backend ainda:</strong> esta versão salva o histórico no navegador. Depois, a mesma estrutura pode ir para Supabase/Firebase com login, clientes e painel por período.
+          </div>
+          <button class="btn btn-primary no-print" id="saveHistoryBtn" type="button">Salvar no histórico</button>
+          <button class="btn no-print" id="clearHistoryBtn" type="button">Limpar histórico</button>
+          <div id="historyList" style="margin-top:1rem"></div>
+        </div>
+        <div class="card">
+          <h2>Dashboard do histórico</h2>
+          <div class="grid grid-2">
+            <div class="kpi"><span>Projetos salvos</span><strong id="histCount">0</strong></div>
+            <div class="kpi"><span>Ticket médio</span><strong id="histAvg">R$ 0,00</strong></div>
+            <div class="kpi"><span>Potencial total</span><strong id="histTotal">R$ 0,00</strong></div>
+            <div class="kpi"><span>Margem média</span><strong id="histMargin">0%</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tab-panel hidden" id="panel-kpis">
+      <div class="wrap grid">
+        <div class="card">
+          <h2>KPIs do projeto</h2>
+          <div class="concept">
+            <strong>Leitura de analista de dados:</strong> os KPIs mostram viabilidade, risco, composição do custo e poder de negociação. A ideia é sair do “acho que está bom” para “sei exatamente onde está a margem”.
+          </div>
+          <div class="grid grid-4">
+            <div class="kpi" id="marginCard"><span>Margem líquida estimada</span><strong id="kpiMargem">0%</strong></div>
+            <div class="kpi"><span>Materiais / preço</span><strong id="kpiMatPerc">0%</strong></div>
+            <div class="kpi"><span>Despesas / preço</span><strong id="kpiDespPerc">0%</strong></div>
+            <div class="kpi"><span>Preço com desconto máx.</span><strong id="kpiPrecoDesconto">R$ 0,00</strong></div>
+            <div class="kpi"><span>Custo direto / custo total</span><strong id="kpiCdPerc">0%</strong></div>
+            <div class="kpi"><span>Custo indireto / custo total</span><strong id="kpiCiPerc">0%</strong></div>
+            <div class="kpi"><span>Lucro por R$ 1 vendido</span><strong id="kpiLucroReal">R$ 0,00</strong></div>
+            <div class="kpi"><span>Ponto de atenção</span><strong id="kpiRisco">—</strong></div>
+          </div>
+          <div class="card" style="margin-top:1rem">
+            <h3>Composição do preço</h3>
+            <div class="heat" aria-label="Composição do preço">
+              <span class="h-mat" id="barMat" style="width:0%"></span>
+              <span class="h-cd" id="barCd" style="width:0%"></span>
+              <span class="h-ci" id="barCi" style="width:0%"></span>
+              <span class="h-desp" id="barDesp" style="width:0%"></span>
+            </div>
+            <p class="muted small" style="margin-top:.6rem">Dourado = materiais · verde = custo direto · azul = custo indireto · vermelho = despesas/impostos.</p>
+          </div>
+          <div class="insight" id="businessInsight" style="margin-top:1rem">Os insights aparecerão aqui depois dos lançamentos.</div>
+          <div class="recommendation" id="recommendations"></div>
+        </div>
+        <div class="grid grid-2">
+          <div class="card">
+            <h2>Diagnóstico financeiro</h2>
+            <div id="financialDiagnosis"></div>
+          </div>
+          <div class="card">
+            <h2>Qualidade do orçamento</h2>
+            <div id="budgetQuality"></div>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Resumo para reunião</h2>
+          <div id="meetingSummary" class="muted"></div>
+          <button class="btn no-print" onclick="window.print()" type="button" style="margin-top:1rem">Imprimir / salvar PDF</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <input type="file" id="importFile" accept="application/json" hidden>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__mark">VS <em>Consulting</em></div>
+      <div class="footer__divider"></div>
+      <div class="footer__tagline">Marcenaria Intelligence · v4.1</div>
+      <p class="footer__meta">
+        Desenvolvido por VS Consulting · Mini-ERP local com orçamento técnico,<br>
+        proposta comercial em PDF, histórico e KPIs financeiros · MMXXVI
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const BRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+    const PCT = new Intl.NumberFormat('pt-BR', { style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
+    const MATERIAL_CATALOG = [
+      ['MDF BP 6mm Branco','Chapa/Painel'], ['MDF BP 15mm Branco','Chapa/Painel'], ['MDF BP 18mm Branco','Chapa/Painel'],
+      ['MDF BP 25mm Branco','Chapa/Painel'], ['MDF BP 18mm Carvalho','Chapa/Painel'], ['MDF BP 18mm Freijó','Chapa/Painel'],
+      ['MDF BP 18mm Nogueira','Chapa/Painel'], ['MDF BP 18mm Preto','Chapa/Painel'], ['MDF Ultra/Resistente à umidade','Chapa/Painel'],
+      ['MDP 15mm','Chapa/Painel'], ['MDP 18mm','Chapa/Painel'], ['Compensado naval','Chapa/Painel'],
+      ['Lâmina natural de madeira','Acabamento'], ['Laminado melamínico/Formica','Acabamento'], ['Folha de madeira natural','Acabamento'],
+      ['Fita de borda PVC 0,45mm','Acabamento'], ['Fita de borda PVC 1mm','Acabamento'], ['Fita de borda PVC 2mm','Acabamento'],
+      ['Cola branca PVA','Insumo de produção'], ['Cola de contato','Insumo de produção'], ['Cola PUR/hotmelt','Insumo de produção'],
+      ['Parafuso chipboard','Insumo de produção'], ['Parafuso soberbo','Insumo de produção'], ['Cavilha de madeira','Insumo de produção'],
+      ['Minifix/tambor de montagem','Ferragem'], ['Cantoneira de fixação','Ferragem'], ['Bucha plástica','Insumo de produção'],
+      ['Dobradiça reta slow motion','Ferragem'], ['Dobradiça curva slow motion','Ferragem'], ['Dobradiça super curva','Ferragem'],
+      ['Corrediça telescópica','Ferragem'], ['Corrediça oculta slow motion','Ferragem'], ['Trilho de porta de correr','Ferragem'],
+      ['Pistão a gás','Ferragem'], ['Sistema basculante','Ferragem'], ['Fecho toque/click','Ferragem'],
+      ['Puxador perfil alumínio','Ferragem'], ['Puxador cava','Ferragem'], ['Puxador alça','Ferragem'],
+      ['Perfil de alumínio','Ferragem'], ['Rodapé de alumínio','Ferragem'], ['Pé nivelador','Ferragem'],
+      ['Rodízio','Ferragem'], ['Cabideiro','Ferragem'], ['Calceiro','Ferragem'], ['Sapateira deslizante','Ferragem'],
+      ['Aramado organizador','Ferragem'], ['Porta temperos','Ferragem'], ['Lixeira embutida','Ferragem'],
+      ['Vidro comum','Vidro/Espelho'], ['Vidro temperado','Vidro/Espelho'], ['Vidro reflecta','Vidro/Espelho'], ['Espelho','Vidro/Espelho'],
+      ['Fita LED','Iluminação'], ['Perfil LED','Iluminação'], ['Fonte para LED','Iluminação'], ['Sensor de presença','Iluminação'],
+      ['Tapa-furo adesivo','Acabamento'], ['Massa para madeira','Acabamento'], ['Seladora','Acabamento'], ['Verniz','Acabamento'], ['Laca/pintura','Acabamento'],
+      ['Lixa grão 120','Insumo de produção'], ['Lixa grão 220','Insumo de produção'], ['Lixa grão 320','Insumo de produção'],
+      ['Embalagem plástica stretch','Embalagem/Proteção'], ['Papelão ondulado','Embalagem/Proteção'], ['Manta de proteção','Embalagem/Proteção'],
+      ['Corte CNC terceirizado','Terceirização'], ['Colagem de borda terceirizada','Terceirização'], ['Pintura terceirizada','Terceirização'], ['Vidraçaria terceirizada','Terceirização']
+    ];
+
+    const COST_CATALOG = {
+      'Mão de obra de produção': ['Custo direto', 'Tempo diretamente aplicado na fabricação do projeto.'],
+      'Mão de obra de montagem': ['Custo direto', 'Equipe diretamente aplicada na montagem/instalação.'],
+      'Medição técnica no cliente': ['Custo direto', 'Visita técnica necessária para execução correta do projeto.'],
+      'Projeto técnico/desenho executivo': ['Custo direto', 'Horas de detalhamento técnico vinculadas ao projeto.'],
+      'Corte interno': ['Custo direto', 'Processo produtivo aplicado diretamente à peça.'],
+      'Furação e usinagem': ['Custo direto', 'Operação produtiva diretamente vinculada ao móvel.'],
+      'Colagem de borda': ['Custo direto', 'Operação produtiva de acabamento do projeto.'],
+      'Acabamento e revisão final': ['Custo direto', 'Tempo de acabamento e controle de qualidade.'],
+      'Instalação no cliente': ['Custo direto', 'Execução direta de entrega técnica do projeto.'],
+      'Frete de entrega': ['Custo indireto', 'Custo operacional necessário para viabilizar a entrega.'],
+      'Combustível da instalação': ['Custo indireto', 'Custo de deslocamento associado ao projeto.'],
+      'Pedágio/estacionamento': ['Custo indireto', 'Custo acessório de deslocamento do projeto.'],
+      'Desgaste de ferramentas': ['Custo indireto', 'Uso indireto de ferramentas e máquinas.'],
+      'Manutenção de máquinas': ['Custo indireto', 'Custo fabril indireto rateável entre projetos.'],
+      'Energia elétrica da produção': ['Custo indireto', 'Energia consumida no ambiente produtivo.'],
+      'Aluguel da oficina rateado': ['Custo indireto', 'Estrutura produtiva rateada por projeto.'],
+      'EPI e segurança': ['Custo indireto', 'Itens de proteção ligados à operação produtiva.'],
+      'Retrabalho técnico': ['Custo direto', 'Correção ligada diretamente ao projeto. Ideal monitorar separado.'],
+      'Perda de chapa/refugo': ['Custo direto', 'Perda de material diretamente ligada ao projeto.'],
+      'Comissão de venda': ['Despesa comercial', 'Gasto para gerar a venda. Não é custo de fabricação.'],
+      'Anúncios e tráfego pago': ['Despesa comercial', 'Despesa para aquisição de clientes.'],
+      'Visita comercial': ['Despesa comercial', 'Esforço de venda antes do fechamento.'],
+      'Brinde/cortesia comercial': ['Despesa comercial', 'Concessão comercial para relacionamento.'],
+      'Taxa de cartão': ['Despesa financeira', 'Custo financeiro da forma de pagamento.'],
+      'Juros de antecipação': ['Despesa financeira', 'Despesa financeira por antecipar recebíveis.'],
+      'Tarifa bancária': ['Despesa financeira', 'Despesa de movimentação financeira.'],
+      'Contabilidade': ['Despesa administrativa', 'Despesa de estrutura administrativa.'],
+      'Software de gestão': ['Despesa administrativa', 'Despesa administrativa/sistema.'],
+      'Telefone e internet': ['Despesa administrativa', 'Infraestrutura administrativa.'],
+      'Salário administrativo': ['Despesa administrativa', 'Equipe administrativa não diretamente produtiva.'],
+      'Água/luz administrativa': ['Despesa administrativa', 'Despesa de estrutura não fabril.'],
+      'Material de escritório': ['Despesa administrativa', 'Consumo administrativo.'],
+      'Simples Nacional/DAS': ['Imposto', 'Tributo estimado sobre a operação.'],
+      'ISS': ['Imposto', 'Tributo sobre serviço, quando aplicável.'],
+      'ICMS': ['Imposto', 'Tributo sobre circulação de mercadorias, quando aplicável.'],
+      'Nota fiscal/tributos': ['Imposto', 'Tributos vinculados ao faturamento.'],
+      'Compra de máquina': ['Investimento/Capex', 'Investimento: não deve entrar inteiro no custo de um único projeto.'],
+      'Compra de ferramenta': ['Investimento/Capex', 'Investimento: ideal depreciar/ratear, não lançar integralmente no projeto.']
+    };
+
+    const state = {
+      ambientes: [],
+      logoDataUrl: '',
+      items: [
+        { nome: 'MDF Carvalho 18mm', categoria: 'Material direto', qtd: 4, preco: 325 },
+        { nome: 'Fita de borda', categoria: 'Acabamento', qtd: 35, preco: 3.2 },
+        { nome: 'Dobradiças slow motion', categoria: 'Ferragem', qtd: 18, preco: 14.5 }
+      ],
+      costs: [
+        { nome: 'Mão de obra de produção', tipo: 'Custo direto', valor: 1450, obs: 'Corte, montagem e acabamento' },
+        { nome: 'Frete e instalação', tipo: 'Custo indireto', valor: 480, obs: 'Equipe externa' },
+        { nome: 'Comissão comercial', tipo: 'Despesa comercial', valor: 0, obs: 'Calculada no preço' },
+        { nome: 'Impostos estimados', tipo: 'Imposto', valor: 0, obs: 'Pode ser ajustado conforme regime tributário' }
+      ]
+    };
+
+    const $ = (id) => document.getElementById(id);
+    const today = new Date().toISOString().slice(0,10);
+    $('data').value = today;
+
+    function populateCatalogs() {
+      $('materiaisList').innerHTML = MATERIAL_CATALOG.map(([nome]) => `<option value="${nome}"></option>`).join('');
+      $('custosList').innerHTML = Object.keys(COST_CATALOG).map(nome => `<option value="${nome}"></option>`).join('');
+    }
+
+    function applyMaterialCategory() {
+      const found = MATERIAL_CATALOG.find(([nome]) => nome.toLowerCase() === $('itemNome').value.trim().toLowerCase());
+      if (found) $('itemCategoria').value = found[1];
+    }
+
+    function applyCostClassification() {
+      const found = COST_CATALOG[$('costNome').value.trim()];
+      if (found) {
+        $('costTipo').value = found[0];
+        if (!$('costObs').value.trim()) $('costObs').value = found[1];
+      }
+    }
+
+    function num(v) { return Number(String(v || 0).replace(',', '.')) || 0; }
+    function itemTotal(item) { return num(item.qtd) * num(item.preco); }
+    function sum(arr, fn) { return arr.reduce((acc, x) => acc + fn(x), 0); }
+    function getProjectData() {
+      return {
+        meta: {
+          cliente: $('cliente').value,
+          ambiente: $('ambiente').value,
+          proposta: $('proposta').value,
+          data: $('data').value,
+          obs: $('obs').value,
+          status: $('statusProjeto').value,
+          prazoDias: num($('prazoDias').value),
+          entradaPerc: num($('entradaPerc').value),
+          empresaNome: $('empresaNome').value,
+          empresaContato: $('empresaContato').value,
+          validadeDias: num($('validadeDias').value)
+        },
+        parametros: {
+          margemDesejada: num($('margemDesejada').value),
+          comissaoPerc: num($('comissaoPerc').value),
+          reservaPerc: num($('reservaPerc').value),
+          descontoPerc: num($('descontoPerc').value)
+        },
+        ambientes: state.ambientes,
+        logoDataUrl: state.logoDataUrl,
+        items: state.items,
+        costs: state.costs,
+        indicadores: calculate()
+      };
+    }
+
+    function calculate() {
+      const materiais = sum(state.items, itemTotal);
+      const custoDireto = sum(state.costs.filter(c => c.tipo === 'Custo direto'), c => num(c.valor));
+      const custoIndireto = sum(state.costs.filter(c => c.tipo === 'Custo indireto'), c => num(c.valor));
+      const despesas = sum(state.costs.filter(c => c.tipo.includes('Despesa')), c => num(c.valor));
+      const impostosFixos = sum(state.costs.filter(c => c.tipo === 'Imposto'), c => num(c.valor));
+      const capex = sum(state.costs.filter(c => c.tipo === 'Investimento/Capex'), c => num(c.valor));
+      const baseCusto = materiais + custoDireto + custoIndireto + despesas + impostosFixos;
+      const margem = num($('margemDesejada').value) / 100;
+      const comissao = num($('comissaoPerc').value) / 100;
+      const reserva = num($('reservaPerc').value) / 100;
+      const desconto = num($('descontoPerc').value) / 100;
+      const complexidadeMedia = state.ambientes.length ? state.ambientes.reduce((a,e)=>a + num(e.complexidade),0) / state.ambientes.length : 1;
+      const fatorComplexidade = Math.max(1, complexidadeMedia);
+      const divisor = Math.max(0.05, 1 - margem - comissao - reserva);
+      const preco = (baseCusto / divisor) * fatorComplexidade;
+      const lucro = preco - baseCusto - (preco * comissao) - (preco * reserva);
+      const markup = baseCusto > 0 ? preco / baseCusto : 0;
+      const margemLiquida = preco > 0 ? lucro / preco : 0;
+      const precoDesconto = preco * (1 - desconto);
+      const precoMin = baseCusto / Math.max(0.05, 1 - 0.18 - comissao - Math.max(reserva, .03));
+      const precoIdeal = preco;
+      const precoPremium = (baseCusto / Math.max(0.05, 1 - 0.38 - comissao - reserva)) * Math.max(1, fatorComplexidade);
+      return { materiais, custoDireto, custoIndireto, despesas, impostosFixos, capex, baseCusto, preco, precoMin, precoIdeal, precoPremium, fatorComplexidade, lucro, markup, margemLiquida, precoDesconto };
+    }
+
+
+    function simulateScenario(price, baseCost, commissionRate, reserveRate) {
+      const lucro = price - baseCost - (price * commissionRate) - (price * reserveRate);
+      const margem = price > 0 ? lucro / price : 0;
+      return { price, lucro, margem };
+    }
+
+    function buildScenarios(k) {
+      const comissao = num($('comissaoPerc').value) / 100;
+      const reserva = num($('reservaPerc').value) / 100;
+      const desconto = num($('descontoPerc').value) / 100;
+      const conservativeMargin = .35;
+      const aggressiveMargin = .20;
+      const conservativePrice = k.baseCusto / Math.max(.05, 1 - conservativeMargin - comissao - reserva);
+      const aggressivePrice = k.baseCusto / Math.max(.05, 1 - aggressiveMargin - comissao - reserva);
+      return [
+        ['Preço sugerido', simulateScenario(k.preco, k.baseCusto, comissao, reserva)],
+        ['Com desconto máximo', simulateScenario(k.preco * (1 - desconto), k.baseCusto, comissao, reserva)],
+        ['Margem conservadora 35%', simulateScenario(conservativePrice, k.baseCusto, comissao, reserva)],
+        ['Margem agressiva 20%', simulateScenario(aggressivePrice, k.baseCusto, comissao, reserva)]
+      ];
+    }
+
+    function buildImpactList(k) {
+      const all = [
+        ...state.items.map(x => ({ nome: x.nome, tipo: x.categoria, valor: itemTotal(x) })),
+        ...state.costs.map(x => ({ nome: x.nome, tipo: x.tipo, valor: num(x.valor) }))
+      ].filter(x => x.valor > 0).sort((a,b) => b.valor - a.valor).slice(0, 8);
+      const max = Math.max(...all.map(x => x.valor), 1);
+      $('impactList').innerHTML = all.map(x => `
+        <div class="impact-item">
+          <div class="impact-top">
+            <span class="impact-name">${x.nome}</span>
+            <span class="metric-value">${BRL.format(x.valor)}</span>
+          </div>
+          <div class="muted small">${x.tipo}</div>
+          <div class="impact-bar"><span style="width:${Math.max(4, x.valor / max * 100).toFixed(1)}%"></span></div>
+        </div>
+      `).join('') || '<p class="muted">Adicione materiais e custos para ver o ranking.</p>';
+    }
+
+
+    function buildProposalPdf(k) {
+      if (!$('proposalPdf')) return;
+      const logo = state.logoDataUrl ? `<img class="proposal-logo" style="display:block" src="${state.logoDataUrl}" alt="Logo">` : '';
+      const entrada = k.preco * (num($('entradaPerc').value) / 100);
+      const saldo = k.preco - entrada;
+      const validade = num($('validadeDias').value) || 7;
+      $('proposalPdf').innerHTML = `
+        <div class="proposal-head">
+          <div>
+            <div class="eyebrow">${$('empresaNome').value || 'Marcenaria'}</div>
+            <h2>Proposta Comercial</h2>
+            <p class="muted">${$('empresaContato').value || ''}</p>
+          </div>
+          ${logo}
+        </div>
+        <div class="grid grid-2">
+          <div>
+            <h3>Cliente e projeto</h3>
+            <p><strong>Cliente:</strong> ${$('cliente').value || '—'}</p>
+            <p><strong>Ambiente principal:</strong> ${$('ambiente').value || '—'}</p>
+            <p><strong>Proposta:</strong> ${$('proposta').value || '—'}</p>
+            <p><strong>Status:</strong> ${$('statusProjeto').value || '—'}</p>
+          </div>
+          <div>
+            <h3>Condição comercial</h3>
+            <p><strong>Valor:</strong> ${BRL.format(k.preco)}</p>
+            <p><strong>Entrada:</strong> ${BRL.format(entrada)}</p>
+            <p><strong>Saldo:</strong> ${BRL.format(saldo)}</p>
+            <p><strong>Prazo:</strong> ${num($('prazoDias').value)} dias após aprovação técnica e entrada.</p>
+            <p><strong>Validade:</strong> ${validade} dias.</p>
+          </div>
+        </div>
+        <div style="margin-top:1rem">
+          <h3>Escopo resumido</h3>
+          <p>${$('obs').value || 'Projeto de móveis sob medida conforme medidas, acabamentos e briefing aprovados.'}</p>
+        </div>
+        <div style="margin-top:1rem">
+          <h3>Ambientes contemplados</h3>
+          ${state.ambientes.length ? state.ambientes.map(e => `<p>• ${e.tipo}: ${e.largura}m × ${e.altura}m × ${e.prof}m · ${e.modulos} módulos · ${e.portas} portas · ${e.gavetas} gavetas.</p>`).join('') : '<p>Ambientes conforme briefing técnico aprovado.</p>'}
+        </div>
+        <div style="margin-top:1rem">
+          <h3>Termos de aprovação</h3>
+          <p>A produção inicia após validação de medidas finais, definição de acabamentos e pagamento da entrada. Alterações posteriores podem gerar reorçamento.</p>
+          <p style="margin-top:2rem">____________________________________<br>Assinatura do cliente</p>
+        </div>
+      `;
+    }
+
+    function renderHistory() {
+      const list = JSON.parse(localStorage.getItem('mi-history') || '[]');
+      if ($('histCount')) $('histCount').textContent = list.length;
+      const total = list.reduce((a,x)=>a + (x.indicadores?.preco || 0),0);
+      const avg = list.length ? total / list.length : 0;
+      const margin = list.length ? list.reduce((a,x)=>a + (x.indicadores?.margemLiquida || 0),0) / list.length : 0;
+      if ($('histTotal')) $('histTotal').textContent = BRL.format(total);
+      if ($('histAvg')) $('histAvg').textContent = BRL.format(avg);
+      if ($('histMargin')) $('histMargin').textContent = PCT.format(margin);
+      if ($('historyList')) {
+        $('historyList').innerHTML = list.length ? `
+          <div class="timeline">
+            ${list.slice().reverse().map(x => `<div class="timeline-item"><b>${x.meta?.cliente || 'Cliente'}</b><br><span class="muted small">${x.meta?.ambiente || 'Projeto'} · ${x.meta?.proposta || ''} · ${BRL.format(x.indicadores?.preco || 0)} · margem ${PCT.format(x.indicadores?.margemLiquida || 0)}</span></div>`).join('')}
+          </div>` : '<div class="empty-state">Nenhum projeto salvo no histórico.</div>';
+      }
+    }
+
+    function buildClientProposal(k) {
+      const entradaPerc = num($('entradaPerc').value) / 100;
+      const entrada = k.preco * entradaPerc;
+      const saldo = k.preco - entrada;
+      const txt = `
+        <h3>Proposta ${$('proposta').value || ''} · ${$('ambiente').value || 'Móveis sob medida'}</h3>
+        <p>Olá, ${$('cliente').value || 'cliente'}! Segue proposta resumida para o projeto <strong>${$('ambiente').value || 'móveis sob medida'}</strong>.</p>
+        <p><strong>Valor do projeto:</strong> ${BRL.format(k.preco)}.</p>
+        <p><strong>Condição sugerida:</strong> entrada de ${BRL.format(entrada)} e saldo de ${BRL.format(saldo)} na entrega/instalação.</p>
+        <p><strong>Prazo estimado:</strong> ${num($('prazoDias').value) || 0} dias após aprovação técnica, pagamento da entrada e confirmação final das medidas.</p>
+        <p><strong>Observações:</strong> ${$('obs').value || 'Projeto conforme briefing, medidas e acabamentos definidos com o cliente.'}</p>
+      `;
+      $('clientProposal').innerHTML = txt;
+      return txt.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+    }
+
+
+    function estimateEnvironment() {
+      const largura = num($('envLargura').value);
+      const altura = num($('envAltura').value);
+      const prof = num($('envProf').value);
+      const modulos = Math.max(1, num($('envModulos').value));
+      const portas = Math.max(0, num($('envPortas').value));
+      const gavetas = Math.max(0, num($('envGavetas').value));
+      const complexidade = num($('envComplexidade').value) || 1;
+      const areaFrontal = largura * altura;
+      const areaLateral = prof * altura * Math.max(2, modulos + 1);
+      const areaPrateleiras = largura * prof * Math.max(1, modulos * 1.5);
+      const m2Mdf = (areaFrontal + areaLateral + areaPrateleiras) * complexidade * 1.12;
+      const chapaM2 = 2.75 * 1.84;
+      const chapas = Math.ceil(m2Mdf / chapaM2);
+      const fitaM = Math.ceil((portas * (altura + largura / Math.max(1, portas)) * 2 + gavetas * 2.4 + modulos * 1.2) * complexidade);
+      const dobradicas = portas * 2;
+      const corredicas = gavetas;
+      const horas = Math.ceil((modulos * 3.5 + portas * .55 + gavetas * 1.2) * complexidade);
+      return { largura, altura, prof, modulos, portas, gavetas, complexidade, m2Mdf, chapas, fitaM, dobradicas, corredicas, horas };
+    }
+
+    function addEnvironment() {
+      const est = estimateEnvironment();
+      const tipo = $('envTipo').value;
+      const env = { id: Date.now(), tipo, ...est };
+      state.ambientes.push(env);
+
+      const suffix = ` · ${tipo}`;
+      state.items.push({ nome: `MDF BP 18mm estimado${suffix}`, categoria: 'Chapa/Painel', qtd: est.chapas, preco: num($('envPrecoChapa').value) });
+      state.items.push({ nome: `Fita de borda estimada${suffix}`, categoria: 'Acabamento', qtd: est.fitaM, preco: num($('envPrecoFita').value) });
+      if (est.dobradicas > 0) state.items.push({ nome: `Dobradiça slow motion estimada${suffix}`, categoria: 'Ferragem', qtd: est.dobradicas, preco: num($('envPrecoDob').value) });
+      if (est.corredicas > 0) state.items.push({ nome: `Corrediça estimada${suffix}`, categoria: 'Ferragem', qtd: est.corredicas, preco: num($('envPrecoCorr').value) });
+      state.costs.push({ nome: `Mão de obra estimada${suffix}`, tipo: 'Custo direto', valor: est.horas * 65, obs: `${est.horas} horas estimadas x R$ 65/h` });
+      renderAll();
+      alert('Ambiente adicionado e materiais estimados gerados.');
+    }
+
+    function renderEnvironments() {
+      const box = $('envCards');
+      if (!box) return;
+      if (!state.ambientes.length) {
+        box.innerHTML = '<div class="empty-state">Nenhum ambiente técnico cadastrado ainda.</div>';
+        return;
+      }
+      box.innerHTML = state.ambientes.map((e, i) => `
+        <div class="module-card">
+          <div class="module-title">
+            <div><h3>${e.tipo}</h3><div class="module-meta">${e.largura}m × ${e.altura}m × ${e.prof}m · ${e.modulos} módulos</div></div>
+            <button class="icon-btn no-print" onclick="removeEnvironment(${i})">×</button>
+          </div>
+          <div class="split-3">
+            <div class="estimate-box"><b>Chapas</b>${e.chapas} un.</div>
+            <div class="estimate-box"><b>Fita de borda</b>${e.fitaM} m</div>
+            <div class="estimate-box"><b>Mão de obra</b>${e.horas} h</div>
+          </div>
+          <p class="muted small" style="margin-top:.7rem">Estimativa: ${e.m2Mdf.toFixed(2).replace('.', ',')} m² de MDF, ${e.dobradicas} dobradiças, ${e.corredicas} corrediças.</p>
+        </div>
+      `).join('');
+    }
+
+    window.removeEnvironment = (i) => { state.ambientes.splice(i, 1); renderAll(); };
+
+    function renderItems() {
+      $('itemsBody').innerHTML = state.items.map((item, i) => `
+        <tr>
+          <td>${item.nome}</td>
+          <td><span class="badge">${item.categoria}</span></td>
+          <td>${num(item.qtd).toLocaleString('pt-BR')}</td>
+          <td>${BRL.format(num(item.preco))}</td>
+          <td>${BRL.format(itemTotal(item))}</td>
+          <td class="no-print"><div class="row-actions"><button class="icon-btn" onclick="removeItem(${i})" title="Remover">×</button></div></td>
+        </tr>`).join('');
+    }
+
+    function renderCosts() {
+      $('costsBody').innerHTML = state.costs.map((c, i) => `
+        <tr>
+          <td>${c.nome}</td>
+          <td><span class="badge">${c.tipo}</span></td>
+          <td class="muted">${c.obs || '—'}</td>
+          <td>${BRL.format(num(c.valor))}</td>
+          <td class="no-print"><div class="row-actions"><button class="icon-btn" onclick="removeCost(${i})" title="Remover">×</button></div></td>
+        </tr>`).join('');
+    }
+
+    function updateKPIs() {
+      const k = calculate();
+      $('kpiCustoTotal').textContent = BRL.format(k.baseCusto);
+      $('kpiPreco').textContent = BRL.format(k.preco);
+      $('kpiMarkup').textContent = k.markup.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + 'x';
+      $('kpiLucro').textContent = BRL.format(k.lucro);
+      if ($('tierMin')) $('tierMin').textContent = BRL.format(k.precoMin);
+      if ($('tierIdeal')) $('tierIdeal').textContent = BRL.format(k.precoIdeal);
+      if ($('tierPremium')) $('tierPremium').textContent = BRL.format(k.precoPremium);
+      $('kpiMargem').textContent = PCT.format(k.margemLiquida);
+      $('kpiMatPerc').textContent = PCT.format(k.preco ? k.materiais / k.preco : 0);
+      $('kpiDespPerc').textContent = PCT.format(k.preco ? (k.despesas + k.impostosFixos) / k.preco : 0);
+      $('kpiPrecoDesconto').textContent = BRL.format(k.precoDesconto);
+      $('kpiCdPerc').textContent = PCT.format(k.baseCusto ? k.custoDireto / k.baseCusto : 0);
+      $('kpiCiPerc').textContent = PCT.format(k.baseCusto ? k.custoIndireto / k.baseCusto : 0);
+      $('kpiLucroReal').textContent = BRL.format(k.margemLiquida);
+      const risk = k.margemLiquida < .18 ? 'Alto' : k.margemLiquida < .25 ? 'Médio' : 'Baixo';
+      $('kpiRisco').textContent = risk;
+      const setW = (id, value) => $(id).style.width = Math.max(0, Math.min(100, value * 100)).toFixed(1) + '%';
+      setW('barMat', k.preco ? k.materiais / k.preco : 0);
+      setW('barCd', k.preco ? k.custoDireto / k.preco : 0);
+      setW('barCi', k.preco ? k.custoIndireto / k.preco : 0);
+      setW('barDesp', k.preco ? (k.despesas + k.impostosFixos) / k.preco : 0);
+      $('marginCard').classList.toggle('good', k.margemLiquida >= .25);
+      $('marginCard').classList.toggle('warn', k.margemLiquida < .18);
+
+      const margemTxt = k.margemLiquida >= .25 ? 'saudável' : k.margemLiquida >= .18 ? 'aceitável, mas merece atenção' : 'baixa para projeto sob medida';
+      $('classificationInsight').innerHTML = `Classificação atual: <strong>${state.items.length}</strong> materiais e <strong>${state.costs.length}</strong> lançamentos. Materiais diretos somam <strong>${BRL.format(k.materiais)}</strong>; custos diretos e indiretos somam <strong>${BRL.format(k.custoDireto + k.custoIndireto)}</strong>.`;
+      $('businessInsight').innerHTML = `A margem líquida estimada está <strong>${margemTxt}</strong>. O preço sugerido é ${BRL.format(k.preco)} com markup de ${k.markup.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2})}x. Se conceder o desconto máximo informado, o preço cairá para ${BRL.format(k.precoDesconto)}. Materiais representam ${PCT.format(k.preco ? k.materiais / k.preco : 0)} do preço; custos diretos representam ${PCT.format(k.preco ? k.custoDireto / k.preco : 0)}.`;
+      const recs = [];
+      if (k.capex > 0) recs.push(['warn','Há investimento/Capex lançado. O ideal é depreciar ou ratear, e não jogar tudo em um único projeto.']);
+      if (k.margemLiquida < .18) recs.push(['warn','Margem baixa: revise preço, perdas, mão de obra ou desconto antes de fechar.']);
+      if (k.materiais / Math.max(k.preco,1) > .45) recs.push(['warn','Material está pesando muito no preço. Verifique chapa, ferragens premium ou desperdício de corte.']);
+      if (k.custoIndireto / Math.max(k.baseCusto,1) > .20) recs.push(['warn','Custo indireto alto. Avalie rateio de frete, energia, instalação e estrutura.']);
+      if (k.margemLiquida >= .25) recs.push(['good','Projeto com margem saudável. Ainda assim, preserve reserva técnica para imprevistos de instalação.']);
+      $('recommendations').innerHTML = recs.map(([cls, txt]) => `<div class="rec ${cls}">${txt}</div>`).join('');
+      const entrada = k.preco * (num($('entradaPerc').value) / 100);
+      const saldo = k.preco - entrada;
+      $('priceHealth').textContent = `Saúde comercial: ${risk}`;
+      $('priceHealth').className = `status-pill ${risk === 'Baixo' ? 'ok' : 'warn'}`;
+      $('entryValue').textContent = `Entrada sugerida: ${BRL.format(entrada)}`;
+      $('balanceValue').textContent = `Saldo: ${BRL.format(saldo)}`;
+
+      const scenarios = buildScenarios(k);
+      $('scenarioBody').innerHTML = scenarios.map(([name, s]) => `
+        <tr>
+          <td>${name}</td>
+          <td>${BRL.format(s.price)}</td>
+          <td>${BRL.format(s.lucro)}</td>
+          <td>${PCT.format(s.margem)}</td>
+        </tr>
+      `).join('');
+      buildImpactList(k);
+      buildClientProposal(k);
+      buildProposalPdf(k);
+
+      $('financialDiagnosis').innerHTML = `
+        <div class="metric-row"><span class="metric-label">Materiais</span><span class="metric-value">${BRL.format(k.materiais)}</span></div>
+        <div class="metric-row"><span class="metric-label">Custos diretos</span><span class="metric-value">${BRL.format(k.custoDireto)}</span></div>
+        <div class="metric-row"><span class="metric-label">Custos indiretos</span><span class="metric-value">${BRL.format(k.custoIndireto)}</span></div>
+        <div class="metric-row"><span class="metric-label">Despesas + impostos</span><span class="metric-value">${BRL.format(k.despesas + k.impostosFixos)}</span></div>
+        <div class="metric-row"><span class="metric-label">Investimentos/Capex fora do custo-base</span><span class="metric-value">${BRL.format(k.capex)}</span></div>
+      `;
+
+      const quality = [];
+      quality.push([state.items.length >= 3, 'Materiais detalhados']);
+      quality.push([state.costs.some(c => c.tipo === 'Custo direto'), 'Mão de obra/custo direto informado']);
+      quality.push([state.costs.some(c => c.tipo === 'Custo indireto'), 'Custo indireto considerado']);
+      quality.push([num($('reservaPerc').value) > 0, 'Reserva técnica informada']);
+      quality.push([k.margemLiquida >= .20, 'Margem mínima aceitável']);
+      $('budgetQuality').innerHTML = quality.map(([ok, label]) => `
+        <div class="metric-row">
+          <span class="metric-label">${label}</span>
+          <span class="status-pill ${ok ? 'ok' : 'warn'}">${ok ? 'OK' : 'Revisar'}</span>
+        </div>
+      `).join('');
+
+      $('meetingSummary').innerHTML = `
+        <p><strong>Cliente:</strong> ${$('cliente').value || '—'} · <strong>Ambiente:</strong> ${$('ambiente').value || '—'} · <strong>Proposta:</strong> ${$('proposta').value || '—'} · <strong>Status:</strong> ${$('statusProjeto').value || '—'}</p>
+        <p><strong>Custo total:</strong> ${BRL.format(k.baseCusto)} · <strong>Preço sugerido:</strong> ${BRL.format(k.preco)} · <strong>Lucro estimado:</strong> ${BRL.format(k.lucro)} · <strong>Margem:</strong> ${PCT.format(k.margemLiquida)}</p>
+        <p><strong>Entrada:</strong> ${BRL.format(entrada)} · <strong>Saldo:</strong> ${BRL.format(saldo)} · <strong>Prazo estimado:</strong> ${num($('prazoDias').value)} dias</p>
+        <p>${$('obs').value || ''}</p>
+      `;
+    }
+
+    function renderAll() { renderEnvironments(); renderItems(); renderCosts(); updateKPIs(); renderHistory(); }
+
+    window.removeItem = (i) => { state.items.splice(i, 1); renderAll(); };
+    window.removeCost = (i) => { state.costs.splice(i, 1); renderAll(); };
+
+    $('addEnvBtn').addEventListener('click', addEnvironment);
+
+    $('logoUpload').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        state.logoDataUrl = reader.result;
+        $('logoPreview').src = state.logoDataUrl;
+        $('logoPreview').style.display = 'block';
+        renderAll();
+      };
+      reader.readAsDataURL(file);
+    });
+
+    $('printProposalBtn').addEventListener('click', () => {
+      document.body.classList.add('print-proposal');
+      window.print();
+      setTimeout(() => document.body.classList.remove('print-proposal'), 500);
+    });
+
+    $('saveHistoryBtn').addEventListener('click', () => {
+      const list = JSON.parse(localStorage.getItem('mi-history') || '[]');
+      list.push(getProjectData());
+      localStorage.setItem('mi-history', JSON.stringify(list));
+      renderHistory();
+      alert('Projeto salvo no histórico local.');
+    });
+
+    $('clearHistoryBtn').addEventListener('click', () => {
+      if (confirm('Limpar todo o histórico local?')) {
+        localStorage.removeItem('mi-history');
+        renderHistory();
+      }
+    });
+
+    $('itemNome').addEventListener('change', applyMaterialCategory);
+    $('itemNome').addEventListener('input', applyMaterialCategory);
+    $('costNome').addEventListener('change', applyCostClassification);
+    $('costNome').addEventListener('input', applyCostClassification);
+
+    $('addItemBtn').addEventListener('click', () => {
+      if (!$('itemNome').value.trim()) return alert('Informe o nome do material.');
+      state.items.push({ nome: $('itemNome').value.trim(), categoria: $('itemCategoria').value, qtd: num($('itemQtd').value), preco: num($('itemPreco').value) });
+      ['itemNome','itemQtd','itemPreco'].forEach(id => $(id).value = '');
+      renderAll();
+    });
+
+    $('addCostBtn').addEventListener('click', () => {
+      if (!$('costNome').value.trim()) return alert('Informe a descrição do lançamento.');
+      state.costs.push({ nome: $('costNome').value.trim(), tipo: $('costTipo').value, valor: num($('costValor').value), obs: $('costObs').value.trim() });
+      ['costNome','costValor','costObs'].forEach(id => $(id).value = '');
+      renderAll();
+    });
+
+    document.querySelectorAll('input, textarea, select').forEach(el => {
+      el.addEventListener('input', updateKPIs);
+      el.addEventListener('change', updateKPIs);
+    });
+
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', 'false'));
+        tab.setAttribute('aria-selected', 'true');
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+        $('panel-' + tab.dataset.tab).classList.remove('hidden');
+      });
+    });
+
+    $('themeToggle').addEventListener('click', () => {
+      const html = document.documentElement;
+      const next = html.dataset.theme === 'dark' ? 'light' : 'dark';
+      html.dataset.theme = next;
+      localStorage.setItem('mi-theme', next);
+      const themeMeta = document.querySelector('meta[name="theme-color"]');
+      if (themeMeta) themeMeta.setAttribute('content', next === 'light' ? '#F5F1E8' : '#0A1220');
+    });
+
+    /* ── Onda 1: Menu overflow (mobile) ── */
+    const overflowTrigger = $('overflowTrigger');
+    const overflowMenu = $('overflowMenu');
+    if (overflowTrigger && overflowMenu) {
+      overflowTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = overflowMenu.classList.toggle('is-open');
+        overflowTrigger.setAttribute('aria-expanded', isOpen);
+      });
+      document.addEventListener('click', (e) => {
+        if (!overflowMenu.contains(e.target) && !overflowTrigger.contains(e.target)) {
+          overflowMenu.classList.remove('is-open');
+          overflowTrigger.setAttribute('aria-expanded', 'false');
+        }
+      });
+      // Espelhar cliques: botões mobile disparam ações dos primários
+      ['saveBtn', 'importBtn', 'csvBtn'].forEach(id => {
+        const btnMobile = $(id + '2');
+        const btnDesktop = $(id);
+        if (btnMobile && btnDesktop) {
+          btnMobile.addEventListener('click', () => {
+            btnDesktop.click();
+            overflowMenu.classList.remove('is-open');
+            overflowTrigger.setAttribute('aria-expanded', 'false');
+          });
+        }
+      });
+    }
+
+    /* ── Onda 1: Scroll progress ── */
+    const scrollProgress = $('scroll-progress');
+    if (scrollProgress) {
+      window.addEventListener('scroll', () => {
+        const h = document.documentElement;
+        const scrolled = (h.scrollTop / Math.max(1, (h.scrollHeight - h.clientHeight))) * 100;
+        scrollProgress.style.width = scrolled + '%';
+      }, { passive: true });
+    }
+
+    $('saveBtn').addEventListener('click', () => {
+      localStorage.setItem('mi-project', JSON.stringify(getProjectData()));
+      alert('Projeto salvo no navegador.');
+    });
+
+    function downloadText(filename, text, type = 'text/plain;charset=utf-8') {
+      const blob = new Blob([text], { type });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    $('csvBtn').addEventListener('click', () => {
+      const data = getProjectData();
+      const lines = [];
+      lines.push('tipo;descricao;categoria_classificacao;quantidade;preco_unitario;valor_total');
+      data.items.forEach(i => lines.push(`material;"${i.nome}";"${i.categoria}";${num(i.qtd).toString().replace('.', ',')};${num(i.preco).toString().replace('.', ',')};${itemTotal(i).toString().replace('.', ',')}`));
+      data.costs.forEach(c => lines.push(`lancamento;"${c.nome}";"${c.tipo}";;;${num(c.valor).toString().replace('.', ',')}`));
+      const safe = (data.meta.cliente || 'projeto').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      downloadText(`${safe || 'projeto'}-${data.meta.proposta || 'orcamento'}.csv`, lines.join('\n'), 'text/csv;charset=utf-8');
+    });
+
+    $('copyProposalBtn').addEventListener('click', async () => {
+      const txt = buildClientProposal(calculate());
+      try {
+        await navigator.clipboard.writeText(txt);
+        alert('Proposta copiada.');
+      } catch {
+        alert(txt);
+      }
+    });
+
+    $('exportBtn').addEventListener('click', () => {
+      const data = getProjectData();
+      const safe = (data.meta.cliente || 'projeto').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `${safe || 'projeto'}-${data.meta.proposta || 'orcamento'}.json`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    $('importBtn').addEventListener('click', () => $('importFile').click());
+    $('importFile').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const data = JSON.parse(await file.text());
+      if (data.meta) {
+        $('cliente').value = data.meta.cliente || '';
+        $('ambiente').value = data.meta.ambiente || '';
+        $('proposta').value = data.meta.proposta || '';
+        $('data').value = data.meta.data || today;
+        $('obs').value = data.meta.obs || '';
+        if ($('statusProjeto')) $('statusProjeto').value = data.meta.status || 'Orçamento inicial';
+        if ($('prazoDias')) $('prazoDias').value = data.meta.prazoDias ?? 20;
+        if ($('entradaPerc')) $('entradaPerc').value = data.meta.entradaPerc ?? 50;
+      }
+      if (data.parametros) {
+        $('margemDesejada').value = data.parametros.margemDesejada ?? 28;
+        $('comissaoPerc').value = data.parametros.comissaoPerc ?? 4;
+        $('reservaPerc').value = data.parametros.reservaPerc ?? 5;
+        $('descontoPerc').value = data.parametros.descontoPerc ?? 7;
+      }
+      state.ambientes = Array.isArray(data.ambientes) ? data.ambientes : [];
+      state.logoDataUrl = data.logoDataUrl || '';
+      if (state.logoDataUrl && $('logoPreview')) {
+        $('logoPreview').src = state.logoDataUrl;
+        $('logoPreview').style.display = 'block';
+      }
+      if (data.meta) {
+        if ($('empresaNome')) $('empresaNome').value = data.meta.empresaNome || $('empresaNome').value;
+        if ($('empresaContato')) $('empresaContato').value = data.meta.empresaContato || $('empresaContato').value;
+        if ($('validadeDias')) $('validadeDias').value = data.meta.validadeDias ?? $('validadeDias').value;
+      }
+      state.items = Array.isArray(data.items) ? data.items : [];
+      state.costs = Array.isArray(data.costs) ? data.costs : [];
+      renderAll();
+    });
+
+    const savedTheme = localStorage.getItem('mi-theme');
+    if (savedTheme) {
+      document.documentElement.dataset.theme = savedTheme;
+      const themeMeta = document.querySelector('meta[name="theme-color"]');
+      if (themeMeta) themeMeta.setAttribute('content', savedTheme === 'light' ? '#F5F1E8' : '#0A1220');
+    }
+
+    try {
+      const saved = JSON.parse(localStorage.getItem('mi-project') || 'null');
+      if (saved) {
+        state.ambientes = saved.ambientes || state.ambientes || [];
+        state.logoDataUrl = saved.logoDataUrl || state.logoDataUrl || '';
+        state.items = saved.items || state.items;
+        state.costs = saved.costs || state.costs;
+        if (state.logoDataUrl && $('logoPreview')) {
+          $('logoPreview').src = state.logoDataUrl;
+          $('logoPreview').style.display = 'block';
+        }
+      }
+    } catch {}
+
+    populateCatalogs();
+    renderAll();
+  </script>
+</body>
+</html>
