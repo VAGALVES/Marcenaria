@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0A1220" />
-  <title>Marcenaria Intelligence · Mini-ERP por VS Consulting</title>
-  <meta name="description" content="Mini-ERP editorial para marcenaria sob medida — orçamento técnico, cálculo automático de materiais, formação de preço e KPIs financeiros. Desenvolvido por VS Consulting." />
+  <title>JL Marcenaria · Inteligência de orçamento</title>
+  <meta name="description" content="Sistema de orçamento técnico, formação de preço, KPIs financeiros e proposta comercial para a JL Marcenaria. Desenvolvido por VS Consulting." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -198,15 +198,19 @@
     }
     /* ── TOPBAR (alinhado Connectors-VS) ── */
     .topbar {
-      position: sticky;
+      position: fixed;
       top: 0;
+      left: 0;
+      right: 0;
       z-index: 40;
       background: var(--topbar-bg);
       backdrop-filter: blur(18px) saturate(140%);
       -webkit-backdrop-filter: blur(18px) saturate(140%);
       border-bottom: 1px solid var(--line);
       transition: background-color 320ms var(--ease-out), border-color 320ms var(--ease-out);
+      isolation: isolate;
     }
+    main { padding-top: 70px; }
     .topbar-inner {
       display: flex;
       align-items: center;
@@ -222,18 +226,15 @@
       flex: 0 1 auto;
     }
     .brand-mark {
-      width: 32px; height: 32px;
-      border-radius: var(--r-sm);
+      width: 38px; height: 38px;
+      border-radius: 50%;
       border: 1px solid var(--gold-line);
-      background: var(--gold-soft);
+      overflow: hidden;
       display: grid; place-items: center;
-      font-family: var(--font-display);
-      font-weight: 900;
-      font-size: 12px;
-      color: var(--gold);
       flex-shrink: 0;
-      font-style: italic;
+      background: var(--ink-2);
     }
+    .brand-mark img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .brand-text {
       display: flex;
       flex-direction: column;
@@ -524,54 +525,364 @@
     h1, h2, h3 { font-family: var(--font-display); color: var(--paper); margin: 0; line-height: 1.05; letter-spacing: -.03em; }
     h1 em { color: var(--gold); font-style: italic; }
 
-    .section { padding: 1.4rem 0 3rem; }
-    .grid { display: grid; gap: 1rem; }
-    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .section { padding-block: var(--sp-6) var(--sp-8); position: relative; z-index: 2; }
+    .grid { display: grid; gap: var(--sp-4); }
+    .grid-2 { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @media (min-width: 720px) {
+      .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+
+    /* ── TABS EDITORIAIS (alinhado Connectors-VS, com numeração №) ── */
+    .tabs-wrap {
+      position: relative;
+      padding-block: var(--sp-5);
+      border-bottom: 1px solid var(--line);
+    }
+    .tabs-wrap::before,
+    .tabs-wrap::after {
+      content: "";
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 32px;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .tabs-wrap::before {
+      left: 0;
+      background: linear-gradient(90deg, var(--ink) 0%, transparent 100%);
+    }
+    .tabs-wrap::after {
+      right: 0;
+      background: linear-gradient(270deg, var(--ink) 0%, transparent 100%);
+    }
+    html[data-theme="light"] .tabs-wrap::before { background: linear-gradient(90deg, var(--ink) 0%, transparent 100%); }
+    html[data-theme="light"] .tabs-wrap::after { background: linear-gradient(270deg, var(--ink) 0%, transparent 100%); }
+
+    .tabs {
+      display: flex;
+      gap: var(--sp-2);
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding-block: var(--sp-1);
+      padding-inline: var(--sp-1);
+      scroll-snap-type: x proximity;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+
+    .tab {
+      flex-shrink: 0;
+      scroll-snap-align: start;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-2);
+      padding: var(--sp-3) var(--sp-4);
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--paper-80);
+      font-family: var(--font-mono);
+      font-size: var(--fs-3xs);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: border-color var(--dur-fast) var(--ease-out),
+                  background-color var(--dur-fast) var(--ease-out),
+                  color var(--dur-fast) var(--ease-out),
+                  transform var(--dur-fast) var(--ease-out);
+    }
+    .tab:hover {
+      border-color: var(--gold-line);
+      color: var(--paper);
+      transform: translateY(-1px);
+    }
+    .tab[aria-selected="true"] {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--ink);
+      font-weight: 600;
+    }
+    .tab[aria-selected="true"] .tab__num { color: var(--ink); opacity: 0.55; }
+    .tab__num {
+      font-family: var(--font-mono);
+      font-size: var(--fs-3xs);
+      color: var(--gold);
+      opacity: 0.7;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── CARDS (Connectors-VS pattern) ── */
     .card {
       border: 1px solid var(--line);
       border-radius: var(--r-lg);
-      background: linear-gradient(180deg, rgba(245,241,232,.035), rgba(245,241,232,.012));
-      padding: 1rem;
+      background: var(--ink-2);
+      padding: var(--sp-5);
       box-shadow: var(--shadow-card);
+      transition: transform var(--dur-med) var(--ease-out),
+                  border-color var(--dur-med) var(--ease-out);
+      position: relative;
     }
-    .card h2 { font-size: clamp(1.45rem, 3vw, 2rem); margin-bottom: .9rem; }
-    .card h3 { font-size: 1.12rem; margin-bottom: .65rem; letter-spacing: -.01em; }
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: var(--line-strong);
+    }
+    .card h2 {
+      font-size: var(--fs-2xl);
+      margin-bottom: var(--sp-4);
+      font-weight: 600;
+      font-variation-settings: "opsz" 48, "SOFT" 50;
+    }
+    .card h3 {
+      font-size: var(--fs-lg);
+      margin-bottom: var(--sp-3);
+      font-weight: 600;
+    }
+    /* Modificadores cromáticos para cards */
+    .card--sage { border-left: 3px solid var(--sage); }
+    .card--amber { border-left: 3px solid var(--amber); }
+    .card--terra { border-left: 3px solid var(--terra); }
+
+    /* Section eyebrow (com □ e numeração) */
+    .section__eyebrow {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      margin-bottom: var(--sp-4);
+      font-family: var(--font-mono);
+      font-size: var(--fs-3xs);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .section__eyebrow::before {
+      content: "□";
+      font-size: var(--fs-sm);
+      letter-spacing: 0;
+    }
+
     .muted { color: var(--paper-60); }
-    .small { font-size: .86rem; }
-    .form-row { display: grid; gap: .75rem; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: .75rem; }
-    label { display: grid; gap: .28rem; color: var(--paper-60); font-size: .78rem; font-family: var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
+    .small { font-size: var(--fs-xs); }
+
+    /* ── FORMULÁRIOS ── */
+    .form-row { display: grid; gap: var(--sp-3); grid-template-columns: 1fr; margin-bottom: var(--sp-3); }
+    @media (min-width: 720px) {
+      .form-row { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+    label { display: grid; gap: var(--sp-1); color: var(--paper-60); font-size: var(--fs-2xs); font-family: var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; }
     input, select, textarea {
       width: 100%;
       border: 1px solid var(--line-strong);
-      border-radius: 12px;
-      background: rgba(245,241,232,.045);
+      border-radius: var(--r-sm);
+      background: rgba(245,241,232,.035);
       color: var(--paper);
       min-height: 42px;
-      padding: .7rem .78rem;
+      padding: var(--sp-3) var(--sp-3);
       outline: none;
+      font-family: var(--font-body);
+      font-size: var(--fs-sm);
+      transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
     }
-    textarea { min-height: 92px; resize: vertical; }
-    input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-soft); }
+    html[data-theme="light"] input,
+    html[data-theme="light"] select,
+    html[data-theme="light"] textarea { background: rgba(10,18,32,0.025); }
+    textarea { min-height: 92px; resize: vertical; line-height: 1.5; }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px var(--gold-soft);
+    }
+
+    /* ── TABELAS ── */
     table { width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; }
-    th, td { padding: .7rem .65rem; text-align: left; border-bottom: 1px solid var(--line); font-size: .9rem; vertical-align: middle; }
-    th { color: var(--gold); font-family: var(--font-mono); font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; background: rgba(201,163,92,.045); }
+    th, td { padding: var(--sp-3) var(--sp-3); text-align: left; border-bottom: 1px solid var(--line); font-size: var(--fs-sm); vertical-align: middle; }
+    th { color: var(--gold); font-family: var(--font-mono); font-size: var(--fs-3xs); letter-spacing: 0.14em; text-transform: uppercase; background: var(--gold-soft); font-weight: 500; }
     tr:last-child td { border-bottom: none; }
-    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-md); }
-    .row-actions { display: flex; gap: .35rem; justify-content: flex-end; }
+    tr:hover td { background: rgba(245,241,232,0.018); }
+    html[data-theme="light"] tr:hover td { background: rgba(10,18,32,0.018); }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--ink-2); }
+
+    /* ── ICON BUTTONS (com edição) ── */
+    .row-actions { display: flex; gap: var(--sp-2); justify-content: flex-end; }
     .icon-btn {
-      width: 32px; height: 32px; border-radius: 999px; border: 1px solid var(--line-strong);
-      background: transparent; color: var(--paper-60); display: grid; place-items: center;
+      width: 30px; height: 30px;
+      min-width: 30px;
+      padding: 0;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      background: transparent;
+      color: var(--paper-60);
+      display: grid; place-items: center;
+      transition: border-color var(--dur-fast) var(--ease-out),
+                  color var(--dur-fast) var(--ease-out),
+                  background-color var(--dur-fast) var(--ease-out);
     }
-    .icon-btn:hover { border-color: var(--gold-line); color: var(--gold); }
+    .icon-btn:hover { border-color: var(--gold-line); color: var(--gold); background: var(--gold-soft); }
+    .icon-btn--edit:hover { border-color: var(--sage-line); color: var(--sage); background: var(--sage-soft); }
+    .icon-btn--del:hover { border-color: var(--terra-line); color: var(--terra); background: var(--terra-soft); }
+    .icon-btn svg { width: 14px; height: 14px; }
+
+    /* ── KPI STAT-BLOCKS (editorial Connectors-VS) ── */
     .kpi {
-      border: 1px solid var(--line); border-radius: var(--r-lg); padding: 1rem; background: rgba(245,241,232,.025);
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      padding: var(--sp-4) var(--sp-4);
+      background: var(--ink-2);
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-2);
+      position: relative;
+      transition: transform var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
     }
-    .kpi strong { display: block; color: var(--paper); font-family: var(--font-display); font-size: clamp(1.35rem, 2.8vw, 2rem); line-height: 1.05; }
-    .kpi span { font-family: var(--font-mono); font-size: .66rem; color: var(--paper-60); text-transform: uppercase; letter-spacing: .13em; }
-    .kpi.good { border-color: rgba(127,199,189,.35); }
-    .kpi.warn { border-color: rgba(217,111,94,.35); }
+    .kpi:hover { transform: translateY(-2px); }
+    .kpi span {
+      font-family: var(--font-mono);
+      font-size: var(--fs-3xs);
+      color: var(--paper-60);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      order: 2;
+    }
+    .kpi strong {
+      display: block;
+      color: var(--paper);
+      font-family: var(--font-display);
+      font-size: var(--fs-3xl);
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      font-variation-settings: "opsz" 144, "SOFT" 40;
+      order: 1;
+    }
+    /* Sistema cromático tripartite aplicado aos KPIs */
+    .kpi.good, .kpi--sage { border-left: 3px solid var(--sage); }
+    .kpi.good strong, .kpi--sage strong { color: var(--sage); }
+    .kpi--amber { border-left: 3px solid var(--amber); }
+    .kpi--amber strong { color: var(--amber); }
+    .kpi.warn, .kpi--terra { border-left: 3px solid var(--terra); }
+    .kpi.warn strong, .kpi--terra strong { color: var(--terra); }
+
+    /* ── INSIGHTS ── */
+    .insight {
+      border-left: 3px solid var(--gold);
+      background: linear-gradient(90deg, var(--gold-soft), transparent);
+      border-radius: 0 var(--r-md) var(--r-md) 0;
+      padding: var(--sp-4) var(--sp-5);
+      color: var(--paper-80);
+      font-size: var(--fs-sm);
+      line-height: 1.6;
+    }
+
+    /* ── GRÁFICOS SVG (estilo editorial) ── */
+    .chart-block {
+      margin-top: var(--sp-5);
+      padding-top: var(--sp-5);
+      border-top: 1px solid var(--line);
+    }
+    .chart-block__head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: var(--sp-4);
+      gap: var(--sp-3);
+      flex-wrap: wrap;
+    }
+    .chart-block__title {
+      font-family: var(--font-display);
+      font-size: var(--fs-lg);
+      font-weight: 600;
+      color: var(--paper);
+      margin: 0;
+    }
+    .chart-block__hint {
+      font-family: var(--font-mono);
+      font-size: var(--fs-3xs);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--paper-60);
+    }
+    .chart-svg { width: 100%; height: auto; display: block; overflow: visible; }
+    .chart-svg .axis-line { stroke: var(--line-strong); stroke-width: 1; }
+    .chart-svg .grid-line { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 3; }
+    .chart-svg .axis-label,
+    .chart-svg .data-label { font-family: var(--font-mono); font-size: 10px; fill: var(--paper-60); letter-spacing: 0.08em; }
+    .chart-svg .data-value { font-family: var(--font-mono); font-size: 11px; fill: var(--paper); font-weight: 600; }
+    .chart-svg .bar-rect { transition: opacity var(--dur-fast) var(--ease-out); }
+    .chart-svg .bar-rect:hover { opacity: 0.85; }
+    .chart-svg .legend-text { font-family: var(--font-mono); font-size: 10px; fill: var(--paper-80); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    .chart-empty {
+      padding: var(--sp-6) var(--sp-4);
+      text-align: center;
+      color: var(--paper-60);
+      font-size: var(--fs-sm);
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--r-md);
+    }
+
+    /* ── EDIT MODAL ── */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(10,18,32,0.78);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 60;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: var(--sp-4);
+    }
+    .modal-backdrop.is-open { display: flex; }
+    .modal {
+      background: var(--ink-2);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-card);
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow: auto;
+      padding: var(--sp-5);
+      animation: modalIn 280ms var(--ease-out);
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(8px) scale(0.98); }
+      to { opacity: 1; transform: none; }
+    }
+    .modal__head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--sp-3);
+      margin-bottom: var(--sp-4);
+      padding-bottom: var(--sp-4);
+      border-bottom: 1px solid var(--line);
+    }
+    .modal__title { font-family: var(--font-display); font-size: var(--fs-xl); color: var(--paper); margin: 0; font-weight: 600; }
+    .modal__close {
+      width: 32px; height: 32px;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      background: transparent;
+      color: var(--paper-60);
+      display: grid; place-items: center;
+      transition: all var(--dur-fast) var(--ease-out);
+    }
+    .modal__close:hover { border-color: var(--terra); color: var(--terra); }
+    .modal__body { display: grid; gap: var(--sp-3); }
+    .modal__actions {
+      display: flex;
+      gap: var(--sp-2);
+      justify-content: flex-end;
+      margin-top: var(--sp-4);
+      padding-top: var(--sp-4);
+      border-top: 1px solid var(--line);
+    }
     .insight {
       border-left: 3px solid var(--gold); background: linear-gradient(90deg, var(--gold-soft), transparent);
       border-radius: 0 var(--r-md) var(--r-md) 0; padding: 1rem; color: var(--paper-80);
@@ -775,19 +1086,137 @@
       display: none;
       margin-top: .6rem;
     }
+    /* ── PROPOSTA PDF (clean editorial · imprime sem exageros) ── */
     .proposal-page {
       background: var(--ink-2);
       border: 1px solid var(--line);
       border-radius: var(--r-lg);
-      padding: clamp(1rem, 3vw, 2rem);
-      color: var(--paper-80);
+      padding: clamp(1.5rem, 4vw, 3rem);
+      color: var(--paper);
+      max-width: 720px;
+      margin: 0 auto;
+      font-family: var(--font-body);
+      line-height: 1.65;
     }
     .proposal-head {
-      display:flex; justify-content:space-between; gap:1rem; align-items:flex-start;
+      display: flex;
+      justify-content: space-between;
+      gap: var(--sp-5);
+      align-items: flex-start;
+      padding-bottom: var(--sp-5);
+      margin-bottom: var(--sp-6);
       border-bottom: 1px solid var(--line);
-      padding-bottom:1rem; margin-bottom:1rem;
     }
-    .proposal-logo { max-width: 150px; max-height: 70px; object-fit: contain; display:none; }
+    .proposal-head__id { flex: 1; min-width: 0; }
+    .proposal-eyebrow {
+      font-family: var(--font-mono);
+      font-size: var(--fs-3xs);
+      letter-spacing: 0.18em;
+      color: var(--gold);
+      margin-bottom: var(--sp-3);
+    }
+    .proposal-title {
+      font-family: var(--font-display);
+      font-size: var(--fs-3xl);
+      color: var(--paper);
+      font-weight: 700;
+      margin: 0 0 var(--sp-3) 0;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      font-variation-settings: "opsz" 144;
+    }
+    .proposal-meta {
+      font-family: var(--font-body);
+      font-size: var(--fs-sm);
+      color: var(--paper-60);
+      margin: 0;
+      line-height: 1.5;
+    }
+    .proposal-logo {
+      width: 80px; height: 80px;
+      object-fit: cover;
+      border-radius: 50%;
+      flex-shrink: 0;
+      border: 1px solid var(--gold-line);
+    }
+
+    .proposal-block {
+      padding: var(--sp-4) 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .proposal-block:last-of-type { border-bottom: none; }
+
+    .proposal-section-title {
+      font-family: var(--font-display);
+      font-size: var(--fs-lg);
+      color: var(--paper);
+      font-weight: 600;
+      margin: 0 0 var(--sp-3) 0;
+      font-variation-settings: "opsz" 48, "SOFT" 50;
+    }
+
+    /* Linha tipo "Label : Valor" com alinhamento sutil */
+    .proposal-line {
+      display: flex;
+      gap: var(--sp-4);
+      margin: var(--sp-2) 0;
+      font-size: var(--fs-sm);
+      color: var(--paper-80);
+      align-items: baseline;
+    }
+    .proposal-line span:first-child {
+      flex: 0 0 180px;
+      font-family: var(--font-mono);
+      font-size: var(--fs-2xs);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--paper-60);
+    }
+    .proposal-line--total {
+      padding: var(--sp-3) 0;
+      margin: var(--sp-3) 0;
+      border-top: 1px solid var(--gold-line);
+      border-bottom: 1px solid var(--gold-line);
+    }
+    .proposal-line--total strong {
+      font-family: var(--font-display);
+      font-size: var(--fs-2xl);
+      color: var(--gold);
+      font-weight: 700;
+      font-variation-settings: "opsz" 144;
+    }
+    .proposal-text {
+      font-size: var(--fs-sm);
+      color: var(--paper-80);
+      margin: var(--sp-2) 0;
+      line-height: 1.6;
+    }
+
+    .proposal-signature {
+      margin-top: var(--sp-7);
+      padding-top: var(--sp-6);
+    }
+    .proposal-signature-line {
+      width: 60%;
+      height: 1px;
+      background: var(--paper-60);
+      margin-bottom: var(--sp-2);
+    }
+    .proposal-signature-label {
+      font-family: var(--font-mono);
+      font-size: var(--fs-2xs);
+      letter-spacing: 0.12em;
+      color: var(--paper-60);
+      margin: 0;
+    }
+
+    /* Responsivo proposta */
+    @media (max-width: 600px) {
+      .proposal-line { flex-direction: column; gap: var(--sp-1); }
+      .proposal-line span:first-child { flex: none; }
+      .proposal-head { flex-direction: column-reverse; align-items: flex-start; }
+      .proposal-logo { width: 60px; height: 60px; }
+    }
     .timeline { display:grid; gap:.6rem; }
     .timeline-item {
       border-left: 3px solid var(--gold);
@@ -803,30 +1232,91 @@
       color: var(--paper-60);
       text-align: center;
     }
+    /* ── PRINT (proposta pura, sem exageros) ── */
     @media print {
-      body.print-proposal .topbar,
-      body.print-proposal .tabs,
-      body.print-proposal .footer,
-      body.print-proposal .no-print,
-      body.print-proposal .tab-panel:not(#panel-proposta-pdf) { display:none !important; }
-      body.print-proposal #panel-proposta-pdf { display:block !important; }
-      body.print-proposal .proposal-page { border:none; background:white; color:#111; }
-      body.print-proposal h1, body.print-proposal h2, body.print-proposal h3, body.print-proposal strong { color:#111; }
+      /* Reset visual completo */
+      :root { color-scheme: light; }
+      html, body {
+        background: #fff !important;
+        color: #1a1a1a !important;
+        font-size: 11pt;
+      }
+      body::before, body::after { display: none !important; }
+
+      /* Esconde tudo que não é proposta */
+      .scroll-progress, .topbar, .tabs-wrap, .hero, .footer,
+      .no-print, .chart-block, .modal-backdrop,
+      main { padding-top: 0 !important; }
+      .scroll-progress, .topbar, .tabs-wrap, .hero, .footer,
+      .no-print, .chart-block, .modal-backdrop { display: none !important; }
+
+      /* Esconde todas as outras tabs, mostra só a proposta */
+      .tab-panel { display: none !important; }
+      #panel-proposta-pdf { display: block !important; }
+      /* Dentro da proposta-pdf, esconde os controles (botão Gerar PDF, etc.) */
+      #panel-proposta-pdf .card.no-print,
+      #panel-proposta-pdf .chart-block { display: none !important; }
+
+      .section { padding: 0 !important; }
+      .wrap { padding: 0 !important; max-width: none !important; }
+
+      /* Proposta limpa para impressão */
+      .proposal-page {
+        background: #fff !important;
+        color: #1a1a1a !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        max-width: none !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+      }
+      .proposal-page * { color: #1a1a1a !important; }
+      .proposal-head {
+        border-bottom: 1px solid #ddd !important;
+      }
+      .proposal-eyebrow { color: #8C6D2E !important; }
+      .proposal-meta { color: #555 !important; }
+      .proposal-block {
+        border-bottom: 1px solid #eee !important;
+        break-inside: avoid;
+      }
+      .proposal-line span:first-child { color: #555 !important; }
+      .proposal-line--total {
+        border-color: #8C6D2E !important;
+      }
+      .proposal-line--total strong { color: #8C6D2E !important; }
+      .proposal-signature-line { background: #1a1a1a !important; }
+      .proposal-signature-label { color: #555 !important; }
+
+      /* Margens da página de impressão */
+      @page {
+        margin: 18mm 16mm;
+        size: A4;
+      }
     }
 
+    /* ── RESPONSIVO ── */
     @media (max-width: 900px) {
-      .hero-grid, .grid-2, .grid-3, .grid-4, .form-row, .concept-grid, .split-3 { grid-template-columns: 1fr; }
-      .actions { gap: .35rem; }
-      .btn { font-size: .62rem; padding-inline: .62rem; }
+      .hero-grid, .concept-grid, .split-3 { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .actions { gap: var(--sp-1); }
       .brand-name { max-width: 48vw; }
     }
+    @media (max-width: 480px) {
+      .grid-4 { grid-template-columns: 1fr; }
+      .kpi strong { font-size: var(--fs-2xl); }
+    }
 
-    @media print {
-      body { background: #fff; color: #111; }
-      .topbar, .tabs, .footer, .no-print { display: none !important; }
-      .card, .kpi, .table-wrap { box-shadow: none; break-inside: avoid; border-color: #ccc; }
-      h1, h2, h3, .kpi strong { color: #111; }
-      .section { padding: 0; }
+    /* ── ACESSIBILIDADE ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
     }
   </style>
 </head>
@@ -835,11 +1325,13 @@
 
   <header class="topbar">
     <div class="wrap topbar-inner">
-      <a class="brand" href="#">
-        <span class="brand-mark">VS</span>
+      <a class="brand" href="#" aria-label="JL Marcenaria">
+        <span class="brand-mark" aria-hidden="true">
+          <img src="assets/jl-logo.jpg" alt="" />
+        </span>
         <span class="brand-text">
-          <span class="brand-kicker">Marcenaria</span>
-          <span class="brand-name">Intelligence Lab</span>
+          <span class="brand-kicker">JL Marcenaria</span>
+          <span class="brand-name">Inteligência de orçamento</span>
         </span>
       </a>
       <div class="actions">
@@ -869,7 +1361,7 @@
             <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
           </svg>
         </button>
-        <div class="topbar-version">v4.1 · Marcenaria</div>
+        <div class="topbar-version">v4.1 · JL Marcenaria</div>
       </div>
     </div>
   </header>
@@ -879,11 +1371,11 @@
       <div class="wrap hero-grid">
         <div>
           <div class="hero__meta">
-            <span class="hero__meta-item">Mini-ERP · Marcenaria</span>
+            <span class="hero__meta-item">JL Marcenaria</span>
+            <span class="hero__meta-sep"></span>
+            <span>Goiás · Brasil</span>
             <span class="hero__meta-sep"></span>
             <span>Edição v4.1 · MMXXVI</span>
-            <span class="hero__meta-sep"></span>
-            <span>Orçamento · Custos · KPIs</span>
           </div>
           <h1 class="hero__title">
             <span class="stanza">Troque</span>
@@ -927,17 +1419,19 @@
     </section>
 
     <div class="wrap">
-      <nav class="tabs no-print" aria-label="Módulos do app">
-        <button class="btn tab" data-tab="projeto" aria-selected="true">Projeto</button>
-        <button class="btn tab" data-tab="ambientes">Ambientes</button>
-        <button class="btn tab" data-tab="itens">Materiais</button>
-        <button class="btn tab" data-tab="custos">Custos & despesas</button>
-        <button class="btn tab" data-tab="preco">Preço</button>
-        <button class="btn tab" data-tab="simulacoes">Simulações</button>
-        <button class="btn tab" data-tab="cliente">Proposta</button>
-        <button class="btn tab" data-tab="proposta-pdf">PDF</button>
-        <button class="btn tab" data-tab="historico">Histórico</button>
-        <button class="btn tab" data-tab="kpis">KPIs</button>
+      <nav class="tabs-wrap no-print" aria-label="Módulos do app">
+        <div class="tabs" role="tablist">
+          <button class="tab" data-tab="projeto" aria-selected="true" role="tab"><span class="tab__num">№ 01</span><span>Projeto</span></button>
+          <button class="tab" data-tab="ambientes" role="tab"><span class="tab__num">№ 02</span><span>Ambientes</span></button>
+          <button class="tab" data-tab="itens" role="tab"><span class="tab__num">№ 03</span><span>Materiais</span></button>
+          <button class="tab" data-tab="custos" role="tab"><span class="tab__num">№ 04</span><span>Custos & despesas</span></button>
+          <button class="tab" data-tab="preco" role="tab"><span class="tab__num">№ 05</span><span>Preço</span></button>
+          <button class="tab" data-tab="simulacoes" role="tab"><span class="tab__num">№ 06</span><span>Simulações</span></button>
+          <button class="tab" data-tab="cliente" role="tab"><span class="tab__num">№ 07</span><span>Proposta</span></button>
+          <button class="tab" data-tab="proposta-pdf" role="tab"><span class="tab__num">№ 08</span><span>PDF</span></button>
+          <button class="tab" data-tab="historico" role="tab"><span class="tab__num">№ 09</span><span>Histórico</span></button>
+          <button class="tab" data-tab="kpis" role="tab"><span class="tab__num">№ 10</span><span>KPIs</span></button>
+        </div>
       </nav>
     </div>
 
@@ -967,15 +1461,18 @@
           </div>
           <label>Observações técnicas<textarea id="obs">Projeto com MDF, ferragens, fita de borda, mão de obra e despesas comerciais classificadas separadamente.</textarea></label>
           <div class="concept-grid">
-            <div class="concept-mini"><b>Empresa</b><input id="empresaNome" value="Marcenaria do Cliente" placeholder="Nome da marcenaria"></div>
-            <div class="concept-mini"><b>Contato</b><input id="empresaContato" value="(51) 99999-9999" placeholder="Telefone / WhatsApp"></div>
+            <div class="concept-mini"><b>Empresa</b><input id="empresaNome" value="JL Marcenaria" placeholder="Nome da marcenaria"></div>
+            <div class="concept-mini"><b>Contato</b><input id="empresaContato" value="+55 61 9122-1514" placeholder="Telefone / WhatsApp"></div>
             <div class="concept-mini"><b>Validade da proposta</b><input id="validadeDias" type="number" value="7" step="1"></div>
           </div>
-          <div class="upload-box no-print">
+          <label style="margin-top:var(--sp-3);">Endereço da marcenaria
+            <input id="empresaEndereco" value="Av. Joaquim Gilberto, Quadra 50, Lote 47, Jardim Ingá — Luziânia / GO" placeholder="Endereço completo">
+          </label>
+          <div class="upload-box no-print" style="margin-top:var(--sp-3);">
             <strong>Logo da empresa</strong>
-            <p class="muted small">Opcional. A logo entra na proposta PDF e deixa o orçamento com cara profissional.</p>
+            <p class="muted small">A logo entra na proposta PDF e deixa o orçamento com cara profissional.</p>
             <input id="logoUpload" type="file" accept="image/*">
-            <img id="logoPreview" class="logo-preview" alt="Prévia da logo">
+            <img id="logoPreview" class="logo-preview" src="assets/jl-logo.jpg" alt="Logo JL Marcenaria">
           </div>
         </div>
         <div class="card">
@@ -1024,6 +1521,16 @@
           <button class="btn btn-primary no-print" id="addEnvBtn" type="button">Adicionar ambiente e gerar materiais</button>
         </div>
         <div class="grid grid-2" id="envCards"></div>
+
+        <!-- Onda 2: Gráfico decisório de ambientes -->
+        <div class="card no-print">
+          <div class="chart-block__head">
+            <h3 class="chart-block__title">Comparativo de área frontal por ambiente</h3>
+            <span class="chart-block__hint">Onde está o esforço técnico</span>
+          </div>
+          <p class="muted small">Ambientes maiores demandam mais chapa, fita de borda e horas de produção. Use isso para priorizar o orçamento e identificar onde está o maior peso técnico do projeto.</p>
+          <div id="chart-ambientes" style="margin-top: var(--sp-4);"></div>
+        </div>
       </div>
     </section>
 
@@ -1063,6 +1570,26 @@
             </table>
           </div>
         </div>
+
+        <!-- Onda 2: Gráficos decisórios de materiais -->
+        <div class="grid grid-2 no-print">
+          <div class="card">
+            <div class="chart-block__head">
+              <h3 class="chart-block__title">Distribuição por categoria</h3>
+              <span class="chart-block__hint">Onde mora o gasto</span>
+            </div>
+            <p class="muted small">Visualiza o peso de cada categoria de material no projeto. Útil para entender se está pesando em chapa, ferragens premium ou acabamento.</p>
+            <div id="chart-materiais-donut" style="margin-top: var(--sp-4);"></div>
+          </div>
+          <div class="card">
+            <div class="chart-block__head">
+              <h3 class="chart-block__title">Top 10 itens por valor</h3>
+              <span class="chart-block__hint">Maior impacto no custo</span>
+            </div>
+            <p class="muted small">Os 10 itens que mais impactam o custo total. Olhar esses primeiro ao tentar reduzir orçamento.</p>
+            <div id="chart-materiais-top" style="margin-top: var(--sp-4);"></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1099,6 +1626,16 @@
               <tbody id="costsBody"></tbody>
             </table>
           </div>
+        </div>
+
+        <!-- Onda 2: Gráfico decisório de custos -->
+        <div class="card no-print">
+          <div class="chart-block__head">
+            <h3 class="chart-block__title">Estrutura do custo do projeto</h3>
+            <span class="chart-block__hint">Saúde financeira</span>
+          </div>
+          <p class="muted small">Composição entre custo direto (mão de obra, instalação), indireto (frete, energia rateada), despesas (comerciais, administrativas), impostos e Capex. Indireto/despesa muito altos sinalizam revisão de rateio.</p>
+          <div id="chart-custos" style="margin-top: var(--sp-4);"></div>
         </div>
       </div>
     </section>
@@ -1142,6 +1679,26 @@
             <div class="price-tier"><small>Preço premium</small><strong id="tierPremium">R$ 0,00</strong><p class="muted small">Para projetos complexos, urgentes, personalizados ou com alto valor percebido.</p></div>
           </div>
         </div>
+
+        <!-- Onda 2: Gráficos decisórios de preço -->
+        <div class="grid grid-2 no-print">
+          <div class="card">
+            <div class="chart-block__head">
+              <h3 class="chart-block__title">Comparativo das 3 estratégias</h3>
+              <span class="chart-block__hint">Range de negociação</span>
+            </div>
+            <p class="muted small">Visual claro do range entre piso e teto. Use o ideal como ponto de partida e o premium como aspiração para projetos com valor percebido alto.</p>
+            <div id="chart-preco" style="margin-top: var(--sp-4);"></div>
+          </div>
+          <div class="card">
+            <div class="chart-block__head">
+              <h3 class="chart-block__title">Composição do preço ideal</h3>
+              <span class="chart-block__hint">Onde vai cada R$ vendido</span>
+            </div>
+            <p class="muted small">Quebra do preço por natureza: materiais, mão de obra, custos indiretos, despesas/impostos e margem (lucro). Argumento sólido em qualquer negociação.</p>
+            <div id="chart-preco-composicao" style="margin-top: var(--sp-4);"></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1164,6 +1721,18 @@
           <h2>Top itens de impacto</h2>
           <p class="muted small">Ranking dos materiais e lançamentos que mais pesam no custo total do projeto.</p>
           <div class="impact-list" id="impactList"></div>
+        </div>
+      </div>
+
+      <!-- Onda 2: Curva desconto x margem -->
+      <div class="wrap no-print" style="margin-top: var(--sp-5);">
+        <div class="card">
+          <div class="chart-block__head">
+            <h3 class="chart-block__title">Curva desconto × margem líquida</h3>
+            <span class="chart-block__hint">Até onde negociar sem comer a margem</span>
+          </div>
+          <p class="muted small">A linha mostra como a margem líquida cai conforme você concede desconto. As <strong style="color:var(--sage)">faixas verdes</strong> são saudáveis (≥25%), as <strong style="color:var(--gold)">amarelas</strong> aceitáveis (18-25%) e as <strong style="color:var(--terra)">vermelhas</strong> apertadas (&lt;18%). Os pontos destacam 0%, 10% e 20% de desconto.</p>
+          <div id="chart-simulacoes" style="margin-top: var(--sp-4);"></div>
         </div>
       </div>
     </section>
@@ -1226,6 +1795,18 @@
           </div>
         </div>
       </div>
+
+      <!-- Onda 2: Gráfico do histórico -->
+      <div class="wrap no-print" style="margin-top: var(--sp-5);">
+        <div class="card">
+          <div class="chart-block__head">
+            <h3 class="chart-block__title">Volume potencial por mês</h3>
+            <span class="chart-block__hint">Performance temporal</span>
+          </div>
+          <p class="muted small">Soma do preço sugerido dos projetos salvos, por mês de criação. Útil para entender sazonalidade e estimar pipeline.</p>
+          <div id="chart-historico" style="margin-top: var(--sp-4);"></div>
+        </div>
+      </div>
     </section>
 
     <section class="section tab-panel hidden" id="panel-kpis">
@@ -1237,13 +1818,13 @@
           </div>
           <div class="grid grid-4">
             <div class="kpi" id="marginCard"><span>Margem líquida estimada</span><strong id="kpiMargem">0%</strong></div>
-            <div class="kpi"><span>Materiais / preço</span><strong id="kpiMatPerc">0%</strong></div>
-            <div class="kpi"><span>Despesas / preço</span><strong id="kpiDespPerc">0%</strong></div>
+            <div class="kpi" id="kpiMatPercCard"><span>Materiais / preço</span><strong id="kpiMatPerc">0%</strong></div>
+            <div class="kpi" id="kpiDespPercCard"><span>Despesas / preço</span><strong id="kpiDespPerc">0%</strong></div>
             <div class="kpi"><span>Preço com desconto máx.</span><strong id="kpiPrecoDesconto">R$ 0,00</strong></div>
             <div class="kpi"><span>Custo direto / custo total</span><strong id="kpiCdPerc">0%</strong></div>
             <div class="kpi"><span>Custo indireto / custo total</span><strong id="kpiCiPerc">0%</strong></div>
             <div class="kpi"><span>Lucro por R$ 1 vendido</span><strong id="kpiLucroReal">R$ 0,00</strong></div>
-            <div class="kpi"><span>Ponto de atenção</span><strong id="kpiRisco">—</strong></div>
+            <div class="kpi" id="kpiRiscoCard"><span>Ponto de atenção</span><strong id="kpiRisco">—</strong></div>
           </div>
           <div class="card" style="margin-top:1rem">
             <h3>Composição do preço</h3>
@@ -1283,9 +1864,9 @@
     <div class="wrap">
       <div class="footer__mark">VS <em>Consulting</em></div>
       <div class="footer__divider"></div>
-      <div class="footer__tagline">Marcenaria Intelligence · v4.1</div>
+      <div class="footer__tagline">JL Marcenaria · v4.1</div>
       <p class="footer__meta">
-        Desenvolvido por VS Consulting · Mini-ERP local com orçamento técnico,<br>
+        Desenvolvido por VS Consulting · Sistema de orçamento técnico,<br>
         proposta comercial em PDF, histórico e KPIs financeiros · MMXXVI
       </p>
     </div>
@@ -1501,48 +2082,62 @@
 
     function buildProposalPdf(k) {
       if (!$('proposalPdf')) return;
-      const logo = state.logoDataUrl ? `<img class="proposal-logo" style="display:block" src="${state.logoDataUrl}" alt="Logo">` : '';
+      const logoSrc = state.logoDataUrl || 'assets/jl-logo.jpg';
       const entrada = k.preco * (num($('entradaPerc').value) / 100);
       const saldo = k.preco - entrada;
       const validade = num($('validadeDias').value) || 7;
+      const dataHoje = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      const empresaNome = $('empresaNome').value || 'JL Marcenaria';
+      const empresaContato = $('empresaContato').value || '';
+      const empresaEndereco = ($('empresaEndereco') && $('empresaEndereco').value) || '';
+
       $('proposalPdf').innerHTML = `
         <div class="proposal-head">
-          <div>
-            <div class="eyebrow">${$('empresaNome').value || 'Marcenaria'}</div>
-            <h2>Proposta Comercial</h2>
-            <p class="muted">${$('empresaContato').value || ''}</p>
+          <div class="proposal-head__id">
+            <div class="proposal-eyebrow">${escapeHtml(empresaNome).toUpperCase()}</div>
+            <h2 class="proposal-title">Proposta Comercial</h2>
+            <p class="proposal-meta">
+              ${escapeHtml(empresaContato)}${empresaContato && empresaEndereco ? ' · ' : ''}${escapeHtml(empresaEndereco)}
+            </p>
           </div>
-          ${logo}
+          <img class="proposal-logo" src="${logoSrc}" alt="" onerror="this.style.display='none'">
         </div>
-        <div class="grid grid-2">
-          <div>
-            <h3>Cliente e projeto</h3>
-            <p><strong>Cliente:</strong> ${$('cliente').value || '—'}</p>
-            <p><strong>Ambiente principal:</strong> ${$('ambiente').value || '—'}</p>
-            <p><strong>Proposta:</strong> ${$('proposta').value || '—'}</p>
-            <p><strong>Status:</strong> ${$('statusProjeto').value || '—'}</p>
-          </div>
-          <div>
-            <h3>Condição comercial</h3>
-            <p><strong>Valor:</strong> ${BRL.format(k.preco)}</p>
-            <p><strong>Entrada:</strong> ${BRL.format(entrada)}</p>
-            <p><strong>Saldo:</strong> ${BRL.format(saldo)}</p>
-            <p><strong>Prazo:</strong> ${num($('prazoDias').value)} dias após aprovação técnica e entrada.</p>
-            <p><strong>Validade:</strong> ${validade} dias.</p>
-          </div>
+
+        <div class="proposal-block">
+          <h3 class="proposal-section-title">Cliente e projeto</h3>
+          <p class="proposal-line"><span>Cliente</span> ${escapeHtml($('cliente').value || '—')}</p>
+          <p class="proposal-line"><span>Ambiente principal</span> ${escapeHtml($('ambiente').value || '—')}</p>
+          <p class="proposal-line"><span>Proposta</span> ${escapeHtml($('proposta').value || '—')}</p>
+          <p class="proposal-line"><span>Status</span> ${escapeHtml($('statusProjeto').value || '—')}</p>
+          <p class="proposal-line"><span>Data</span> ${dataHoje}</p>
         </div>
-        <div style="margin-top:1rem">
-          <h3>Escopo resumido</h3>
-          <p>${$('obs').value || 'Projeto de móveis sob medida conforme medidas, acabamentos e briefing aprovados.'}</p>
+
+        <div class="proposal-block">
+          <h3 class="proposal-section-title">Condição comercial</h3>
+          <p class="proposal-line proposal-line--total"><span>Valor total</span> <strong>${BRL.format(k.preco)}</strong></p>
+          <p class="proposal-line"><span>Entrada (${num($('entradaPerc').value)}%)</span> ${BRL.format(entrada)}</p>
+          <p class="proposal-line"><span>Saldo na entrega</span> ${BRL.format(saldo)}</p>
+          <p class="proposal-line"><span>Prazo de produção</span> ${num($('prazoDias').value)} dias após aprovação técnica e entrada</p>
+          <p class="proposal-line"><span>Validade da proposta</span> ${validade} dias</p>
         </div>
-        <div style="margin-top:1rem">
-          <h3>Ambientes contemplados</h3>
-          ${state.ambientes.length ? state.ambientes.map(e => `<p>• ${e.tipo}: ${e.largura}m × ${e.altura}m × ${e.prof}m · ${e.modulos} módulos · ${e.portas} portas · ${e.gavetas} gavetas.</p>`).join('') : '<p>Ambientes conforme briefing técnico aprovado.</p>'}
+
+        <div class="proposal-block">
+          <h3 class="proposal-section-title">Escopo</h3>
+          <p class="proposal-text">${escapeHtml($('obs').value || 'Projeto de móveis sob medida conforme medidas, acabamentos e briefing aprovados.')}</p>
+          ${state.ambientes.length ? `
+            <p class="proposal-text" style="margin-top:1rem;font-weight:600;">Ambientes contemplados:</p>
+            ${state.ambientes.map(e => `<p class="proposal-text">• ${escapeHtml(e.tipo)}: ${e.largura}m × ${e.altura}m × ${e.prof}m · ${e.modulos} módulos · ${e.portas} portas · ${e.gavetas} gavetas.</p>`).join('')}
+          ` : ''}
         </div>
-        <div style="margin-top:1rem">
-          <h3>Termos de aprovação</h3>
-          <p>A produção inicia após validação de medidas finais, definição de acabamentos e pagamento da entrada. Alterações posteriores podem gerar reorçamento.</p>
-          <p style="margin-top:2rem">____________________________________<br>Assinatura do cliente</p>
+
+        <div class="proposal-block">
+          <h3 class="proposal-section-title">Termos de aprovação</h3>
+          <p class="proposal-text">A produção inicia após validação de medidas finais, definição de acabamentos e pagamento da entrada. Alterações posteriores podem gerar reorçamento.</p>
+        </div>
+
+        <div class="proposal-signature">
+          <div class="proposal-signature-line"></div>
+          <p class="proposal-signature-label">Assinatura do cliente</p>
         </div>
       `;
     }
@@ -1629,7 +2224,14 @@
         <div class="module-card">
           <div class="module-title">
             <div><h3>${e.tipo}</h3><div class="module-meta">${e.largura}m × ${e.altura}m × ${e.prof}m · ${e.modulos} módulos</div></div>
-            <button class="icon-btn no-print" onclick="removeEnvironment(${i})">×</button>
+            <div class="row-actions no-print">
+              <button class="icon-btn icon-btn--edit" onclick="editEnvironment(${i})" aria-label="Editar ambiente" title="Editar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+              <button class="icon-btn icon-btn--del" onclick="removeEnvironment(${i})" aria-label="Remover ambiente" title="Remover">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+              </button>
+            </div>
           </div>
           <div class="split-3">
             <div class="estimate-box"><b>Chapas</b>${e.chapas} un.</div>
@@ -1643,28 +2245,145 @@
 
     window.removeEnvironment = (i) => { state.ambientes.splice(i, 1); renderAll(); };
 
+    /* Editar ambiente: carrega valores no formulário */
+    window.editEnvironment = (i) => {
+      const e = state.ambientes[i];
+      if (!e) return;
+      $('envTipo').value = e.tipo;
+      $('envLargura').value = e.largura;
+      $('envAltura').value = e.altura;
+      $('envProf').value = e.prof;
+      $('envModulos').value = e.modulos;
+      if ($('envPortas')) $('envPortas').value = e.portas || 0;
+      if ($('envGavetas')) $('envGavetas').value = e.gavetas || 0;
+      if ($('envComplexidade')) $('envComplexidade').value = e.complexidade || 'Média';
+      // Remove o item — ao clicar adicionar, será re-criado com os novos valores
+      state.ambientes.splice(i, 1);
+      renderAll();
+      $('envTipo').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // Visual feedback
+      const btn = document.getElementById('addEnvBtn');
+      if (btn) {
+        const orig = btn.textContent;
+        btn.textContent = '↩ Salvar edição';
+        btn.style.background = 'var(--sage)';
+        btn.style.borderColor = 'var(--sage)';
+        setTimeout(() => { btn.textContent = orig; btn.style.background = ''; btn.style.borderColor = ''; }, 4000);
+      }
+    };
+
+    /* SVG inline reusável de pencil/trash */
+    const ICON_EDIT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
+    const ICON_DEL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>';
+
     function renderItems() {
       $('itemsBody').innerHTML = state.items.map((item, i) => `
         <tr>
-          <td>${item.nome}</td>
-          <td><span class="badge">${item.categoria}</span></td>
+          <td>${escapeHtml(item.nome)}</td>
+          <td><span class="badge">${escapeHtml(item.categoria)}</span></td>
           <td>${num(item.qtd).toLocaleString('pt-BR')}</td>
           <td>${BRL.format(num(item.preco))}</td>
           <td>${BRL.format(itemTotal(item))}</td>
-          <td class="no-print"><div class="row-actions"><button class="icon-btn" onclick="removeItem(${i})" title="Remover">×</button></div></td>
+          <td class="no-print">
+            <div class="row-actions">
+              <button class="icon-btn icon-btn--edit" onclick="editItem(${i})" title="Editar" aria-label="Editar item">${ICON_EDIT}</button>
+              <button class="icon-btn icon-btn--del" onclick="removeItem(${i})" title="Remover" aria-label="Remover item">${ICON_DEL}</button>
+            </div>
+          </td>
         </tr>`).join('');
     }
 
     function renderCosts() {
       $('costsBody').innerHTML = state.costs.map((c, i) => `
         <tr>
-          <td>${c.nome}</td>
-          <td><span class="badge">${c.tipo}</span></td>
-          <td class="muted">${c.obs || '—'}</td>
+          <td>${escapeHtml(c.nome)}</td>
+          <td><span class="badge">${escapeHtml(c.tipo)}</span></td>
+          <td class="muted">${escapeHtml(c.obs || '—')}</td>
           <td>${BRL.format(num(c.valor))}</td>
-          <td class="no-print"><div class="row-actions"><button class="icon-btn" onclick="removeCost(${i})" title="Remover">×</button></div></td>
+          <td class="no-print">
+            <div class="row-actions">
+              <button class="icon-btn icon-btn--edit" onclick="editCost(${i})" title="Editar" aria-label="Editar custo">${ICON_EDIT}</button>
+              <button class="icon-btn icon-btn--del" onclick="removeCost(${i})" title="Remover" aria-label="Remover custo">${ICON_DEL}</button>
+            </div>
+          </td>
         </tr>`).join('');
     }
+
+    /* Modal universal de edição */
+    function openEditModal({ title, fields, onSave }) {
+      const modal = document.getElementById('editModal');
+      const titleEl = document.getElementById('editModalTitle');
+      const bodyEl = document.getElementById('editModalBody');
+      const saveBtn = document.getElementById('editModalSave');
+      const cancelBtn = document.getElementById('editModalCancel');
+      const closeBtn = document.getElementById('editModalClose');
+      titleEl.textContent = title;
+      bodyEl.innerHTML = fields.map(f => {
+        if (f.type === 'select') {
+          return `<label>${f.label}<select id="modal-${f.id}">${f.options.map(o => `<option ${o === f.value ? 'selected' : ''}>${escapeHtml(o)}</option>`).join('')}</select></label>`;
+        }
+        if (f.type === 'textarea') {
+          return `<label>${f.label}<textarea id="modal-${f.id}">${escapeHtml(f.value || '')}</textarea></label>`;
+        }
+        return `<label>${f.label}<input id="modal-${f.id}" type="${f.type || 'text'}" ${f.step ? `step="${f.step}"` : ''} value="${escapeHtml(f.value)}"></label>`;
+      }).join('');
+      modal.classList.add('is-open');
+      const close = () => modal.classList.remove('is-open');
+      closeBtn.onclick = close;
+      cancelBtn.onclick = close;
+      saveBtn.onclick = () => {
+        const data = {};
+        fields.forEach(f => { data[f.id] = document.getElementById('modal-' + f.id).value; });
+        onSave(data);
+        close();
+      };
+    }
+
+    /* Editar item (material) */
+    window.editItem = (i) => {
+      const item = state.items[i];
+      if (!item) return;
+      openEditModal({
+        title: 'Editar material',
+        fields: [
+          { id: 'nome', label: 'Nome', value: item.nome },
+          { id: 'categoria', label: 'Categoria', type: 'select', value: item.categoria,
+            options: ['Chapa/Painel','Acabamento','Ferragem','Iluminação','Instalação','Outro'] },
+          { id: 'qtd', label: 'Quantidade', type: 'number', step: '0.01', value: item.qtd },
+          { id: 'preco', label: 'Preço unitário (R$)', type: 'number', step: '0.01', value: item.preco }
+        ],
+        onSave: (data) => {
+          item.nome = data.nome;
+          item.categoria = data.categoria;
+          item.qtd = num(data.qtd);
+          item.preco = num(data.preco);
+          renderAll();
+        }
+      });
+    };
+
+    /* Editar custo */
+    window.editCost = (i) => {
+      const c = state.costs[i];
+      if (!c) return;
+      openEditModal({
+        title: 'Editar custo / despesa',
+        fields: [
+          { id: 'nome', label: 'Descrição', value: c.nome },
+          { id: 'tipo', label: 'Tipo', type: 'select', value: c.tipo,
+            options: ['Custo direto','Custo indireto','Despesa comercial','Despesa administrativa','Imposto','Investimento/Capex'] },
+          { id: 'valor', label: 'Valor (R$)', type: 'number', step: '0.01', value: c.valor },
+          { id: 'obs', label: 'Observação', type: 'textarea', value: c.obs }
+        ],
+        onSave: (data) => {
+          c.nome = data.nome;
+          c.tipo = data.tipo;
+          c.valor = num(data.valor);
+          c.obs = data.obs;
+          renderAll();
+        }
+      });
+    };
 
     function updateKPIs() {
       const k = calculate();
@@ -1751,7 +2470,377 @@
       `;
     }
 
-    function renderAll() { renderEnvironments(); renderItems(); renderCosts(); updateKPIs(); renderHistory(); }
+    function renderAll() { renderEnvironments(); renderItems(); renderCosts(); updateKPIs(); renderHistory(); renderCharts(); }
+
+    /* ═══════════════════════════════════════════════════════════
+       ONDA 2 · GRÁFICOS SVG EDITORIAIS
+       Cada função retorna um <svg>...</svg> string.
+       Filosofia: minimalismo, números claros, decisão >>> decoração.
+       ═══════════════════════════════════════════════════════════ */
+
+    /* Paleta para gráficos (vem dos CSS vars) */
+    const CHART = {
+      gold: '#C9A35C',
+      sage: '#7FA889',
+      amber: '#C9A35C',
+      terra: '#C77B5C',
+      info: '#7C9CF5',
+      muted: 'rgba(245,241,232,0.18)',
+      mutedLight: 'rgba(10,18,32,0.18)',
+      get muted_() { return document.documentElement.dataset.theme === 'light' ? this.mutedLight : this.muted; }
+    };
+
+    /* Classificador cromático (sage / amber / terra) baseado em saúde */
+    function classifyHealth(value, type) {
+      // type: 'margin' | 'discount-room' | 'mat-share' | 'risk-text'
+      if (type === 'margin') {
+        if (value >= 0.25) return 'sage';
+        if (value >= 0.18) return 'amber';
+        return 'terra';
+      }
+      if (type === 'mat-share') {
+        if (value <= 0.30) return 'sage';
+        if (value <= 0.45) return 'amber';
+        return 'terra';
+      }
+      if (type === 'desp-share') {
+        if (value <= 0.10) return 'sage';
+        if (value <= 0.20) return 'amber';
+        return 'terra';
+      }
+      if (type === 'risk-text') {
+        if (value === 'Baixo') return 'sage';
+        if (value === 'Médio') return 'amber';
+        return 'terra';
+      }
+      return '';
+    }
+
+    /* ── Gráfico: Barras horizontais comparativas ── */
+    function chartHBars(data, opts = {}) {
+      // data: [{ label, value, color? }]
+      if (!data.length) return '<div class="chart-empty">Sem dados ainda. Adicione itens para visualizar.</div>';
+      const max = Math.max(...data.map(d => d.value), 1);
+      const rowH = 32, padTop = 12, padBottom = 8, labelW = 140, valueW = 90;
+      const barAreaW = 600 - labelW - valueW;
+      const h = padTop + padBottom + data.length * rowH;
+      const fmt = opts.format || (v => v.toFixed(1));
+
+      const rows = data.map((d, i) => {
+        const y = padTop + i * rowH;
+        const w = (d.value / max) * barAreaW;
+        const color = d.color || CHART.gold;
+        return `
+          <text class="axis-label" x="0" y="${y + 18}" dominant-baseline="middle">${escapeHtml(d.label)}</text>
+          <line class="grid-line" x1="${labelW}" x2="${labelW + barAreaW}" y1="${y + 22}" y2="${y + 22}" />
+          <rect class="bar-rect" x="${labelW}" y="${y + 8}" width="${w}" height="14" rx="2" fill="${color}" opacity="0.85" />
+          <text class="data-value" x="${labelW + barAreaW + 8}" y="${y + 18}" dominant-baseline="middle">${fmt(d.value)}</text>
+        `;
+      }).join('');
+
+      return `<svg class="chart-svg" viewBox="0 0 600 ${h}" preserveAspectRatio="xMinYMin meet" role="img">${rows}</svg>`;
+    }
+
+    /* ── Gráfico: Donut (categoria x valor) ── */
+    function chartDonut(data, opts = {}) {
+      if (!data.length || data.every(d => !d.value)) return '<div class="chart-empty">Sem dados ainda.</div>';
+      const total = data.reduce((acc, d) => acc + d.value, 0);
+      const cx = 110, cy = 110, rOuter = 90, rInner = 60;
+      let angle = -Math.PI / 2;
+
+      const slices = data.map((d, i) => {
+        const portion = d.value / total;
+        const startA = angle;
+        const endA = angle + portion * 2 * Math.PI;
+        angle = endA;
+        const color = d.color || [CHART.gold, CHART.sage, CHART.terra, CHART.info, '#A87FCC', '#7FB8C9'][i % 6];
+
+        const large = portion > 0.5 ? 1 : 0;
+        const x1 = cx + rOuter * Math.cos(startA), y1 = cy + rOuter * Math.sin(startA);
+        const x2 = cx + rOuter * Math.cos(endA), y2 = cy + rOuter * Math.sin(endA);
+        const x3 = cx + rInner * Math.cos(endA), y3 = cy + rInner * Math.sin(endA);
+        const x4 = cx + rInner * Math.cos(startA), y4 = cy + rInner * Math.sin(startA);
+        const path = `M${x1} ${y1} A${rOuter} ${rOuter} 0 ${large} 1 ${x2} ${y2} L${x3} ${y3} A${rInner} ${rInner} 0 ${large} 0 ${x4} ${y4} Z`;
+        return `<path d="${path}" fill="${color}" opacity="0.88" stroke="var(--ink)" stroke-width="2"></path>`;
+      }).join('');
+
+      const legend = data.map((d, i) => {
+        const color = d.color || [CHART.gold, CHART.sage, CHART.terra, CHART.info, '#A87FCC', '#7FB8C9'][i % 6];
+        const portion = ((d.value / total) * 100).toFixed(1);
+        return `
+          <div style="display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;">
+            <span style="width:10px;height:10px;background:${color};border-radius:2px;flex-shrink:0;"></span>
+            <span style="color:var(--paper-80);flex:1;text-transform:uppercase;">${escapeHtml(d.label)}</span>
+            <span style="color:var(--gold);font-weight:600;">${portion}%</span>
+          </div>
+        `;
+      }).join('');
+
+      return `
+        <div style="display:grid;grid-template-columns:220px 1fr;gap:24px;align-items:center;">
+          <svg class="chart-svg" viewBox="0 0 220 220" style="max-width:220px;" role="img">
+            ${slices}
+            <text x="110" y="106" text-anchor="middle" class="data-value" style="font-size:11px;fill:var(--paper-60);text-transform:uppercase;letter-spacing:.12em;">Total</text>
+            <text x="110" y="124" text-anchor="middle" style="font-family:var(--font-display);font-size:18px;font-weight:700;fill:var(--paper);">${opts.totalLabel || total.toFixed(0)}</text>
+          </svg>
+          <div style="display:grid;gap:10px;">${legend}</div>
+        </div>
+      `;
+    }
+
+    /* ── Gráfico: Barras stacked (composição) ── */
+    function chartStacked(segments, opts = {}) {
+      // segments: [{ label, value, color }]
+      const total = segments.reduce((acc, s) => acc + s.value, 0);
+      if (!total) return '<div class="chart-empty">Sem dados ainda.</div>';
+
+      let acc = 0;
+      const w = 600, h = 36;
+      const segs = segments.map((s, i) => {
+        const x = (acc / total) * w;
+        const sw = (s.value / total) * w;
+        acc += s.value;
+        return `<rect x="${x}" y="6" width="${sw}" height="${h - 12}" fill="${s.color}" opacity="0.92" />`;
+      }).join('');
+
+      const legend = segments.map((s) => {
+        const portion = ((s.value / total) * 100).toFixed(1);
+        return `
+          <div style="display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;">
+            <span style="width:10px;height:10px;background:${s.color};border-radius:2px;flex-shrink:0;"></span>
+            <span style="color:var(--paper-80);text-transform:uppercase;flex:1;">${escapeHtml(s.label)}</span>
+            <span style="color:var(--paper);font-weight:600;">${portion}%</span>
+            <span style="color:var(--paper-60);">${BRL.format(s.value)}</span>
+          </div>
+        `;
+      }).join('');
+
+      return `
+        <svg class="chart-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="height:${h}px;" role="img">${segs}</svg>
+        <div style="display:grid;gap:8px;margin-top:14px;">${legend}</div>
+      `;
+    }
+
+    /* ── Gráfico: 3 estratégias de preço (comparativo de barras verticais) ── */
+    function chartPriceStrategies(min, ideal, premium) {
+      if (!ideal) return '<div class="chart-empty">Configure preço-base e materiais para visualizar.</div>';
+      const data = [
+        { label: 'Mínimo', value: min, color: CHART.terra, hint: 'Defesa' },
+        { label: 'Ideal', value: ideal, color: CHART.gold, hint: 'Recomendado' },
+        { label: 'Premium', value: premium, color: CHART.sage, hint: 'Aspiração' }
+      ];
+      const max = Math.max(...data.map(d => d.value), 1) * 1.1;
+      const w = 600, h = 240, padBottom = 60, padTop = 20, padLeft = 20, padRight = 20;
+      const barAreaW = w - padLeft - padRight;
+      const barW = barAreaW / 3 - 32;
+      const barAreaH = h - padBottom - padTop;
+
+      const bars = data.map((d, i) => {
+        const x = padLeft + i * (barAreaW / 3) + (barAreaW / 6) - barW / 2;
+        const bh = (d.value / max) * barAreaH;
+        const y = padTop + barAreaH - bh;
+        return `
+          <rect class="bar-rect" x="${x}" y="${y}" width="${barW}" height="${bh}" rx="3" fill="${d.color}" opacity="0.9" />
+          <text class="data-value" x="${x + barW / 2}" y="${y - 8}" text-anchor="middle">${BRL.format(d.value)}</text>
+          <text class="axis-label" x="${x + barW / 2}" y="${padTop + barAreaH + 22}" text-anchor="middle" style="text-transform:uppercase;letter-spacing:.16em;">${d.label}</text>
+          <text class="axis-label" x="${x + barW / 2}" y="${padTop + barAreaH + 40}" text-anchor="middle" style="fill:var(--paper-40);font-size:9px;">${d.hint}</text>
+        `;
+      }).join('');
+
+      return `<svg class="chart-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMin meet" role="img">
+        <line class="axis-line" x1="${padLeft}" x2="${w - padRight}" y1="${padTop + barAreaH}" y2="${padTop + barAreaH}" />
+        ${bars}
+      </svg>`;
+    }
+
+    /* ── Gráfico: Curva desconto x margem ── */
+    function chartDiscountCurve(custoTotal, precoBase) {
+      if (!precoBase || !custoTotal) return '<div class="chart-empty">Configure custo e preço para visualizar.</div>';
+      const points = [];
+      for (let pct = 0; pct <= 30; pct += 2) {
+        const preco = precoBase * (1 - pct / 100);
+        const margem = preco > 0 ? (preco - custoTotal) / preco : 0;
+        points.push({ desc: pct, margem });
+      }
+
+      const w = 600, h = 220, padLeft = 50, padBottom = 40, padTop = 16, padRight = 16;
+      const innerW = w - padLeft - padRight;
+      const innerH = h - padTop - padBottom;
+      const xMax = 30, yMax = Math.max(0.4, points[0].margem * 1.1), yMin = Math.min(-0.05, points[points.length - 1].margem - 0.02);
+
+      const xToPx = x => padLeft + (x / xMax) * innerW;
+      const yToPx = y => padTop + innerH - ((y - yMin) / (yMax - yMin)) * innerH;
+
+      // Áreas de saúde (sage / amber / terra)
+      const zone = (yFrom, yTo, color, op) => {
+        const y1 = yToPx(Math.min(yMax, yTo)), y2 = yToPx(Math.max(yMin, yFrom));
+        return `<rect x="${padLeft}" y="${y1}" width="${innerW}" height="${y2 - y1}" fill="${color}" opacity="${op}" />`;
+      };
+
+      const zonas = `
+        ${zone(0.25, yMax, CHART.sage, 0.10)}
+        ${zone(0.18, 0.25, CHART.gold, 0.08)}
+        ${zone(yMin, 0.18, CHART.terra, 0.08)}
+      `;
+
+      // Grid horizontal
+      const gridLines = [0, 0.10, 0.20, 0.30].filter(v => v >= yMin && v <= yMax).map(v => `
+        <line class="grid-line" x1="${padLeft}" x2="${padLeft + innerW}" y1="${yToPx(v)}" y2="${yToPx(v)}" />
+        <text class="axis-label" x="${padLeft - 8}" y="${yToPx(v)}" text-anchor="end" dominant-baseline="middle">${(v * 100).toFixed(0)}%</text>
+      `).join('');
+
+      // Linha
+      const path = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${xToPx(p.desc)} ${yToPx(p.margem)}`).join(' ');
+
+      // Pontos-chave: 0, 10, 20%
+      const keyPoints = points.filter(p => [0, 10, 20].includes(p.desc));
+      const keys = keyPoints.map(p => `
+        <circle cx="${xToPx(p.desc)}" cy="${yToPx(p.margem)}" r="4" fill="${CHART.gold}" stroke="var(--ink)" stroke-width="2" />
+        <text class="data-value" x="${xToPx(p.desc)}" y="${yToPx(p.margem) - 10}" text-anchor="middle" style="font-size:10px;">${(p.margem * 100).toFixed(1)}%</text>
+      `).join('');
+
+      // Eixo X
+      const xLabels = [0, 10, 20, 30].map(v => `
+        <text class="axis-label" x="${xToPx(v)}" y="${padTop + innerH + 20}" text-anchor="middle">${v}%</text>
+      `).join('');
+
+      return `<svg class="chart-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMin meet" role="img">
+        ${zonas}
+        ${gridLines}
+        <line class="axis-line" x1="${padLeft}" x2="${padLeft + innerW}" y1="${padTop + innerH}" y2="${padTop + innerH}" />
+        <path d="${path}" fill="none" stroke="${CHART.gold}" stroke-width="2.5" stroke-linecap="round" />
+        ${keys}
+        ${xLabels}
+        <text class="axis-label" x="${padLeft + innerW / 2}" y="${h - 8}" text-anchor="middle" style="text-transform:uppercase;letter-spacing:.14em;">Desconto concedido</text>
+      </svg>`;
+    }
+
+    /* ── Helper: HTML escape simples ── */
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[c]);
+    }
+
+    /* ── Render principal: chama os gráficos por aba ── */
+    function renderCharts() {
+      const k = calculate();
+
+      // Ambientes — barras de m² por ambiente
+      const elAmb = document.getElementById('chart-ambientes');
+      if (elAmb) {
+        const data = (state.ambientes || []).map(e => ({
+          label: e.tipo || 'Sem nome',
+          value: (num(e.largura) * num(e.altura)) || 0,
+          color: CHART.gold
+        })).filter(d => d.value > 0).sort((a,b) => b.value - a.value);
+        elAmb.innerHTML = chartHBars(data, { format: v => v.toFixed(2) + ' m² (frente)' });
+      }
+
+      // Materiais — donut por categoria + ranking top 10 valor
+      const elMatDonut = document.getElementById('chart-materiais-donut');
+      if (elMatDonut) {
+        const cats = {};
+        (state.items || []).forEach(it => {
+          const cat = it.categoria || 'Outros';
+          cats[cat] = (cats[cat] || 0) + itemTotal(it);
+        });
+        const data = Object.entries(cats)
+          .map(([label, value]) => ({ label, value }))
+          .sort((a,b) => b.value - a.value);
+        elMatDonut.innerHTML = chartDonut(data, { totalLabel: BRL.format(data.reduce((a,b)=>a+b.value,0)) });
+      }
+      const elMatTop = document.getElementById('chart-materiais-top');
+      if (elMatTop) {
+        const top = [...(state.items || [])]
+          .map(it => ({ label: it.nome || 'Item', value: itemTotal(it) }))
+          .filter(d => d.value > 0)
+          .sort((a,b) => b.value - a.value)
+          .slice(0, 10);
+        elMatTop.innerHTML = chartHBars(top, { format: v => BRL.format(v) });
+      }
+
+      // Custos & despesas — stacked
+      const elCustos = document.getElementById('chart-custos');
+      if (elCustos) {
+        const segs = [
+          { label: 'Custo direto', value: k.custoDireto, color: CHART.sage },
+          { label: 'Custo indireto', value: k.custoIndireto, color: CHART.info },
+          { label: 'Despesas', value: k.despesas, color: CHART.terra },
+          { label: 'Impostos fixos', value: k.impostosFixos, color: '#A87FCC' },
+          { label: 'Capex', value: k.capex, color: CHART.muted_ }
+        ].filter(s => s.value > 0);
+        elCustos.innerHTML = chartStacked(segs);
+      }
+
+      // Preço — 3 estratégias
+      const elPreco = document.getElementById('chart-preco');
+      if (elPreco) {
+        elPreco.innerHTML = chartPriceStrategies(k.precoMin, k.precoIdeal, k.precoPremium);
+      }
+
+      // Preço — composição do markup (stacked)
+      const elPrecoComp = document.getElementById('chart-preco-composicao');
+      if (elPrecoComp) {
+        const segs = [
+          { label: 'Materiais', value: k.materiais, color: CHART.gold },
+          { label: 'Custo direto', value: k.custoDireto, color: CHART.sage },
+          { label: 'Custo indireto', value: k.custoIndireto, color: CHART.info },
+          { label: 'Despesas + impostos', value: k.despesas + k.impostosFixos, color: CHART.terra },
+          { label: 'Margem (lucro)', value: Math.max(0, k.preco - k.baseCusto - k.despesas - k.impostosFixos), color: '#A87FCC' }
+        ].filter(s => s.value > 0);
+        elPrecoComp.innerHTML = chartStacked(segs);
+      }
+
+      // Simulações — curva desconto-vs-margem
+      const elSim = document.getElementById('chart-simulacoes');
+      if (elSim) {
+        elSim.innerHTML = chartDiscountCurve(k.baseCusto + k.despesas + k.impostosFixos, k.preco);
+      }
+
+      // Histórico — barras por mês
+      const elHist = document.getElementById('chart-historico');
+      if (elHist) {
+        try {
+          const hist = JSON.parse(localStorage.getItem('mi-history') || '[]');
+          const monthMap = {};
+          hist.forEach(h => {
+            const d = new Date(h.savedAt || Date.now());
+            const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+            monthMap[key] = (monthMap[key] || 0) + (h.totals?.preco || 0);
+          });
+          const data = Object.entries(monthMap)
+            .map(([label, value]) => ({ label, value, color: CHART.gold }))
+            .sort((a,b) => a.label.localeCompare(b.label));
+          elHist.innerHTML = data.length ? chartHBars(data, { format: v => BRL.format(v) }) : '<div class="chart-empty">Sem projetos salvos no histórico ainda.</div>';
+        } catch(e) {
+          elHist.innerHTML = '<div class="chart-empty">Histórico indisponível.</div>';
+        }
+      }
+
+      // KPIs — aplicar sistema cromático aos cards
+      applyKPIChromatic(k);
+    }
+
+    /* ── Aplicar sistema cromático sage/amber/terra nos KPIs ── */
+    function applyKPIChromatic(k) {
+      const tag = (id, cls) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.classList.remove('kpi--sage', 'kpi--amber', 'kpi--terra', 'good', 'warn');
+        if (cls) el.classList.add('kpi--' + cls);
+      };
+      // Margem líquida
+      tag('marginCard', classifyHealth(k.margemLiquida, 'margin'));
+      // Materiais % (quanto menor, melhor)
+      const matShare = k.preco ? k.materiais / k.preco : 0;
+      tag('kpiMatPercCard', classifyHealth(matShare, 'mat-share'));
+      // Despesas %
+      const despShare = k.preco ? (k.despesas + k.impostosFixos) / k.preco : 0;
+      tag('kpiDespPercCard', classifyHealth(despShare, 'desp-share'));
+      // Risco
+      const risk = k.margemLiquida < .18 ? 'Alto' : k.margemLiquida < .25 ? 'Médio' : 'Baixo';
+      tag('kpiRiscoCard', classifyHealth(risk, 'risk-text'));
+    }
+
 
     window.removeItem = (i) => { state.items.splice(i, 1); renderAll(); };
     window.removeCost = (i) => { state.costs.splice(i, 1); renderAll(); };
@@ -1772,9 +2861,10 @@
     });
 
     $('printProposalBtn').addEventListener('click', () => {
-      document.body.classList.add('print-proposal');
-      window.print();
-      setTimeout(() => document.body.classList.remove('print-proposal'), 500);
+      // Garante que a proposta está atualizada com os últimos dados
+      buildProposalPdf(calculate());
+      // Pequeno delay para o DOM atualizar antes de imprimir
+      setTimeout(() => window.print(), 100);
     });
 
     $('saveHistoryBtn').addEventListener('click', () => {
@@ -1822,6 +2912,10 @@
         tab.setAttribute('aria-selected', 'true');
         document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
         $('panel-' + tab.dataset.tab).classList.remove('hidden');
+        // Re-render gráficos ao trocar de tab
+        setTimeout(renderCharts, 50);
+        // Volta para o topo da viewport sem causar bug de stacking
+        window.scrollTo({ top: document.querySelector('.tabs-wrap').offsetTop - 80, behavior: 'smooth' });
       });
     });
 
@@ -1979,5 +3073,22 @@
     populateCatalogs();
     renderAll();
   </script>
+
+  <!-- Modal universal de edição -->
+  <div class="modal-backdrop no-print" id="editModal" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
+    <div class="modal">
+      <div class="modal__head">
+        <h3 class="modal__title" id="editModalTitle">Editar</h3>
+        <button class="modal__close" id="editModalClose" type="button" aria-label="Fechar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal__body" id="editModalBody"></div>
+      <div class="modal__actions">
+        <button class="btn" id="editModalCancel" type="button">Cancelar</button>
+        <button class="btn btn-primary" id="editModalSave" type="button">Salvar alterações</button>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
