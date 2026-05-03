@@ -932,6 +932,181 @@
       color: var(--paper-80);
     }
 
+    /* ── Avatar (gerado a partir da inicial do email) ── */
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold) 0%, #B89248 100%);
+      color: var(--ink);
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      letter-spacing: -0.02em;
+      font-variation-settings: "opsz" 144;
+      text-transform: uppercase;
+      box-shadow: 0 0 0 1px var(--gold-line);
+    }
+    .avatar--lg { width: 48px; height: 48px; font-size: 22px; }
+
+    /* ── Account menu dropdown ── */
+    .account-menu {
+      position: fixed;
+      z-index: 50;
+      min-width: 260px;
+      max-width: calc(100vw - var(--sp-4) * 2);
+      background: var(--ink-2);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--r-md);
+      box-shadow: var(--shadow-card), 0 20px 40px -10px rgba(0,0,0,0.5);
+      padding: var(--sp-2);
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      animation: menuIn 220ms var(--ease-out);
+    }
+    .account-menu.is-open { display: flex; }
+    @keyframes menuIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .account-menu__head {
+      display: flex;
+      gap: var(--sp-3);
+      align-items: center;
+      padding: var(--sp-3) var(--sp-3) var(--sp-4);
+      border-bottom: 1px solid var(--line);
+      margin-bottom: var(--sp-2);
+    }
+    .account-menu__id {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .account-menu__email {
+      font-family: var(--font-body);
+      font-size: var(--fs-sm);
+      color: var(--paper);
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .account-menu__status {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      font-family: var(--font-mono);
+      font-size: var(--fs-3xs);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--sage);
+    }
+    .account-menu__status::before {
+      content: "";
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--sage);
+      box-shadow: 0 0 0 2px var(--sage-soft);
+    }
+    .account-menu__item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      padding: var(--sp-3);
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: var(--r-sm);
+      color: var(--paper-80);
+      font-family: var(--font-body);
+      font-size: var(--fs-sm);
+      cursor: pointer;
+      text-align: left;
+      transition: background-color var(--dur-fast) var(--ease-out),
+                  color var(--dur-fast) var(--ease-out),
+                  border-color var(--dur-fast) var(--ease-out);
+    }
+    .account-menu__item:hover {
+      background: var(--gold-soft);
+      color: var(--paper);
+      border-color: var(--gold-line);
+    }
+    .account-menu__item svg {
+      width: 16px; height: 16px;
+      flex-shrink: 0;
+      stroke: currentColor;
+    }
+    .account-menu__item--danger { color: var(--terra); }
+    .account-menu__item--danger:hover {
+      background: var(--terra-soft);
+      color: var(--terra);
+      border-color: var(--terra-line);
+    }
+    .account-menu__sep {
+      height: 1px;
+      background: var(--line);
+      margin: var(--sp-2) 0;
+    }
+
+    /* Confirmação de logout inline (radica no item) */
+    .account-menu__item--confirm {
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--sp-2);
+      cursor: default;
+      padding: var(--sp-3);
+      background: var(--terra-soft);
+      border-color: var(--terra-line);
+      color: var(--paper);
+    }
+    .account-menu__item--confirm:hover {
+      background: var(--terra-soft);
+      color: var(--paper);
+      border-color: var(--terra-line);
+    }
+    .account-menu__confirm-text {
+      font-size: var(--fs-xs);
+      color: var(--paper-80);
+    }
+    .account-menu__confirm-actions {
+      display: flex;
+      gap: var(--sp-2);
+    }
+    .account-menu__confirm-btn {
+      flex: 1;
+      padding: var(--sp-2) var(--sp-3);
+      border-radius: var(--r-sm);
+      border: 1px solid var(--line-strong);
+      background: transparent;
+      color: var(--paper-80);
+      font-family: var(--font-mono);
+      font-size: var(--fs-3xs);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all var(--dur-fast) var(--ease-out);
+    }
+    .account-menu__confirm-btn:hover {
+      border-color: var(--paper-60);
+      color: var(--paper);
+    }
+    .account-menu__confirm-btn--danger {
+      background: var(--terra);
+      border-color: var(--terra);
+      color: var(--paper);
+    }
+    .account-menu__confirm-btn--danger:hover {
+      background: var(--terra);
+      filter: brightness(1.1);
+      color: var(--paper);
+    }
+
     /* Lista de projetos da nuvem */
     .cloud-projects {
       display: grid;
@@ -1563,8 +1738,9 @@
             <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
           </svg>
         </button>
-        <button class="cloud-chip" id="cloudChip" type="button" aria-label="Conta na nuvem">
-          <span class="cloud-chip__dot" aria-hidden="true"></span>
+        <button class="cloud-chip" id="cloudChip" type="button" aria-label="Conta na nuvem" aria-haspopup="menu" aria-expanded="false">
+          <span class="cloud-chip__dot" id="cloudChipDot" aria-hidden="true"></span>
+          <span class="avatar" id="cloudChipAvatar" style="display:none;width:24px;height:24px;font-size:11px" aria-hidden="true"></span>
           <span class="cloud-chip__label" id="cloudChipLabel">Entrar</span>
           <span class="cloud-chip__email" id="cloudChipEmail" style="display:none"></span>
         </button>
@@ -3400,6 +3576,8 @@
     /* ── UI · cloud chip ── */
     function updateCloudChip() {
       const chip = $('cloudChip');
+      const dot = $('cloudChipDot');
+      const avatar = $('cloudChipAvatar');
       const label = $('cloudChipLabel');
       const emailEl = $('cloudChipEmail');
       if (!chip) return;
@@ -3407,9 +3585,14 @@
       chip.classList.remove('cloud-chip--online', 'cloud-chip--offline');
       if (cloudState.user) {
         chip.classList.add('cloud-chip--online');
-        chip.setAttribute('aria-label', `Conta: ${cloudState.user.email} · Clique para gerenciar`);
-        chip.title = `Logado como ${cloudState.user.email}`;
+        chip.setAttribute('aria-label', `Conta: ${cloudState.user.email} · Clique para abrir menu`);
+        chip.title = cloudState.user.email;
         if (label) label.style.display = 'none';
+        if (dot) dot.style.display = 'none';
+        if (avatar) {
+          avatar.style.display = '';
+          avatar.textContent = (cloudState.user.email || '?').charAt(0).toUpperCase();
+        }
         if (emailEl) {
           emailEl.style.display = '';
           emailEl.textContent = cloudState.user.email;
@@ -3417,8 +3600,12 @@
       } else {
         chip.setAttribute('aria-label', 'Não conectado · Clique para entrar');
         chip.title = 'Não conectado';
+        if (dot) dot.style.display = '';
+        if (avatar) avatar.style.display = 'none';
         if (label) { label.style.display = ''; label.textContent = 'Entrar'; }
         if (emailEl) emailEl.style.display = 'none';
+        // Garante que o menu está fechado
+        closeAccountMenu();
       }
     }
 
@@ -3504,8 +3691,156 @@
       if (!cloudState.user) {
         openAuthModal('login');
       } else {
-        // Logado → abre modal de projetos
-        openCloudProjectsModal();
+        // Logado → toggle menu
+        const menu = $('accountMenu');
+        if (menu.classList.contains('is-open')) {
+          closeAccountMenu();
+        } else {
+          openAccountMenu();
+        }
+      }
+    }
+
+    /* ── UI · account menu ── */
+    function openAccountMenu() {
+      const chip = $('cloudChip');
+      const menu = $('accountMenu');
+      if (!chip || !menu || !cloudState.user) return;
+
+      // Popular dados
+      const email = cloudState.user.email || '';
+      $('accountMenuAvatar').textContent = (email.charAt(0) || '?').toUpperCase();
+      $('accountMenuEmail').textContent = email;
+
+      // Reset estado de confirmação de logout
+      $('accountMenuLogoutConfirm').style.display = 'none';
+      $('accountMenuLogout').style.display = '';
+
+      // Posicionar (alinhado à direita do chip)
+      menu.classList.add('is-open');
+      chip.setAttribute('aria-expanded', 'true');
+      const rect = chip.getBoundingClientRect();
+      const menuW = menu.offsetWidth || 260;
+      const viewportW = window.innerWidth;
+      // Alinhamento: borda direita do menu = borda direita do chip; bate na direita do viewport se transbordar
+      let left = rect.right - menuW;
+      if (left < 8) left = 8;
+      if (left + menuW > viewportW - 8) left = viewportW - menuW - 8;
+      menu.style.left = left + 'px';
+      menu.style.top = (rect.bottom + 8) + 'px';
+    }
+
+    function closeAccountMenu() {
+      const menu = $('accountMenu');
+      const chip = $('cloudChip');
+      if (menu) menu.classList.remove('is-open');
+      if (chip) chip.setAttribute('aria-expanded', 'false');
+    }
+
+    /* ── Logout (com confirmação inline) ── */
+    function startLogoutConfirm() {
+      $('accountMenuLogout').style.display = 'none';
+      $('accountMenuLogoutConfirm').style.display = '';
+    }
+
+    function cancelLogoutConfirm() {
+      $('accountMenuLogoutConfirm').style.display = 'none';
+      $('accountMenuLogout').style.display = '';
+    }
+
+    async function doLogout() {
+      try {
+        await cloudAuth.signOut();
+        // onAuthStateChange já atualiza tudo
+        closeAccountMenu();
+      } catch (err) {
+        alert('Erro ao sair: ' + (err.message || 'desconhecido'));
+      }
+    }
+
+    /* ── Modal alterar senha ── */
+    function openPasswordModal() {
+      closeAccountMenu();
+      $('passwordCurrent').value = '';
+      $('passwordNew').value = '';
+      $('passwordConfirm').value = '';
+      hidePasswordMessage();
+      $('passwordModal').classList.add('is-open');
+      setTimeout(() => $('passwordCurrent').focus(), 100);
+    }
+
+    function closePasswordModal() {
+      $('passwordModal').classList.remove('is-open');
+    }
+
+    function showPasswordMessage(text, kind = 'info') {
+      const m = $('passwordMessage');
+      m.className = `auth-message auth-message--${kind} is-visible`;
+      m.textContent = text;
+    }
+
+    function hidePasswordMessage() {
+      const m = $('passwordMessage');
+      m.classList.remove('is-visible');
+      m.textContent = '';
+    }
+
+    async function handlePasswordSubmit() {
+      const current = $('passwordCurrent').value;
+      const next = $('passwordNew').value;
+      const confirm = $('passwordConfirm').value;
+
+      // Validação client-side
+      if (!current || !next || !confirm) {
+        showPasswordMessage('Preencha todos os campos.', 'error');
+        return;
+      }
+      if (next.length < 6) {
+        showPasswordMessage('Nova senha deve ter no mínimo 6 caracteres.', 'error');
+        return;
+      }
+      if (next !== confirm) {
+        showPasswordMessage('Nova senha e confirmação não coincidem.', 'error');
+        return;
+      }
+      if (next === current) {
+        showPasswordMessage('A nova senha deve ser diferente da atual.', 'error');
+        return;
+      }
+
+      const btn = $('passwordSubmit');
+      const original = btn.textContent;
+      btn.textContent = '...';
+      btn.disabled = true;
+
+      try {
+        // 1) Re-autenticar com senha atual (verifica)
+        const email = cloudState.user.email;
+        const { error: signErr } = await supabase.auth.signInWithPassword({ email, password: current });
+        if (signErr) {
+          const msg = (signErr.message || '').toLowerCase();
+          if (msg.includes('invalid login credentials')) {
+            showPasswordMessage('Senha atual incorreta.', 'error');
+          } else {
+            showPasswordMessage(signErr.message || 'Erro ao validar senha atual.', 'error');
+          }
+          return;
+        }
+
+        // 2) Atualizar para a nova senha
+        const { error: updErr } = await supabase.auth.updateUser({ password: next });
+        if (updErr) {
+          showPasswordMessage(updErr.message || 'Erro ao atualizar senha.', 'error');
+          return;
+        }
+
+        showPasswordMessage('Senha alterada com sucesso.', 'success');
+        setTimeout(closePasswordModal, 1500);
+      } catch (err) {
+        showPasswordMessage(err.message || 'Erro inesperado.', 'error');
+      } finally {
+        btn.textContent = original;
+        btn.disabled = false;
       }
     }
 
@@ -3715,16 +4050,49 @@
     $('cloudProjectsClose2').addEventListener('click', closeCloudProjectsModal);
     $('cloudProjectsRefresh').addEventListener('click', refreshCloudProjects);
 
+    // Account menu wiring
+    $('accountMenuProjects').addEventListener('click', () => {
+      closeAccountMenu();
+      openCloudProjectsModal();
+    });
+    $('accountMenuPassword').addEventListener('click', openPasswordModal);
+    $('accountMenuLogout').addEventListener('click', startLogoutConfirm);
+    $('accountMenuLogoutCancel').addEventListener('click', cancelLogoutConfirm);
+    $('accountMenuLogoutDo').addEventListener('click', doLogout);
+
+    // Password modal wiring
+    $('passwordModalClose').addEventListener('click', closePasswordModal);
+    $('passwordCancel').addEventListener('click', closePasswordModal);
+    $('passwordSubmit').addEventListener('click', handlePasswordSubmit);
+    $('passwordConfirm').addEventListener('keydown', (e) => { if (e.key === 'Enter') handlePasswordSubmit(); });
+
     // Backdrops fecham modais
     $('authModal').addEventListener('click', (e) => { if (e.target === $('authModal')) closeAuthModal(); });
     $('cloudProjectsModal').addEventListener('click', (e) => { if (e.target === $('cloudProjectsModal')) closeCloudProjectsModal(); });
+    $('passwordModal').addEventListener('click', (e) => { if (e.target === $('passwordModal')) closePasswordModal(); });
 
-    // ESC fecha modais
+    // Click fora fecha o account menu
+    document.addEventListener('click', (e) => {
+      const menu = $('accountMenu');
+      const chip = $('cloudChip');
+      if (!menu || !menu.classList.contains('is-open')) return;
+      if (menu.contains(e.target) || chip.contains(e.target)) return;
+      closeAccountMenu();
+    });
+
+    // ESC fecha modais e menu
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeAuthModal();
         closeCloudProjectsModal();
+        closePasswordModal();
+        closeAccountMenu();
       }
+    });
+
+    // Reposicionar menu se janela mudar tamanho
+    window.addEventListener('resize', () => {
+      if ($('accountMenu').classList.contains('is-open')) openAccountMenu();
     });
 
     // Botão "Salvar na nuvem"
@@ -3794,6 +4162,78 @@
       <div class="modal__actions">
         <button class="btn" id="cloudProjectsRefresh" type="button">Atualizar lista</button>
         <button class="btn btn-primary" id="cloudProjectsClose2" type="button">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Account menu (dropdown ao clicar no chip quando logado) -->
+  <div class="account-menu no-print" id="accountMenu" role="menu" aria-labelledby="cloudChip">
+    <div class="account-menu__head">
+      <span class="avatar avatar--lg" id="accountMenuAvatar" aria-hidden="true">U</span>
+      <div class="account-menu__id">
+        <span class="account-menu__email" id="accountMenuEmail">—</span>
+        <span class="account-menu__status">Conectado</span>
+      </div>
+    </div>
+    <button class="account-menu__item" id="accountMenuProjects" type="button" role="menuitem">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/>
+      </svg>
+      <span>Meus projetos</span>
+    </button>
+    <button class="account-menu__item" id="accountMenuPassword" type="button" role="menuitem">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3" y="11" width="18" height="11" rx="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+      <span>Alterar senha</span>
+    </button>
+    <div class="account-menu__sep"></div>
+    <button class="account-menu__item account-menu__item--danger" id="accountMenuLogout" type="button" role="menuitem">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+      <span>Sair da conta</span>
+    </button>
+    <div class="account-menu__item account-menu__item--confirm" id="accountMenuLogoutConfirm" style="display:none">
+      <span class="account-menu__confirm-text">Tem certeza que deseja sair?</span>
+      <div class="account-menu__confirm-actions">
+        <button class="account-menu__confirm-btn" id="accountMenuLogoutCancel" type="button">Cancelar</button>
+        <button class="account-menu__confirm-btn account-menu__confirm-btn--danger" id="accountMenuLogoutDo" type="button">Sair</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: alterar senha -->
+  <div class="modal-backdrop no-print" id="passwordModal" role="dialog" aria-modal="true" aria-labelledby="passwordModalTitle">
+    <div class="modal">
+      <div class="modal__head">
+        <div>
+          <div class="auth-eyebrow">Conta</div>
+          <h3 class="modal__title" id="passwordModalTitle">Alterar senha</h3>
+        </div>
+        <button class="modal__close" id="passwordModalClose" type="button" aria-label="Fechar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="auth-message" id="passwordMessage" role="status"></div>
+      <div class="modal__body">
+        <label>Senha atual
+          <input id="passwordCurrent" type="password" autocomplete="current-password" placeholder="Digite sua senha atual">
+        </label>
+        <label>Nova senha
+          <input id="passwordNew" type="password" autocomplete="new-password" placeholder="Mínimo 6 caracteres">
+        </label>
+        <label>Confirmar nova senha
+          <input id="passwordConfirm" type="password" autocomplete="new-password" placeholder="Repita a nova senha">
+        </label>
+        <p class="muted small">Por segurança, a senha atual é validada antes da troca. A nova senha deve ter no mínimo 6 caracteres.</p>
+      </div>
+      <div class="modal__actions">
+        <button class="btn" id="passwordCancel" type="button">Cancelar</button>
+        <button class="btn btn-primary" id="passwordSubmit" type="button">Alterar senha</button>
       </div>
     </div>
   </div>
