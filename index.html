@@ -824,6 +824,208 @@
       border-radius: var(--r-md);
     }
 
+    /* ── ONDA 3 · SUPABASE INTEGRATION ── */
+
+    /* Cloud status chip (no topbar) */
+    .cloud-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-2);
+      padding: var(--sp-2) var(--sp-3);
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      background: transparent;
+      color: var(--paper-80);
+      font-family: var(--font-mono);
+      font-size: var(--fs-3xs);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: border-color var(--dur-fast) var(--ease-out),
+                  background-color var(--dur-fast) var(--ease-out),
+                  color var(--dur-fast) var(--ease-out);
+      min-height: 38px;
+    }
+    .cloud-chip:hover {
+      border-color: var(--gold-line);
+      background: var(--gold-soft);
+      color: var(--paper);
+    }
+    .cloud-chip__dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--paper-40);
+      flex-shrink: 0;
+    }
+    .cloud-chip--online .cloud-chip__dot { background: var(--sage); box-shadow: 0 0 0 3px var(--sage-soft); }
+    .cloud-chip--offline .cloud-chip__dot { background: var(--terra); }
+    .cloud-chip__email {
+      max-width: 18ch;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      text-transform: none;
+      letter-spacing: 0.05em;
+    }
+    @media (max-width: 720px) {
+      .cloud-chip__email, .cloud-chip__label { display: none; }
+      .cloud-chip { padding: 0; width: 38px; height: 38px; justify-content: center; }
+    }
+
+    /* Auth modal — herda .modal-backdrop / .modal */
+    .auth-tabs {
+      display: flex;
+      gap: var(--sp-1);
+      margin-bottom: var(--sp-4);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: var(--sp-3);
+    }
+    .auth-tab {
+      flex: 1;
+      padding: var(--sp-3);
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: var(--r-sm);
+      color: var(--paper-60);
+      font-family: var(--font-mono);
+      font-size: var(--fs-3xs);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all var(--dur-fast) var(--ease-out);
+    }
+    .auth-tab:hover { color: var(--paper); }
+    .auth-tab[aria-selected="true"] {
+      color: var(--gold);
+      border-color: var(--gold-line);
+      background: var(--gold-soft);
+    }
+    .auth-eyebrow {
+      font-family: var(--font-mono);
+      font-size: var(--fs-3xs);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: var(--sp-2);
+    }
+    .auth-message {
+      padding: var(--sp-3) var(--sp-4);
+      border-radius: var(--r-sm);
+      font-size: var(--fs-sm);
+      margin-bottom: var(--sp-3);
+      display: none;
+    }
+    .auth-message.is-visible { display: block; }
+    .auth-message--error {
+      border-left: 3px solid var(--terra);
+      background: var(--terra-soft);
+      color: var(--paper);
+    }
+    .auth-message--success {
+      border-left: 3px solid var(--sage);
+      background: var(--sage-soft);
+      color: var(--paper);
+    }
+    .auth-message--info {
+      border-left: 3px solid var(--gold);
+      background: var(--gold-soft);
+      color: var(--paper-80);
+    }
+
+    /* Lista de projetos da nuvem */
+    .cloud-projects {
+      display: grid;
+      gap: var(--sp-3);
+    }
+    .cloud-project {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: var(--sp-3);
+      padding: var(--sp-4);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--r-md);
+      background: rgba(245,241,232,.025);
+      transition: border-color var(--dur-fast) var(--ease-out),
+                  transform var(--dur-fast) var(--ease-out);
+    }
+    html[data-theme="light"] .cloud-project { background: rgba(10,18,32,0.02); }
+    .cloud-project:hover {
+      border-color: var(--gold-line);
+      transform: translateY(-1px);
+    }
+    .cloud-project__head {
+      display: flex;
+      align-items: baseline;
+      gap: var(--sp-3);
+      flex-wrap: wrap;
+    }
+    .cloud-project__title {
+      font-family: var(--font-display);
+      font-size: var(--fs-lg);
+      color: var(--paper);
+      font-weight: 600;
+      margin: 0;
+      font-variation-settings: "opsz" 48, "SOFT" 50;
+    }
+    .cloud-project__num {
+      font-family: var(--font-mono);
+      font-size: var(--fs-3xs);
+      color: var(--gold);
+      letter-spacing: 0.16em;
+    }
+    .cloud-project__meta {
+      display: flex;
+      gap: var(--sp-3);
+      flex-wrap: wrap;
+      margin-top: var(--sp-2);
+      font-family: var(--font-mono);
+      font-size: var(--fs-3xs);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--paper-60);
+    }
+    .cloud-project__meta strong { color: var(--paper-80); font-weight: 500; }
+    .cloud-project__actions {
+      display: flex;
+      gap: var(--sp-2);
+      align-items: center;
+    }
+    .cloud-projects-empty {
+      padding: var(--sp-6) var(--sp-4);
+      text-align: center;
+      color: var(--paper-60);
+      font-size: var(--fs-sm);
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--r-md);
+    }
+    .cloud-projects-empty strong {
+      display: block;
+      color: var(--paper);
+      font-family: var(--font-display);
+      font-size: var(--fs-lg);
+      margin-bottom: var(--sp-2);
+      font-weight: 600;
+    }
+
+    /* Status badge por projeto */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-1);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border: 1px solid var(--line-strong);
+    }
+    .status-badge--orcamento { color: var(--paper-60); }
+    .status-badge--aprovado { color: var(--sage); border-color: var(--sage-line); background: var(--sage-soft); }
+    .status-badge--producao { color: var(--amber); border-color: var(--amber-line); background: var(--amber-soft); }
+    .status-badge--entregue { color: var(--sage); border-color: var(--sage-line); background: var(--sage-soft); }
+    .status-badge--cancelado { color: var(--terra); border-color: var(--terra-line); background: var(--terra-soft); }
+
     /* ── EDIT MODAL ── */
     .modal-backdrop {
       position: fixed;
@@ -1361,6 +1563,11 @@
             <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
           </svg>
         </button>
+        <button class="cloud-chip" id="cloudChip" type="button" aria-label="Conta na nuvem">
+          <span class="cloud-chip__dot" aria-hidden="true"></span>
+          <span class="cloud-chip__label" id="cloudChipLabel">Entrar</span>
+          <span class="cloud-chip__email" id="cloudChipEmail" style="display:none"></span>
+        </button>
         <div class="topbar-version">v4.1 · JL Marcenaria</div>
       </div>
     </div>
@@ -1779,9 +1986,10 @@
         <div class="card">
           <h2>Histórico local de projetos</h2>
           <div class="concept">
-            <strong>Sem backend ainda:</strong> esta versão salva o histórico no navegador. Depois, a mesma estrutura pode ir para Supabase/Firebase com login, clientes e painel por período.
+            <strong>Cloud + local:</strong> projetos salvos na <em>nuvem</em> (Supabase) ficam disponíveis em qualquer dispositivo após login. O <em>histórico local</em> abaixo é um backup rápido no navegador, útil se preferir trabalhar offline.
           </div>
-          <button class="btn btn-primary no-print" id="saveHistoryBtn" type="button">Salvar no histórico</button>
+          <button class="btn btn-primary no-print" id="saveCloudBtn" type="button">↑ Salvar na nuvem</button>
+          <button class="btn no-print" id="saveHistoryBtn" type="button">Salvar no histórico (local)</button>
           <button class="btn no-print" id="clearHistoryBtn" type="button">Limpar histórico</button>
           <div id="historyList" style="margin-top:1rem"></div>
         </div>
@@ -1872,7 +2080,16 @@
     </div>
   </footer>
 
-  <script>
+  <script type="module">
+    /* ── ONDA 3 · INTEGRAÇÃO SUPABASE ── */
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+    const SUPABASE_URL = 'https://crpwbsihfthuvqfknhbt.supabase.co';
+    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_Lj7d_ZHEJes_IfpqLLIEfA_drFUZueE';
+    const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
+    });
+
     /* Logo embutida em base64 — funciona offline e não depende de path no deploy */
     const JL_LOGO_DATA_URL = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCADwAOsDASIAAhEBAxEB/8QAHAAAAgMBAQEBAAAAAAAAAAAAAwQBAgUGAAcI/8QARhAAAQMCBAQDBQYEAgYLAAAAAQACAwQRBRIhMQZBUWETInEHFDKBoSNCYpGxwRVSctEzkiRDgqLh8BY0NVNjk6Oys8Lx/8QAGgEAAwEBAQEAAAAAAAAAAAAAAAECAwQFBv/EADgRAAIBAgQBCAUNAQAAAAAAAAABAgMRBBIhMUEFEyJRYXGx0RQjMpHwBhUkMzQ1QoGCocHh8VL/2gAMAwEAAhEDEQA/APiFl6yvZesvVymFwZCiyJZVISsBQhVIVyFBChoAZCiysQoKzaGRZesvLyhjR6yhSvWUMZFlFla1lW46hSBFlFlZRcdQkMrZQQrqCEAUIVSFcqCgChCqQrkKCEADIVSEQhQQgAZCqQiWUWQAMhQQr2UWQBQhRZXIUWQB0mVeyo3h+qjIV62UxuByquVHLFBYk0MXLVQtTJaqOYs2hi5aoyoxai0tDPWyeFBE57udth6nkspDE8qJT0k1XJ4dPC+V/RguuqoOE6eIZ6yQzP8A5GGzR89yugpWRU8fhxRsjYNAGtACzy3Buxx9LwZXS2M8kVON7XzO+mn1WxScGYawt8WSec31ucrfp/ddE0B7coFjysrWeCPJzTyonMxWl4fwimdYYfTafec3N+t1ox09LF/hwQNaOTWNBH0VWN82VjLgi/z6q8ZcC0k3t2uqSES1mcljGt03NkOWngcHCSnhfyOaNp/ZFhf4co0LQdB2TEzWBpfe9+SegjFqOH8JqQ0SYfS3O7msAP0ssmr4Fwic3p3zU7nbBj8w/I/3XRucM/bcG6lps3lbWyhxTHdnAVns/r4rmkmiqQDbKfI766fVc7WYfVYfJ4dXTyQO6PFr+h5r7FGHMJOhNrWQqiGOdjo54mSNPxBzQQQodNcClNnxotVSF3uL8E0k15aB3uz/AOQ6sP7hchXYXVYdJkqYXMJ+E7td6Hms3FotO4hZQWo2RQWKRgC1RlRyxQWIAAWqC1HyqpYgABavZUYsUZUAdTkXsiYyKMi9oxFizsqliaLFQtUsYqWKpYmS1O0NC0OEswv0b09VjOSQwGHYG+scHy3ZF05uH7LpoGRUkQihibGNrAaep7pZji0hw1I6c0fxA4jzfRc7dwYUkW8253RoWjU3Nj2S9rXdm12tzTERPhuF9N7DkgQdpIJvqDzJV2nUCzj3JQo8pbfYcyAiWzAOvseiYg4aBa17gBXjLQ4HL81DORvqDYI4aG3cQLHYd7oAhoDnOsA1o1OiLJGAwa5u3RV6k6H+VQ57soYARpbRAC7IsxOun6okcYFvKbg30G6tHaNp5m3PTRS1+9ttAbBFgLCNgaRcbX2S1QWtJAFrD8imcwAsScoGtholagW2Pl2JHNDEKOkzDextqClauKKpjdDPG2SNw1DhdOmNpF7DUW15pZ8YAuLjmpKOMxnhh1K581Fmlhbq5p+Jvp1Cwci+jvaWgm9x0WBi+CtmJmpxaXcs5P8A+KylDii1LrOWLFGRMujIJBBBHJVLFmUL5FBYmMigsQAsWKuTsmSxVyIA6vKoyo2VQWr1sxlYAWqrmo5aoazW5USnZXHY9TQNBD3WvyHRON5gG2vNDYL2IA7omU5rjYHouSUm3dgEYCWWAFhz6Io8pFgQeduSo27rFvm010TLIw8eW+mhugD0L/MN/XoU214ewuB26JPwnD4STbdNU7XSENIsUxDcGV17HQj5IwI1DRYgfJDgbcEHUDmFcgN+G9zzKoQcC7wSABbSwRQ5hjfe4toOyVimDRqTa9hbqiQRyVkpihZ4rhqeQb3J2A7lKUlFXlsCV9Ee8U3JdmNtgmxDFTUgxLFKtmH4eTpLICXzEfdiZu899upWLiPFeF4HmZSNhxbEBp4jhemhPbnIfp6rnJWYrxNWGvxSqlkc/TxJDrbo0bAdhouN151Xajouvy82bqmo6z9x3dfEylqAI5BPTysbNBM3QSxOF2uH6HoQQgNkZsL9tFjcNV7zG/hqqfeSFzpsPe7nfV0Xo7cdx3TpmzNAA3WuHquScJ+0t/P8yKkEtVsx01DLAtvbr+yXdILjS3Ig8lQSNjGtyfw8lTPnaSbF2tl0NmZMj25Wlp09EtMdzyHLkjOALd8vXmgTtOljmAGvqpGKSXkva3l3vzQHnSxOiO92V+W9wdjZAfqRcA90DRkYrhrZmmeIfaD4gPvf8Vhli614OWw09Fi4jR+G7xGjQ/EOhWU1xKi+Bl5VUsTBYqliyLFyxVyJgsUZUAdTkUFiPlUFq78xFhV4DRcoTdH3J5KaqVviZLjy9eqGx2Yg30G91jKV2DHIydyiEWbuDfugxS+liiNe0nLrYd0iRuJ4bGABdx5IzHm4I011tqlA4tBA5IjNyCSAehQAwHZneUjvppfomWuf8TgNvKRsqNjboc1xa1rWt/ZSX2A10HLoFSEMU79dXW01CJLKM1yNOvdAgEkwdkDRHHrJI5wa1g/ETssjEeLIaQuhwq002xq3t0b/AENP6lc9XEqDyx1l1efUaRpOWr0RrVVZS4YwS4hKYwRdsDP8V/y+6O5XO4jxFiGNNdRUsfutETcwRHR3d7t3H107KuC4VSYjiLZuI8RmoqN93TVFs7xppprubBfU8E9mHCuJ0EdVhXEVRUUztA+NjN+YOlwfVeZicXToyTxbfudv97zqpUpTVqK8z5rhuDRQASTZXvH5D06rVe9tm2G2m+y7bF+EuDuHjHHinFUlK94u1r2tzEdbAXsm6H2a8PYpSsq6PiGepgl8zJI2sLSr+e8HGKld27n5E+hVm7W170fJ8UgdKxs0JLKmA52Pbvp3WtSYv/FaZta2zJXHJUMA2k6+jt/zXT8T8LcI8OxTRz8UPFeIy+Klc1pc91vKDYaXXzmCoGDYkJyCaOosydo5X5juDqFpHFQrr0ihd27Grol0pQ9XU4nVRSNLA7yu/wCd7KjnHMSdNNLdEvI73ebJo4CxDhs8HUEeoVHVGZxIv2vyXpxmpRUlszmaadmFkqHF7gDyQxO24za3HNDaWODr3B7BCyjcnY/NFxFpXOMbr7776IRdoANualz2/CLcwhZ8oA0BJudUFHnAkW5jQpVwbI5wf8JGqYlm8puBfVLv+F2+o2UgZM0HhSFvLkeyEWLRqW5wTb4UqWLGSszRMXLFXImSxVyJDOoLUKoeIYnyHZoumFmY1LljZCPvm59AuhyJM0Sl7i5251RGknklhYnQkI4uNv8A9UEjDPisLjuitdYjfVLMf5dCixyZT17qhDbDfc6hNA63OhPZJRyjMNLAa6prxAYyQQbdSmIP7xlcA3UnTQan+6Zr6mkweLPi0jvGOrKGIjxSPxH7g9dUjjWLvwGlpH4RDZ9ZET/EH6yBwNnRsGzCDz1JBBuuepcNknf41U5zi85nBxu49yVxc7OvpDSPXx/rxN8sYe1qxmuxbEeIniENZBSMN2QRC0bO5/mPc6pihw2GBwI+0k6nkrxxhseSMWaOQTFOAXXN7ciF0UqMaatFGc5uW5eemFRA+N9w12mnJb/s3rf4FS4jB4pLXzMcL8vKsljmlhG9gU7wtT+KK3mBI0fReT8oUvQpd68Tr5Ofr0Y/HEgxfi2omfKWt8KJoI15LqPZxipwjA56UyaCpe4fMNXJY5GRxXUx20Ecf6Ld4Pp/GoKlx5VDh9AvM5Qivmmn+k6sO/pcvzMPiGIYvxdiVS6R2soIA52aFWsgZNG+J+xCvVNLOI8Sba2WUcvwhFnAfsNe6+iwCXo1PuXgebiH62XeUwGqfWUkmFSkmro2l8HWWLdzPUbjtdFLr6rIrDPSzxV9I4x1FM4PaR2W5UPgraaDFaUZKarvmYP9TMPiYf1HY9k6fqanN/he3fxX8hLpxzcVuDbIRseyiSbTLYG+5QjJZwIN/wBlWUg8rcv+K67mJD5NLNCE/QG99eikAn4TfpdUc8tIF9kAQ8kjc9UIuuL3sCvOk310GyoZB+Q6bJFE2uD03v0QiBfRWEgsBdVzXeW6KJrQcSpaoyq6hZFnQZlzuMVHiV7230YA3/n81vZ1yk8niVMkhO7ybn1WidxBmG9rH5o8ZBIJuk2yWOh0CZie067XVEjAs3TkvZtRroqAgjMDupy66kpiGYnZibk37poEZSCLncJSM5WC1rmyYjOZrna3HVMQbDJopJ5MIqpGsp61wMMj9qep2a7s13wn1B5JR8U8VS+nmjfHNG4skjdu1wNiClqtokzBw8rt1vOlOPYMcUPmxHDwyGv6yx/DHUfox3fKea5X6qpf8Mv2f9+Jr7UbcUItBjuLHTkiM0+I6FLGa50N+5UiUDeQN5C/NdZiOtItudfqum9n8InixE66SsGv9K5Hx2tIBfvyXf8AskpRVUmLObcgTxjb8BXi/KB3wUrda8TtwD9cjieKWeHxrXs2AjiB/wAq6n2eU3i4RVHpVOH+61c9xvT5OP8AF2E2ysh/+MLtvZJR+8cPVj7H/rrx/utXm8o/dNP9J0Yd/SpPvODxUeFxXjDCNGzD/wBjUOUsdq062ReKf9H46x2O9rTgf7jUp4liBc68l9DgPs1PuXgefX+sl3gpruuDe/O45IeAV0OGYhLhta/JhmIkNc87U8o+CT5E2PYlGmeHjQbczyWdW03jxujcNHag91rWpqpHKTCWV3NWugnw+rlpKluSaF5Y8dD17jYhAD7k2PfrdOUNQ7ibh9xeb4vgkYbMPvVFINGv7mO9j+Eg8lmZgG6OGZKhVc49LdbjnGz02Cl1gBrrsOih1sgsDccyheINGnX0VnOa4WufkFsQDkcNT1QS6w30KJJtvshNGuvzSGSTbXfsqXAlB2vope/kddeSFMcpt01SYxglRdVzL11iWar5bMcegJXMF63ZZPsn/wBJ/RYAIsCOiqLEwkZTMbTewSzHAi+wRon5bje60ENNcABdXuDr9EsHl25siMOocUCGw61gOiLG83zNOiXc8ZbaXUB/XcJisMva11wRa26jCcUmwDFYq9kLZ42h0U9O4+WohcLPjPqNuhsVRsmdvxDRBfdxv3UzgpxcZbMabTujqafgmoxLiijwnBZfHosSYKqjqn7e7G93P7ssWuH8wtzC6fiDi/gz2TzuwfBMLjxzG4dKiqnIyxv5gusbH8LduZusj2X1r+H8K4rxyORzp6OhyU7XG4jJzONhyu4NJ9F8voGOlcaiVxkmkcXOe43JJ1J9SdV4/NzxNV0akujC22l32/kdV1Tippas+jj271dcfDxvg/Ca6id8UbWua4DsXX1X1L2SO4QxahxGs4XlqImzysfUUNSbvpH5SAAebTyNzsvzy05dxcdV9T9gUraSTiCVgyh5gBt1s9cnLGBp0sLKVNtbaX03NMLVlKokzn/anBNh/tNxgyRSMimbCYnOaQ2QeGAS07HW40X0n2EU7KrhGtkuP+0JBr/Qxc7xp7W8Kp+Kq/hjiXBo8RwiPw8szBeSFzmAk27E7tIPquq9m78AwzBKhnDeK+/0M9Q6oBc4F8OZoGR2x0tzAK4MbiJPk+FKcWnpZ8GjejTtXck+s+Re0Fvhe0riNrT8NS0f+mxZLXPIdsFoceSl/tF4ge4EF84cLi1x4bdVmCW9jfRfV4D7PT7l4Hm1vrH3kiTQ3O/JM4VjWDYLi9PU47hz8Sw7zMlgaRrcWza723tcJB2+Zt7HcJerDXxua5ocCNit6kM8XF8SIuzufRMV4Xwrh5+H+0rg2qnxHh+GS9ZSxuBliYfK5hzD4TfK4OFxfmNVwUtRFVTPmgpzTRPcXMhzZvCBNw2/O2110vsNxGSm4lxDh+VxkwzFKOTxYXatzN0vb+kkfkuXkYKSplpgbiKR0YPXKSP2Xm4JyjWnSqO7SWvWu3tR0VUnFSWzJtfX6KR5bXPJDebOBBPdQ+UkXAsvUOexL3NIt+yHtc72Cq43Fr3UMcACCB3SAhz77nVDkdf4he2irI/W42QvEy6AoGNh+gXs6AHWAU51iyh577scOxWIx5I30stbMsTMWPc030JTiJjLXWPUIgeQOXqlWvurhw5rRMQ0x9+6I2Ww7cksw9yEQEAaD5pgNMeDYE6nUWVmy666eqTY4g7myK2UF9jyQIdY/wApAA05qSRcpcO5aC6hrzmGb0sgDqOC8RgFdXYLUyBkGL0zqe/R9jb6ErlnYZVYLVPoa6MxzRG3Z45OHUHcFArS8hr2OLHtILXNNi0jYhdFQ+0iGWmZScS0DajILCcRCRru5adj6Ly6/O4eq61OOZS3S3uuKOmnlqRUJOzQjDC+slZT00Uk0zzZsbRcn5L6fw1BS8AcO1NRWztDz9vUuBuAQLBjevTuSuQl9o2B4NCG0lDNGZWB7WR03g52nY3NrjvquI4k4txTiyRsc3+j0bXXZAw6X6k8yvPrvE8otU8mSnxvuzopqnh+le8iZsSlx/FK7FKlt31czpCDrYch8hp8ktFV1+AVwrcIq5qSYc43Wv2PUdimKGnbHCNFoU/D0ldA6sqJoqDD2G0lZUEhgPRo3e7s36L3Jxpwp5Z7bHCnJyutzoqD2p4fj1PHQ8a4ZHIQLMrYW2c3vpq3/Z07I9fwaZoPfuHa2PFKR2rWhw8QDoLaO+h7Lk5OJYKGJ9FwtTPga8Fk2J1LQaiYHcNG0bT0Gp5lZ9BUYjgk3vGE1kkDz8TAbtf6jYrz6eGq07zwzyr/AJez8jodSMtKmvavjU1pHPjkdHK1zHtNnMcLFp7gped4I3Wu32g4fijGwcT4VaUCwqIgf1HmH5kKJcb4Foh4sUFTXPHwxOc9zb972C1XKM49GpSlm7NV7yfR09YyVjU9nbG8PR4jxdXfZwQwOigv/rDcXI+YDR3J6LlmTPnzTSG0khL3W6k3KXx/irEOJpImSsFLQwkGKlj0AtsT1/QKIpbRi91eDozzzr1dJS4dSWyJrSjZQjshrPcackJ0hDuQVC7RUzjlsvQMC5kPLdUdJrvsoJFtblBldrugZd7wLEXsUMyDQ6FUdIQ1RmBGym4DAdovZkPMvZlAx3MsmrGWqeNrm/5rSukcRZ5mSD+koQAGu9UVjtb6IDRorMNt1QhtslwveLY6IIddTdMA7XX/AHRGuN72ulxprmVg87bp3AaEmU9URrrm+p7JVhJJF9SEVpLdTumBeXVpBvp9UjIALg7dCm8+gB0Q3Brrk2SYDVK/+OYd/CpAHVlIHS0Dju9m74f/ALN73HNZ2H0c1dUMhp4XzSvNmsYLkqDnglbJC8sljcHseN2uB0ITlZj9fWtlp6KnhwqGbWpfB8c7jvd24bf7osFyOM6cmqaun+zNbxkryepoS1OF8O/Z1AZiuJDajifeGE/+I8fEfwt+ZWZXVFfj1Q2qxao8XIMsUDBljiH8rWjQBCpKaKmZZjR3J3KNmAOltNitIULPPN3fxsS56WWiLNgAHlaGgcl57CFZrhm1Oqs8tLf7roIE3gPOUtBHO6F4McZ0Y0HlomXDW6oWi9+algBazzEphpytUaEd+ii19yi4rls99P1XvEtohPuDbdQXAWRcZd8m6CXl26843HZDvfmgCxKhurgENxI5olOC5xceSVwDXXrq1ipyqQGbIVVEZYHtG9rhNZFUsUXLsYINj3Vw4hXrofAnIt5XahAvpotEybBmv6WV84S7TsiMddMRtcPYUzGayWmlmdDaB8jHgC2cWDc1/u3OqvDgksWFYnX1olgdRXYyMAXfI1zQ+9+Tcw25kJXC8ViwyDFBK0uNVh81KywuQ92Wx7bbpuu47rcaixF+LeG58uEsw+ARR2GYSse6Q/idlJLuZXDVlXzvJtobwULa7mfT56l8cULC+SRwaxo3JJsE7jlE3CsSdTMkMsRY18cht52nQnTT4g4fJB4ZxuHh6tZiskXiy0kT5KaMtzAz5SGFw6AnN8lfFuKpeIsKw4Yk2L+J0kkkYkgp2xNkgfZwBDAAC12blrmK2lUqc6kl0ePx8bkJRya7hqSLCW4VJXYrLiTG+8tp2OpGMcGktLruDiCdtgk62B+H11RRyEOkgkLHEaXt2Wzw1x3DwrhzaZ2G0ta5+Ix1DxPTtkyxiMtJY5wOR4JBB7LmXzNfW1UrKuWqEkz3iolbZ8lzfM4devdTTlV52SltwHJRyq25s1MWAYbO6hxKpxU17LCU0sLHRU7iL5TmN3Ec7WWdSmOolYxr3GN7w24FiQTa9itHE8U4dxnEpcWrJq3D6ipIkqqWCl8QPksA50TswADrXs4aEncLMo6iKGohqGseI2StfkfbNlDgbG3OwRSlJxd73/nsCSV9NjVxf+D0dVNRUUONePDM6J76tkYjIaSDYt1ur4dg4xPDa+aEyGppywxxtAIkBDi4dc1mki3QqOKeKf4/XVMsfEuJ1sE1U+aOgmhcyKBpJIAJcR5QbDRL0XEjsIweopqZzmV762lq6eUNvlMWcm5/2hpzWcZ1XRTXtXRTUc+uxFXHFS+6hhkPjUsc7i8Dd19rctEeiw11bhtbWB7gacDw2C32hGrx8m66KvFHEVDxJikNZQ0QoImUkUDqdos2N7blwb2u7TsnMN9oUmAxYTQ4fT08lBTF78QbNTMc+pfIbSBrnC7QI7NBBF05VK3NRyrpfH+CUYZnfYxY3B80THXAc9rTbfUgad1p4nQ4Y01xwyXECcPqBT1DKtjBqSQHNLT1adDqsdtRT09WyeJz300U7XsLm2cWNeCLjrYLoOKeO4uLIpYRBFRFlfLURspaZsTKqN/wuksP8Ru1zuHHmqqyqc5HLtxFFRyu+5lUsEctDXVBMuemMWW1svncQb8+WlkGjp34hXQUrb5pXhunIcz8hc/JEo8XhpcLxbD3tJlrhT+G7LcDw3lx15aFXwHiFvDlRV1sTWvxD3V0VH4kQeyN7yGueQdNGZrA83K5SmlO2/D3L+RJRbQLFaP+HYhUUrXl7GOvG8287Dq12nVpBSTn68itLG+JP+ksVBU1MbGYlBCaapMULY2SNa4+G4BoABynKQB90LILtVdFycFn3FNK+hfPcKl7nRVzWU3WpB4uT1NEWwtuNTqlaSE1FQ1ltBq70Wz4XZIYsI17ImvC7L3hdkCDGPsoMacMKqYljc2sZWIUZqIDlHnbq3v2WAHfRdiYlgY3QGB/vMY8jj5vwnr81UXwJkuJni3qVdp2QA66sHqyAzzcWQ8qkPvuFPIbWTAtfy2VWb3Xs2igH80XAtLrrZTHoN1AIXtOiAJ+9tZELri10PmpCYj0Qs83AUytuVA0NxurOdmFkAVjOUqDqV7mpCBlr3bZVZvopUHRAjzjd2qrJ5vVeJCi4SGS11tLLxPdVzWOygvSuBa68TYIRdZa/D2FOrpveJG/YxHS/wB53T5IGO4Vh5gp87xaSTU9hyCeEHZPinVhT9kCM/wOynwOy0fd+y97umI8YeyqYeyfMSo6Jc1zqsZ7ouyDNTNlY5j2hzXCxB5haTouyC6NFxWODxXDX4ZPbV0Lvgd+x7pLPdd/V0UVXC6GZocx2/buO64vFcJmwqWzrvhcfJIBv2PQrWMrmUo2Fg5SXIIdorZlZIXMpDtELNdWvYIALmXi5DB7qb90AEv3Ug29UPMpzGyLiCXUl+iDn/Jezd0DCtKm6DmU5uqAC5lVzlTN3UF10CJuVUu+SgmyqXIGWz635qheoc4LQwPAarH6rwoBlib/AIkpGjB+57IAnBMInxqqEUYLYm2MkltGj+6+h02Hx0sLIYWZWMFmhN4bg1PhdKympmZWN1JO7j1PdOCn7JXAzhTdlYU3ZaQp+yuKfsmBmCm7Kfdlpin7K3u/ZMRnmJDdF2T5iQ3xrkudljPdGgujT740B8aLisIujS9RSx1EbopWB7HCxaRoVoOYhOYlcLHCYxw1NQl01MHTQbkbuZ69R3WIvqTmLExXhimri6WG1PMeYHld6j+y0jV4MylT6jiQ6ytmTGIYTWYa4+8REN5SN1afmlAQFsnfYysFa7RTfqhB6klMAmZezckLMvZkAFuozoea69dABc3dezIV1GZABs11GZDzd1GblugAmbqVUuWhg+AYnj0mTD6V8jR8Uh0jb6uOn7r6Nw77N6LCyyoxAtrqoagEfZMPYc/U/kpbSBI47hngisxstqaoPpqI6hxHnkH4R07/AKr6ZQ4VT4fTMpqWFsUTNmj9T1PdaYg7K7YeyV7lWE2wdkQQdk42HsiCHsmISEHZXEHZOiHsrCHsmISFP2U+7p8Q9lbwR0CYGE5iE9iccxCexcZ3WEXsQHsT0jUu9qBWEnsQXRpx7UJzUmFhNzENzE05qG5qlsVhZ0YcC1wBB3BFwVj1vCGH1l3RB1K884/h/wAv9lv5VYNSUmtiXFPc4Kq4KxSnuafw6pvLIcrvyKxqmhq6MkVNNNCfxsI+q+uRtTLGAixAI6HZaLENbmbpI+JZr7FeuV9olwDCqzWfDqSQnmYgD+YS54D4el1OGsb/AESOH7rRYhdRPNs+QXsoJX2Fvs34bO9HL/57/wC6ag9nfDTDc4Y1/wDXI8/unz8RZGfE81tzZM0eHV2IvDaOjqKlx/7qMu/RfeaPhXBKMg0+E0LCOfggn8yteOEMblaA1o5AWCOe6gyHxfC/ZdxBXkGpZDQRnczOu7/K2/1su0wb2WYLhxbJWeJiMo1+18sf+Ub/ADJXcCNW8NLO2PKhOOmjhjbHFG2ONujWsbYD0AV/DTPhr3hpoBcRq7Y0YMVgxUhMEI1dsaMGKwYqJBiNWEeiMGKwYmAIRqfDRgxWyhMR/9k=';
     const BRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -3078,11 +3295,510 @@
     const _logoPreview = $('logoPreview');
     if (_logoPreview) _logoPreview.src = JL_LOGO_DATA_URL;
 
+    /* ═══════════════════════════════════════════════════════════
+       ONDA 3 · CAMADA SUPABASE
+       Estrutura:
+       - cloudAuth: helpers de autenticação (signIn, signUp, signOut)
+       - cloudRepo: repository de projetos (list, save, load, delete)
+       - cloudUI: estado visual (chip, modais, toasts)
+       Filosofia: cloud-first quando logado, fallback gracioso para
+       LocalStorage quando não logado. RLS garante isolamento.
+       ═══════════════════════════════════════════════════════════ */
+
+    const cloudState = {
+      user: null,           // null = anônimo
+      lastSyncedAt: null,
+      currentCloudId: null  // id do projeto atualmente carregado da nuvem
+    };
+
+    /* ── AUTH ── */
+    const cloudAuth = {
+      async signIn(email, password) {
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        return data;
+      },
+      async signUp(email, password) {
+        const { data, error } = await supabase.auth.signUp({ email, password });
+        if (error) throw error;
+        return data;
+      },
+      async signOut() {
+        const { error } = await supabase.auth.signOut();
+        if (error) throw error;
+      }
+    };
+
+    /* ── REPOSITORY ── */
+    const cloudRepo = {
+      async list() {
+        const { data, error } = await supabase
+          .from('projetos')
+          .select('id, nome_projeto, cliente, numero_proposta, status, valor_total, margem_liquida, updated_at')
+          .order('updated_at', { ascending: false });
+        if (error) throw error;
+        return data || [];
+      },
+
+      async save(projectData, kpis, opts = {}) {
+        if (!cloudState.user) throw new Error('Login necessário para salvar na nuvem');
+        const meta = projectData.meta || {};
+        const rawStatus = (meta.status || 'orcamento').toLowerCase().replace(/\s+/g, '_').replace(/[^a-z_]/g, '');
+        const validStatuses = ['orcamento','aprovado','producao','entregue','cancelado'];
+        const status = validStatuses.find(s => rawStatus.includes(s)) || 'orcamento';
+
+        const row = {
+          user_id: cloudState.user.id,
+          nome_projeto: meta.ambiente || meta.cliente || 'Projeto sem nome',
+          cliente: meta.cliente || null,
+          numero_proposta: meta.proposta || null,
+          status,
+          valor_total: kpis.preco || 0,
+          margem_liquida: kpis.margemLiquida || 0,
+          dados: projectData
+        };
+
+        if (opts.id) {
+          const { data, error } = await supabase
+            .from('projetos')
+            .update(row)
+            .eq('id', opts.id)
+            .select()
+            .single();
+          if (error) throw error;
+          return data;
+        } else {
+          const { data, error } = await supabase
+            .from('projetos')
+            .insert(row)
+            .select()
+            .single();
+          if (error) throw error;
+          return data;
+        }
+      },
+
+      async load(id) {
+        const { data, error } = await supabase
+          .from('projetos')
+          .select('*')
+          .eq('id', id)
+          .single();
+        if (error) throw error;
+        return data;
+      },
+
+      async remove(id) {
+        const { error } = await supabase
+          .from('projetos')
+          .delete()
+          .eq('id', id);
+        if (error) throw error;
+      }
+    };
+
+    /* ── UI · cloud chip ── */
+    function updateCloudChip() {
+      const chip = $('cloudChip');
+      const label = $('cloudChipLabel');
+      const emailEl = $('cloudChipEmail');
+      if (!chip) return;
+
+      chip.classList.remove('cloud-chip--online', 'cloud-chip--offline');
+      if (cloudState.user) {
+        chip.classList.add('cloud-chip--online');
+        chip.setAttribute('aria-label', `Conta: ${cloudState.user.email} · Clique para gerenciar`);
+        chip.title = `Logado como ${cloudState.user.email}`;
+        if (label) label.style.display = 'none';
+        if (emailEl) {
+          emailEl.style.display = '';
+          emailEl.textContent = cloudState.user.email;
+        }
+      } else {
+        chip.setAttribute('aria-label', 'Não conectado · Clique para entrar');
+        chip.title = 'Não conectado';
+        if (label) { label.style.display = ''; label.textContent = 'Entrar'; }
+        if (emailEl) emailEl.style.display = 'none';
+      }
+    }
+
+    /* ── UI · auth modal ── */
+    let authMode = 'login'; // 'login' | 'signup'
+
+    function openAuthModal(mode = 'login') {
+      authMode = mode;
+      $('authTabLogin').setAttribute('aria-selected', mode === 'login');
+      $('authTabSignup').setAttribute('aria-selected', mode === 'signup');
+      $('authModalTitle').textContent = mode === 'login' ? 'Acessar JL Marcenaria' : 'Criar conta';
+      $('authSubmit').textContent = mode === 'login' ? 'Entrar' : 'Criar conta';
+      $('authPassword').setAttribute('autocomplete', mode === 'login' ? 'current-password' : 'new-password');
+      $('authHint').textContent = mode === 'login'
+        ? 'Use seu e-mail para acessar suas propostas em qualquer dispositivo.'
+        : 'Crie uma conta para salvar projetos na nuvem. Mínimo 6 caracteres na senha.';
+      hideAuthMessage();
+      $('authModal').classList.add('is-open');
+      setTimeout(() => $('authEmail').focus(), 100);
+    }
+    function closeAuthModal() {
+      $('authModal').classList.remove('is-open');
+      $('authEmail').value = '';
+      $('authPassword').value = '';
+      hideAuthMessage();
+    }
+    function showAuthMessage(text, kind = 'info') {
+      const m = $('authMessage');
+      m.className = `auth-message auth-message--${kind} is-visible`;
+      m.textContent = text;
+    }
+    function hideAuthMessage() {
+      const m = $('authMessage');
+      m.classList.remove('is-visible');
+      m.textContent = '';
+    }
+
+    async function handleAuthSubmit() {
+      const email = $('authEmail').value.trim();
+      const password = $('authPassword').value;
+      if (!email || !password) {
+        showAuthMessage('Preencha e-mail e senha.', 'error');
+        return;
+      }
+      if (password.length < 6) {
+        showAuthMessage('Senha deve ter no mínimo 6 caracteres.', 'error');
+        return;
+      }
+      const submitBtn = $('authSubmit');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = '...';
+      submitBtn.disabled = true;
+      try {
+        if (authMode === 'login') {
+          await cloudAuth.signIn(email, password);
+          showAuthMessage('Conectado. Carregando…', 'success');
+          setTimeout(closeAuthModal, 800);
+        } else {
+          const { user, session } = await cloudAuth.signUp(email, password);
+          if (session) {
+            // Confirmação automática (se desabilitada no Supabase)
+            showAuthMessage('Conta criada com sucesso. Conectado.', 'success');
+            setTimeout(closeAuthModal, 1200);
+          } else {
+            // Confirmação por email habilitada
+            showAuthMessage('Conta criada. Verifique seu e-mail para confirmar antes de entrar.', 'info');
+          }
+        }
+      } catch (err) {
+        const msg = (err.message || '').toLowerCase();
+        if (msg.includes('invalid login credentials')) showAuthMessage('E-mail ou senha incorretos.', 'error');
+        else if (msg.includes('already registered')) showAuthMessage('Este e-mail já tem cadastro. Tente entrar.', 'error');
+        else if (msg.includes('email not confirmed')) showAuthMessage('Confirme seu e-mail antes de entrar (verifique a caixa de entrada).', 'error');
+        else showAuthMessage(err.message || 'Erro inesperado. Tente novamente.', 'error');
+      } finally {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      }
+    }
+
+    /* ── UI · cloud chip click handler ── */
+    function handleCloudChipClick() {
+      if (!cloudState.user) {
+        openAuthModal('login');
+      } else {
+        // Logado → abre modal de projetos
+        openCloudProjectsModal();
+      }
+    }
+
+    /* ── UI · projetos da nuvem ── */
+    async function openCloudProjectsModal() {
+      $('cloudProjectsModal').classList.add('is-open');
+      await refreshCloudProjects();
+    }
+    function closeCloudProjectsModal() {
+      $('cloudProjectsModal').classList.remove('is-open');
+    }
+
+    async function refreshCloudProjects() {
+      const list = $('cloudProjectsList');
+      const hint = $('cloudProjectsHint');
+      list.innerHTML = '';
+      hint.textContent = 'Carregando…';
+      try {
+        const projetos = await cloudRepo.list();
+        if (!projetos.length) {
+          hint.textContent = '';
+          list.innerHTML = `
+            <div class="cloud-projects-empty">
+              <strong>Nenhum projeto salvo na nuvem ainda</strong>
+              Use o botão "Salvar na nuvem" no formulário de projeto para guardar seu primeiro orçamento.
+            </div>`;
+          return;
+        }
+        hint.textContent = `${projetos.length} projeto${projetos.length > 1 ? 's' : ''} · clique para abrir`;
+        list.innerHTML = projetos.map(p => {
+          const date = new Date(p.updated_at).toLocaleDateString('pt-BR');
+          const valor = p.valor_total ? BRL.format(p.valor_total) : '—';
+          const margem = p.margem_liquida ? (p.margem_liquida * 100).toFixed(1) + '%' : '—';
+          const statusKey = p.status || 'orcamento';
+          const statusLabel = (p.status || 'orcamento').replace(/_/g, ' ');
+          return `
+            <div class="cloud-project">
+              <div>
+                <div class="cloud-project__head">
+                  <h4 class="cloud-project__title">${escapeHtml(p.nome_projeto || 'Sem nome')}</h4>
+                  ${p.numero_proposta ? `<span class="cloud-project__num">${escapeHtml(p.numero_proposta)}</span>` : ''}
+                  <span class="status-badge status-badge--${escapeHtml(statusKey)}">${escapeHtml(statusLabel)}</span>
+                </div>
+                <div class="cloud-project__meta">
+                  ${p.cliente ? `<span>Cliente: <strong>${escapeHtml(p.cliente)}</strong></span>` : ''}
+                  <span>Valor: <strong>${valor}</strong></span>
+                  <span>Margem: <strong>${margem}</strong></span>
+                  <span>Atualizado: <strong>${date}</strong></span>
+                </div>
+              </div>
+              <div class="cloud-project__actions">
+                <button class="icon-btn icon-btn--edit" data-action="open" data-id="${p.id}" title="Abrir projeto" aria-label="Abrir">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+                <button class="icon-btn icon-btn--del" data-action="delete" data-id="${p.id}" title="Apagar projeto" aria-label="Apagar">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+                </button>
+              </div>
+            </div>`;
+        }).join('');
+
+        // Wire up buttons
+        list.querySelectorAll('button[data-action]').forEach(btn => {
+          btn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const id = btn.dataset.id;
+            const action = btn.dataset.action;
+            if (action === 'open') await loadProjectFromCloud(id);
+            else if (action === 'delete') await deleteProjectFromCloud(id);
+          });
+        });
+      } catch (err) {
+        hint.textContent = 'Erro ao carregar projetos. Tente novamente.';
+        console.error(err);
+      }
+    }
+
+    async function loadProjectFromCloud(id) {
+      try {
+        const project = await cloudRepo.load(id);
+        const data = project.dados;
+        // Aplicar dados ao formulário
+        applyProjectData(data);
+        cloudState.currentCloudId = project.id;
+        cloudState.lastSyncedAt = project.updated_at;
+        closeCloudProjectsModal();
+        // Feedback visual
+        const chip = $('cloudChip');
+        if (chip) chip.style.transform = 'scale(1.05)';
+        setTimeout(() => { if (chip) chip.style.transform = ''; }, 200);
+        renderAll();
+      } catch (err) {
+        alert('Erro ao abrir projeto: ' + (err.message || 'desconhecido'));
+      }
+    }
+
+    async function deleteProjectFromCloud(id) {
+      if (!confirm('Apagar este projeto da nuvem? Esta ação não pode ser desfeita.')) return;
+      try {
+        await cloudRepo.remove(id);
+        if (cloudState.currentCloudId === id) cloudState.currentCloudId = null;
+        await refreshCloudProjects();
+      } catch (err) {
+        alert('Erro ao apagar projeto: ' + (err.message || 'desconhecido'));
+      }
+    }
+
+    /* Aplica dados de um projeto carregado ao formulário/state */
+    function applyProjectData(data) {
+      if (!data) return;
+
+      // Meta (cabeçalho do projeto)
+      const meta = data.meta || {};
+      const setVal = (id, val) => { const el = $(id); if (el && val !== undefined && val !== null) el.value = val; };
+      setVal('cliente', meta.cliente);
+      setVal('ambiente', meta.ambiente);
+      setVal('proposta', meta.proposta);
+      setVal('data', meta.data);
+      setVal('obs', meta.obs);
+      setVal('statusProjeto', meta.status);
+      setVal('prazoDias', meta.prazoDias);
+      setVal('entradaPerc', meta.entradaPerc);
+      setVal('empresaNome', meta.empresaNome);
+      setVal('empresaContato', meta.empresaContato);
+      setVal('empresaEndereco', meta.empresaEndereco);
+      setVal('validadeDias', meta.validadeDias);
+
+      // Parâmetros financeiros
+      const param = data.parametros || {};
+      setVal('margemDesejada', param.margemDesejada);
+      setVal('comissaoPerc', param.comissaoPerc);
+      setVal('reservaPerc', param.reservaPerc);
+      setVal('descontoPerc', param.descontoPerc);
+
+      // Coleções
+      if (Array.isArray(data.ambientes)) state.ambientes = data.ambientes;
+      if (Array.isArray(data.items)) state.items = data.items;
+      if (Array.isArray(data.costs)) state.costs = data.costs;
+
+      if (data.logoDataUrl) {
+        state.logoDataUrl = data.logoDataUrl;
+        if ($('logoPreview')) $('logoPreview').src = data.logoDataUrl;
+      }
+    }
+
+    /* ── Salvar atual na nuvem ── */
+    async function saveCurrentToCloud() {
+      if (!cloudState.user) {
+        openAuthModal('login');
+        return;
+      }
+      const btn = $('saveCloudBtn');
+      const originalText = btn ? btn.textContent : '';
+      if (btn) { btn.textContent = 'Salvando...'; btn.disabled = true; }
+      try {
+        const projectData = getProjectData();
+        const kpis = calculate();
+        const saved = await cloudRepo.save(projectData, kpis, { id: cloudState.currentCloudId });
+        cloudState.currentCloudId = saved.id;
+        cloudState.lastSyncedAt = saved.updated_at;
+        if (btn) { btn.textContent = '✓ Salvo na nuvem'; btn.style.background = 'var(--sage)'; btn.style.borderColor = 'var(--sage)'; btn.style.color = 'var(--ink)'; }
+        setTimeout(() => {
+          if (btn) {
+            btn.textContent = originalText;
+            btn.style.background = '';
+            btn.style.borderColor = '';
+            btn.style.color = '';
+            btn.disabled = false;
+          }
+        }, 2000);
+      } catch (err) {
+        if (btn) { btn.textContent = 'Erro'; btn.style.background = 'var(--terra)'; btn.disabled = false; }
+        alert('Erro ao salvar: ' + (err.message || 'desconhecido'));
+        setTimeout(() => {
+          if (btn) {
+            btn.textContent = originalText;
+            btn.style.background = '';
+          }
+        }, 2000);
+      }
+    }
+
+    /* ── Bootstrap: detectar sessão existente + listener ── */
+    async function bootstrapAuth() {
+      const { data: { session } } = await supabase.auth.getSession();
+      cloudState.user = session?.user || null;
+      updateCloudChip();
+
+      supabase.auth.onAuthStateChange((event, session) => {
+        cloudState.user = session?.user || null;
+        cloudState.currentCloudId = null;
+        updateCloudChip();
+      });
+    }
+
+    /* ── Wire up: chip + auth modal + cloud projects modal ── */
+    $('cloudChip').addEventListener('click', handleCloudChipClick);
+    $('authModalClose').addEventListener('click', closeAuthModal);
+    $('authCancel').addEventListener('click', closeAuthModal);
+    $('authSubmit').addEventListener('click', handleAuthSubmit);
+    $('authTabLogin').addEventListener('click', () => openAuthModal('login'));
+    $('authTabSignup').addEventListener('click', () => openAuthModal('signup'));
+    $('authPassword').addEventListener('keydown', (e) => { if (e.key === 'Enter') handleAuthSubmit(); });
+    $('authEmail').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('authPassword').focus(); });
+
+    $('cloudProjectsClose').addEventListener('click', closeCloudProjectsModal);
+    $('cloudProjectsClose2').addEventListener('click', closeCloudProjectsModal);
+    $('cloudProjectsRefresh').addEventListener('click', refreshCloudProjects);
+
+    // Backdrops fecham modais
+    $('authModal').addEventListener('click', (e) => { if (e.target === $('authModal')) closeAuthModal(); });
+    $('cloudProjectsModal').addEventListener('click', (e) => { if (e.target === $('cloudProjectsModal')) closeCloudProjectsModal(); });
+
+    // ESC fecha modais
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeAuthModal();
+        closeCloudProjectsModal();
+      }
+    });
+
+    // Botão "Salvar na nuvem"
+    const _saveCloudBtn = $('saveCloudBtn');
+    if (_saveCloudBtn) _saveCloudBtn.addEventListener('click', saveCurrentToCloud);
+
+    // Bootstrap auth
+    bootstrapAuth();
+
     populateCatalogs();
     renderAll();
   </script>
 
-  <!-- Modal universal de edição -->
+  <!-- Auth modal -->
+  <div class="modal-backdrop no-print" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
+    <div class="modal">
+      <div class="modal__head">
+        <div>
+          <div class="auth-eyebrow">Conta na nuvem</div>
+          <h3 class="modal__title" id="authModalTitle">Acessar JL Marcenaria</h3>
+        </div>
+        <button class="modal__close" id="authModalClose" type="button" aria-label="Fechar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="auth-tabs" role="tablist">
+        <button class="auth-tab" id="authTabLogin" role="tab" aria-selected="true" type="button">Entrar</button>
+        <button class="auth-tab" id="authTabSignup" role="tab" aria-selected="false" type="button">Criar conta</button>
+      </div>
+
+      <div class="auth-message" id="authMessage" role="status"></div>
+
+      <div class="modal__body">
+        <label>E-mail
+          <input id="authEmail" type="email" autocomplete="email" placeholder="seu@email.com">
+        </label>
+        <label>Senha
+          <input id="authPassword" type="password" autocomplete="current-password" placeholder="Mínimo 6 caracteres">
+        </label>
+        <p class="muted small" id="authHint">Use seu e-mail para acessar suas propostas em qualquer dispositivo.</p>
+      </div>
+
+      <div class="modal__actions">
+        <button class="btn" id="authCancel" type="button">Cancelar</button>
+        <button class="btn btn-primary" id="authSubmit" type="button">Entrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cloud projects modal -->
+  <div class="modal-backdrop no-print" id="cloudProjectsModal" role="dialog" aria-modal="true" aria-labelledby="cloudProjectsTitle">
+    <div class="modal" style="max-width:720px">
+      <div class="modal__head">
+        <div>
+          <div class="auth-eyebrow">Nuvem · Supabase</div>
+          <h3 class="modal__title" id="cloudProjectsTitle">Meus projetos</h3>
+        </div>
+        <button class="modal__close" id="cloudProjectsClose" type="button" aria-label="Fechar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal__body">
+        <p class="muted small" id="cloudProjectsHint">Carregando…</p>
+        <div class="cloud-projects" id="cloudProjectsList"></div>
+      </div>
+      <div class="modal__actions">
+        <button class="btn" id="cloudProjectsRefresh" type="button">Atualizar lista</button>
+        <button class="btn btn-primary" id="cloudProjectsClose2" type="button">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit modal (existente) -->
   <div class="modal-backdrop no-print" id="editModal" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
     <div class="modal">
       <div class="modal__head">
