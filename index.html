@@ -7,6 +7,24 @@
   <title>JL Marcenaria · Inteligência de orçamento</title>
   <meta name="description" content="Sistema de orçamento técnico, formação de preço, KPIs financeiros e proposta comercial para a JL Marcenaria. Desenvolvido por VS Consulting." />
 
+  <!-- PWA: manifest + ícones -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+
+  <!-- iOS specific (Safari não usa manifest da mesma forma) -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="JL Marcenaria">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="icons/apple-touch-icon-167.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="icons/apple-touch-icon-152.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="icons/apple-touch-icon-120.png">
+
+  <!-- Microsoft / outros -->
+  <meta name="application-name" content="JL Marcenaria">
+  <meta name="mobile-web-app-capable" content="yes">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -932,6 +950,84 @@
       color: var(--paper-80);
     }
 
+    /* ── PWA Update Banner ── */
+    .update-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 60;
+      background: linear-gradient(180deg, var(--ink-2) 0%, var(--ink) 100%);
+      border-bottom: 1px solid var(--gold-line);
+      padding: var(--sp-3) var(--sp-4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-3);
+      flex-wrap: wrap;
+      animation: bannerSlide 320ms var(--ease-out);
+      box-shadow: 0 4px 16px -4px rgba(0,0,0,0.5);
+    }
+    .update-banner.is-visible { display: flex; }
+    @keyframes bannerSlide {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .update-banner__icon {
+      width: 18px; height: 18px;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .update-banner__text {
+      font-family: var(--font-mono);
+      font-size: var(--fs-2xs);
+      letter-spacing: 0.08em;
+      color: var(--paper);
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .update-banner__text strong {
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0;
+    }
+    .update-banner__btn {
+      background: var(--gold);
+      border: 1px solid var(--gold);
+      color: var(--ink);
+      padding: var(--sp-2) var(--sp-3);
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: var(--fs-3xs);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 600;
+      cursor: pointer;
+      transition: filter var(--dur-fast) var(--ease-out);
+    }
+    .update-banner__btn:hover { filter: brightness(1.08); }
+    .update-banner__close {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--gold-line);
+      background: transparent;
+      color: var(--paper-80);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: border-color var(--dur-fast) var(--ease-out);
+    }
+    .update-banner__close:hover { border-color: var(--paper); color: var(--paper); }
+    /* Quando banner aparece, deslocar topbar e conteúdo */
+    body.has-update-banner .topbar { top: 70px; }
+    body.has-update-banner main { padding-top: 140px; }
+    @media (max-width: 720px) {
+      body.has-update-banner .topbar { top: 200px; }
+      body.has-update-banner main { padding-top: 270px; }
+    }
+
     /* ── Avatar (gerado a partir da inicial do email) ── */
     .avatar {
       width: 36px;
@@ -1699,6 +1795,19 @@
 </head>
 <body>
   <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- PWA Update Banner -->
+  <div class="update-banner no-print" id="updateBanner" role="status" aria-live="polite">
+    <svg class="update-banner__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="23 4 23 10 17 10"/>
+      <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+    </svg>
+    <span class="update-banner__text"><strong>Nova versão disponível.</strong> Atualize para receber as últimas melhorias.</span>
+    <button class="update-banner__btn" id="updateBannerBtn" type="button">Atualizar agora</button>
+    <button class="update-banner__close" id="updateBannerClose" type="button" aria-label="Dispensar">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
 
   <header class="topbar">
     <div class="wrap topbar-inner">
@@ -4098,6 +4207,73 @@
     // Botão "Salvar na nuvem"
     const _saveCloudBtn = $('saveCloudBtn');
     if (_saveCloudBtn) _saveCloudBtn.addEventListener('click', saveCurrentToCloud);
+
+    /* ═══════════════════════════════════════════════════════════
+       PWA · Service Worker + banner de atualização
+       ═══════════════════════════════════════════════════════════ */
+
+    let _waitingWorker = null;
+
+    function showUpdateBanner(worker) {
+      _waitingWorker = worker;
+      const banner = $('updateBanner');
+      if (!banner) return;
+      banner.classList.add('is-visible');
+      document.body.classList.add('has-update-banner');
+    }
+
+    function hideUpdateBanner() {
+      const banner = $('updateBanner');
+      if (!banner) return;
+      banner.classList.remove('is-visible');
+      document.body.classList.remove('has-update-banner');
+    }
+
+    function applyUpdate() {
+      if (_waitingWorker) {
+        _waitingWorker.postMessage({ type: 'SKIP_WAITING' });
+        // Quando o novo SW assumir controle, recarrega a página
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          window.location.reload();
+        });
+      } else {
+        window.location.reload();
+      }
+    }
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', async () => {
+        try {
+          const reg = await navigator.serviceWorker.register('sw.js');
+
+          // Já tem SW novo esperando? (ex.: usuário deixou aba aberta durante deploy)
+          if (reg.waiting) showUpdateBanner(reg.waiting);
+
+          // Detecta novo SW sendo instalado
+          reg.addEventListener('updatefound', () => {
+            const newWorker = reg.installing;
+            if (!newWorker) return;
+            newWorker.addEventListener('statechange', () => {
+              // Quando termina de instalar e há um SW antigo controlando = update disponível
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                showUpdateBanner(newWorker);
+              }
+            });
+          });
+
+          // Checa updates periodicamente (a cada 60min) se a aba ficar aberta
+          setInterval(() => reg.update().catch(() => {}), 60 * 60 * 1000);
+        } catch (err) {
+          console.warn('SW registration failed', err);
+        }
+      });
+    }
+
+    // Wire up banner buttons
+    const _updateBtn = $('updateBannerBtn');
+    if (_updateBtn) _updateBtn.addEventListener('click', applyUpdate);
+    const _updateClose = $('updateBannerClose');
+    if (_updateClose) _updateClose.addEventListener('click', hideUpdateBanner);
 
     // Bootstrap auth
     bootstrapAuth();
