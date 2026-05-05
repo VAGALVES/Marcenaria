@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0A1220" />
-  <title>JL Marcenaria · Inteligência de orçamento</title>
+  <title>JL Marcenaria · Orçamento de Marcenaria Premium</title>
   <meta name="description" content="Sistema de orçamento técnico, formação de preço, KPIs financeiros e proposta comercial para a JL Marcenaria. Desenvolvido por VS Consulting." />
 
   <!-- PWA: manifest + ícones -->
@@ -27,65 +27,72 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      /* ── Cores base (alinhado Connectors-VS) ── */
-      --ink: #0A1220;
-      --ink-2: #10192B;
-      --ink-3: #18223A;
-      --ink-4: #202C48;
-      --paper: #F5F1E8;
-      --paper-90: rgba(245,241,232,.90);
-      --paper-80: rgba(245,241,232,.82);
-      --paper-60: rgba(245,241,232,.60);
-      --paper-40: rgba(245,241,232,.40);
-      --paper-20: rgba(245,241,232,.20);
+      /* VS MARCENARIA — Mogno · Âmbar · Cobre */
+      --ink: #120D07;
+      --ink-2: #1C1510;
+      --ink-3: #261D15;
+      --ink-4: #30251C;
+      --paper: #F4ECD8;
+      --paper-90: rgba(244,236,216,.90);
+      --paper-80: rgba(244,236,216,.83);
+      --paper-60: rgba(244,236,216,.60);
+      --paper-40: rgba(244,236,216,.38);
+      --paper-20: rgba(244,236,216,.16);
 
-      /* ── Acento dourado (assinatura editorial) ── */
-      --gold: #C9A35C;
-      --gold-soft: rgba(201,163,92,.12);
-      --gold-line: rgba(201,163,92,.28);
+      --gold: #C8852A;
+      --gold-soft: rgba(200,133,42,.10);
+      --gold-line: rgba(200,133,42,.28);
+      --gold-rich: #E09A3C;
 
-      /* ── Sistema cromático tripartite (saúde de KPIs) ── */
-      --sage: #7FA889;
-      --sage-soft: rgba(127,168,137,0.10);
-      --sage-line: rgba(127,168,137,0.32);
-      --amber: #C9A35C;
-      --amber-soft: rgba(201,163,92,0.10);
-      --amber-line: rgba(201,163,92,0.32);
-      --terra: #C77B5C;
-      --terra-soft: rgba(199,123,92,0.10);
-      --terra-line: rgba(199,123,92,0.32);
+      --copper: #A05535;
+      --copper-soft: rgba(160,85,53,.09);
+      --copper-line: rgba(160,85,53,.26);
 
-      /* ── Estados (mantidos do app original p/ não quebrar JS) ── */
-      --danger: #C77B5C;
-      --success: #7FA889;
-      --info: #7C9CF5;
+      --wood-pine: #D4956A;
+      --wood-cedar: #A0522D;
+      --wood-walnut: #5C3317;
+      --wood-ebony: #231810;
+      --wood-maple: #E8C89A;
+      --wood-oak: #C4903A;
 
-      --line: rgba(245,241,232,.08);
-      --line-strong: rgba(245,241,232,.16);
+      --sage: #5E8C5A;
+      --sage-soft: rgba(94,140,90,0.10);
+      --sage-line: rgba(94,140,90,0.32);
+      --amber: #C8852A;
+      --amber-soft: rgba(200,133,42,0.10);
+      --amber-line: rgba(200,133,42,0.32);
+      --terra: #C44B3A;
+      --terra-soft: rgba(196,75,58,0.10);
+      --terra-line: rgba(196,75,58,0.32);
 
-      /* ── Tipografia ── */
-      --font-display: 'Fraunces', Georgia, serif;
-      --font-body: 'Instrument Sans', system-ui, -apple-system, sans-serif;
+      --danger: #C44B3A;
+      --success: #5E8C5A;
+      --info: #6B8CAA;
+
+      --line: rgba(244,236,216,.07);
+      --line-strong: rgba(244,236,216,.14);
+      --line-wood: rgba(200,133,42,.18);
+
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'Source Serif 4', Georgia, serif;
       --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
-      /* Escala fluída (alinhado Connectors-VS) */
       --fs-3xs: 0.6875rem;
       --fs-2xs: 0.75rem;
       --fs-xs: 0.8125rem;
       --fs-sm: 0.9375rem;
       --fs-base: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
-      --fs-lg: clamp(1rem, 0.95rem + 0.4vw, 1.15rem);
-      --fs-xl: clamp(1.125rem, 1rem + 0.6vw, 1.3125rem);
-      --fs-2xl: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
-      --fs-3xl: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem);
-      --fs-4xl: clamp(2.25rem, 1.6rem + 3vw, 3.5rem);
-      --fs-hero: clamp(2.625rem, 2rem + 4.5vw, 5rem);
+      --fs-lg: clamp(1rem, 0.95rem + 0.4vw, 1.2rem);
+      --fs-xl: clamp(1.15rem, 1rem + 0.6vw, 1.4rem);
+      --fs-2xl: clamp(1.5rem, 1.3rem + 0.9vw, 2rem);
+      --fs-3xl: clamp(1.9rem, 1.5rem + 1.8vw, 2.75rem);
+      --fs-4xl: clamp(2.4rem, 1.8rem + 3vw, 3.8rem);
+      --fs-hero: clamp(3rem, 2.2rem + 4.5vw, 5.5rem);
 
-      /* Espaçamento */
       --sp-1: 4px;
       --sp-2: 8px;
       --sp-3: 12px;
@@ -96,60 +103,64 @@
       --sp-8: 64px;
       --sp-9: 96px;
 
-      --r-sm: 8px;
-      --r-md: 14px;
-      --r-lg: 20px;
-      --r-xl: 28px;
+      /* Raios mínimos — corte de marceneiro */
+      --r-sm: 2px;
+      --r-md: 4px;
+      --r-lg: 6px;
+      --r-xl: 8px;
 
       --gutter: clamp(1rem, 4vw, 2rem);
-      --max-w: 1320px;
+      --max-w: 1240px;
 
-      /* ── Animação ── */
       --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
       --ease: var(--ease-out);
       --dur-fast: 180ms;
-      --dur-med: 280ms;
-
-      /* ── Sombras ── */
-      --shadow-card: 0 1px 0 rgba(245,241,232,.04) inset, 0 30px 60px -30px rgba(0,0,0,.5);
-
-      --topbar-bg: rgba(10,18,32,0.72);
+      --dur-med: 320ms;
+      --shadow-card: 0 1px 0 rgba(244,236,216,.04) inset, 0 30px 60px -30px rgba(0,0,0,.55);
+      --topbar-bg: rgba(18,13,7,0.84);
     }
 
     html[data-theme="light"] {
-      --ink: #F5F1E8;
-      --ink-2: #ECE6D6;
-      --ink-3: #DDD5BD;
-      --ink-4: #C5BCA0;
-      --paper: #0A1220;
-      --paper-90: rgba(10,18,32,.92);
-      --paper-80: rgba(10,18,32,.82);
-      --paper-60: rgba(10,18,32,.62);
-      --paper-40: rgba(10,18,32,.42);
-      --paper-20: rgba(10,18,32,.18);
+      --ink: #F5EDD8;
+      --ink-2: #EDE2C8;
+      --ink-3: #E4D7B8;
+      --ink-4: #DBCBA6;
+      --paper: #1C1208;
+      --paper-90: rgba(28,18,8,.90);
+      --paper-80: rgba(28,18,8,.82);
+      --paper-60: rgba(28,18,8,.58);
+      --paper-40: rgba(28,18,8,.36);
+      --paper-20: rgba(28,18,8,.15);
 
-      --gold: #8C6D2E;
-      --gold-soft: rgba(140,109,46,.10);
-      --gold-line: rgba(140,109,46,.30);
+      --gold: #8A5A12;
+      --gold-rich: #A06A18;
+      --gold-soft: rgba(138,90,18,.08);
+      --gold-line: rgba(138,90,18,.24);
 
-      --sage: #3F6E55;
-      --sage-soft: rgba(63,110,85,0.10);
-      --sage-line: rgba(63,110,85,0.32);
-      --amber: #8C6D2E;
-      --amber-soft: rgba(140,109,46,0.10);
-      --amber-line: rgba(140,109,46,0.30);
-      --terra: #9A4D2D;
-      --terra-soft: rgba(154,77,45,0.10);
-      --terra-line: rgba(154,77,45,0.32);
+      --copper: #7A3A1E;
+      --copper-soft: rgba(122,58,30,.07);
+      --copper-line: rgba(122,58,30,.22);
 
-      --danger: #9A4D2D;
-      --success: #3F6E55;
+      --sage: #4E7A4B;
+      --sage-soft: rgba(78,122,75,0.10);
+      --sage-line: rgba(78,122,75,0.32);
+      --amber: #8A5A12;
+      --amber-soft: rgba(138,90,18,0.08);
+      --amber-line: rgba(138,90,18,0.24);
+      --terra: #9A3A2E;
+      --terra-soft: rgba(154,58,46,0.09);
+      --terra-line: rgba(154,58,46,0.26);
 
-      --line: rgba(10,18,32,0.08);
-      --line-strong: rgba(10,18,32,0.16);
+      --danger: #9A3A2E;
+      --success: #4E7A4B;
+      --info: #4A6D82;
 
-      --shadow-card: 0 1px 0 rgba(255,255,255,0.6) inset, 0 20px 40px -20px rgba(10,18,32,0.15);
-      --topbar-bg: rgba(245,241,232,0.78);
+      --line: rgba(28,18,8,.09);
+      --line-strong: rgba(28,18,8,.18);
+      --line-wood: rgba(138,90,18,.20);
+
+      --shadow-card: 0 1px 0 rgba(255,255,255,0.45) inset, 0 20px 40px -20px rgba(28,18,8,0.18);
+      --topbar-bg: rgba(245,237,216,0.90);
     }
 
     * { box-sizing: border-box; }
@@ -174,26 +185,27 @@
       inset: 0;
       pointer-events: none;
       z-index: 1;
-      opacity: 0.28;
+      opacity: 0.30;
       mix-blend-mode: overlay;
-      background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.35 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+      background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'><filter id='w'><feTurbulence type='fractalNoise' baseFrequency='0.015 0.8' numOctaves='4' seed='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.4  0 0 0 0 0.25  0 0 0 0 0.1  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23w)'/></svg>");
+      background-size: 512px 512px;
     }
     /* Glow dourado central (radial soft) */
     body::after {
       content: "";
       position: fixed;
-      top: -30vh;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 140vmin;
-      height: 140vmin;
+      inset: 0;
       pointer-events: none;
       z-index: 0;
-      background: radial-gradient(circle at center, rgba(201,163,92,0.07) 0%, rgba(201,163,92,0.02) 30%, transparent 60%);
+      background:
+        radial-gradient(ellipse at 15% 0%, rgba(200,133,42,.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 100%, rgba(160,85,53,.05) 0%, transparent 45%);
     }
-    html[data-theme="light"] body::before { opacity: 0.18; mix-blend-mode: multiply; }
+    html[data-theme="light"] body::before { opacity: 0.08; mix-blend-mode: multiply; }
     html[data-theme="light"] body::after {
-      background: radial-gradient(circle at center, rgba(140,109,46,0.05) 0%, rgba(140,109,46,0.01) 30%, transparent 60%);
+      background:
+        radial-gradient(ellipse at 15% 0%, rgba(138,90,18,.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 100%, rgba(122,58,30,.04) 0%, transparent 45%);
     }
 
     button, input, select, textarea { font: inherit; }
@@ -209,7 +221,7 @@
       left: 0;
       height: 2px;
       width: 0%;
-      background: linear-gradient(90deg, var(--gold), #E0C28E);
+      background: linear-gradient(90deg, var(--gold), var(--copper));
       z-index: 50;
       transition: width 80ms linear;
       pointer-events: none;
@@ -224,7 +236,7 @@
       background: var(--topbar-bg);
       backdrop-filter: blur(18px) saturate(140%);
       -webkit-backdrop-filter: blur(18px) saturate(140%);
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid var(--line-wood);
       transition: background-color 320ms var(--ease-out), border-color 320ms var(--ease-out);
       isolation: isolate;
     }
@@ -245,7 +257,7 @@
     }
     .brand-mark {
       width: 38px; height: 38px;
-      border-radius: 50%;
+      border-radius: var(--r-md);
       border: 1px solid var(--gold-line);
       overflow: hidden;
       display: grid; place-items: center;
@@ -292,11 +304,11 @@
       background: transparent;
       min-height: 38px;
       padding: 0 var(--sp-4);
-      border-radius: 999px;
-      font-family: var(--font-mono);
+      border-radius: var(--r-md);
+      font-family: var(--font-body);
       font-size: var(--fs-3xs);
       text-transform: uppercase;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.03em;
       display: inline-flex;
       gap: var(--sp-2);
       align-items: center;
@@ -448,6 +460,20 @@
       padding-block: var(--sp-8) var(--sp-7);
       position: relative;
     }
+    .hero::before {
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:repeating-linear-gradient(
+        92deg,
+        transparent 0px,
+        transparent 120px,
+        rgba(200,133,42,.018) 120px,
+        rgba(200,133,42,.018) 121px
+      );
+    }
+
     .hero__meta {
       display: flex;
       align-items: center;
@@ -524,7 +550,7 @@
     .hero-card {
       position: relative;
       padding: var(--sp-5);
-      background: var(--ink-2);
+      background: linear-gradient(160deg, var(--ink-3), var(--ink-2));
       border: 1px solid var(--line);
       border-radius: var(--r-lg);
       box-shadow: var(--shadow-card);
@@ -597,7 +623,7 @@
       gap: var(--sp-2);
       padding: var(--sp-3) var(--sp-4);
       border: 1px solid var(--line-strong);
-      border-radius: 999px;
+      border-radius: var(--r-md);
       background: transparent;
       color: var(--paper-80);
       font-family: var(--font-mono);
@@ -635,7 +661,7 @@
     .card {
       border: 1px solid var(--line);
       border-radius: var(--r-lg);
-      background: var(--ink-2);
+      background: linear-gradient(160deg, var(--ink-3), var(--ink-2));
       padding: var(--sp-5);
       box-shadow: var(--shadow-card);
       transition: transform var(--dur-med) var(--ease-out),
@@ -692,8 +718,8 @@
     input, select, textarea {
       width: 100%;
       border: 1px solid var(--line-strong);
-      border-radius: var(--r-sm);
-      background: rgba(245,241,232,.035);
+      border-radius: var(--r-md);
+      background: rgba(244,236,216,.035);
       color: var(--paper);
       min-height: 42px;
       padding: var(--sp-3) var(--sp-3);
@@ -994,8 +1020,8 @@
       border: 1px solid var(--gold);
       color: var(--ink);
       padding: var(--sp-2) var(--sp-3);
-      border-radius: 999px;
-      font-family: var(--font-mono);
+      border-radius: var(--r-md);
+      font-family: var(--font-body);
       font-size: var(--fs-3xs);
       letter-spacing: 0.14em;
       text-transform: uppercase;
@@ -1006,7 +1032,7 @@
     .update-banner__btn:hover { filter: brightness(1.08); }
     .update-banner__close {
       width: 28px; height: 28px;
-      border-radius: 50%;
+      border-radius: var(--r-md);
       border: 1px solid var(--gold-line);
       background: transparent;
       color: var(--paper-80);
@@ -1293,8 +1319,8 @@
       align-items: center;
       gap: var(--sp-1);
       padding: 2px 8px;
-      border-radius: 999px;
-      font-family: var(--font-mono);
+      border-radius: var(--r-md);
+      font-family: var(--font-body);
       font-size: 9px;
       letter-spacing: 0.14em;
       text-transform: uppercase;
@@ -1512,7 +1538,7 @@
     .status-pill.ok { color: var(--success); border-color: rgba(127,199,189,.35); }
     .status-pill.warn { color: var(--danger); border-color: rgba(217,111,94,.35); }
     .client-proposal {
-      background: var(--ink-2);
+      background: linear-gradient(160deg, var(--ink-3), var(--ink-2));
       border: 1px solid var(--line);
       border-radius: var(--r-lg);
       padding: 1.1rem;
@@ -1570,7 +1596,7 @@
     }
     /* ── PROPOSTA PDF (clean editorial · imprime sem exageros) ── */
     .proposal-page {
-      background: var(--ink-2);
+      background: linear-gradient(160deg, var(--ink-3), var(--ink-2));
       border: 1px solid var(--line);
       border-radius: var(--r-lg);
       padding: clamp(1.5rem, 4vw, 3rem);
@@ -1806,6 +1832,117 @@
       .card { padding: var(--sp-4); }
     }
 
+
+
+    /* ================================================================
+       VS MARCENARIA DESIGN — Aplicação no app
+       ================================================================ */
+    h1 { font-weight: 400; }
+    h1 em, h2 em, h3 em, .italic { color: var(--gold); font-style: italic; }
+
+    .hero__lead {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.65;
+    }
+
+    .brand-mark {
+      border-radius: var(--r-md);
+      background: var(--gold-soft);
+    }
+
+    .brand-kicker,
+    .section__eyebrow,
+    .tab__num,
+    .badge,
+    th,
+    .chart-block__hint,
+    .hero__meta,
+    .topbar-version,
+    label {
+      letter-spacing: .18em;
+    }
+
+    .btn,
+    .tab,
+    .cloud-chip,
+    .status-pill,
+    .update-banner__btn,
+    .actions-overflow__trigger,
+    .theme-toggle {
+      border-radius: var(--r-md) !important;
+    }
+
+    .btn {
+      font-family: var(--font-body);
+      font-weight: 600;
+      letter-spacing: .03em;
+      text-transform: none;
+    }
+
+    .btn-primary,
+    .tab[aria-selected="true"] {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--ink);
+      box-shadow: 0 10px 28px -8px rgba(200,133,42,.38);
+    }
+
+    .card,
+    .kpi,
+    .table-wrap,
+    .module-card,
+    .price-tier,
+    .proposal-page,
+    .client-proposal,
+    .concept-mini {
+      background: linear-gradient(160deg, var(--ink-3), var(--ink-2));
+      border-color: var(--line);
+    }
+
+    .concept,
+    .insight,
+    .pullquote-like {
+      background: linear-gradient(90deg, var(--gold-soft), transparent 72%);
+      border-color: var(--gold-line);
+    }
+
+    input, select, textarea {
+      border-radius: var(--r-md);
+      background: rgba(244,236,216,.035);
+      font-family: var(--font-body);
+    }
+
+    table th {
+      background: var(--gold-soft);
+      color: var(--gold);
+    }
+
+    .footer__mark em,
+    .footer__mark,
+    .footer__tagline { color: var(--gold); }
+
+    .proposal-logo,
+    .avatar,
+    .brand-mark img {
+      border-radius: var(--r-md);
+    }
+
+    .hero-card {
+      border-color: var(--gold-line);
+      background: linear-gradient(160deg, var(--gold-soft), rgba(244,236,216,.012));
+    }
+
+    .hero-svg rect:first-of-type {
+      stroke: var(--gold-line);
+    }
+
+    @media (max-width: 720px) {
+      .btn { font-size: var(--fs-xs); }
+      .tab { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .11em; }
+    }
+
     /* ── ACESSIBILIDADE ── */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -1877,7 +2014,7 @@
           <span class="cloud-chip__label" id="cloudChipLabel">Entrar</span>
           <span class="cloud-chip__email" id="cloudChipEmail" style="display:none"></span>
         </button>
-        <div class="topbar-version">v4.1 · JL Marcenaria</div>
+        <div class="topbar-version">v4.2 · VS Marcenaria</div>
       </div>
     </div>
   </header>
@@ -1891,23 +2028,20 @@
             <span class="hero__meta-sep"></span>
             <span>Goiás · Brasil</span>
             <span class="hero__meta-sep"></span>
-            <span>Edição v4.1 · MMXXVI</span>
+            <span>Edição v4.2 · VS Marcenaria</span>
           </div>
           <h1 class="hero__title">
-            <span class="stanza">Troque</span>
-            <span class="stanza"><em>planilhas</em> por</span>
-            <span class="stanza">decisão.</span>
+            <span class="stanza">A madeira</span>
+            <span class="stanza">guarda <em>margem</em></span>
+            <span class="stanza">em cada veio.</span>
           </h1>
           <p class="hero__lead">
-            Um framework executivo para orçamento técnico de móveis sob medida — cálculo automático
-            por ambientes, formação de preço em três estratégias e KPIs financeiros sem planilhas espalhadas.
+            Um ateliê digital para orçamento técnico de móveis sob medida — cálculo automático por ambientes, formação de preço em três estratégias e KPIs financeiros com linguagem de marcenaria premium.
           </p>
           <div class="hero__tldr">
             <span class="eyebrow">O que você ganha</span>
             <p>
-              Cada projeto é um <em>histórico consultável</em>: cliente, ambientes, materiais,
-              precificação e proposta comercial em PDF. Tudo num só lugar, classificado
-              por natureza de custo, com diagnóstico financeiro em tempo real.
+              Cada projeto vira uma <em>ficha técnica financeira</em>: cliente, ambientes, materiais, precificação e proposta comercial em PDF. Tudo num só lugar, com diagnóstico de margem em tempo real.
             </p>
           </div>
         </div>
@@ -1995,6 +2129,11 @@
           <h2>Classificação inteligente</h2>
           <p class="muted">O app separa automaticamente os lançamentos por natureza: material direto, mão de obra direta, custo indireto, despesa comercial, despesa administrativa, imposto e margem desejada.</p>
           <div class="insight" id="classificationInsight">Preencha materiais e custos. O diagnóstico será atualizado automaticamente.</div>
+          <div class="concept-grid" style="margin-top:var(--sp-4);">
+            <div class="concept-mini"><b>Âmbar</b>Verniz, destaque comercial e preço recomendado.</div>
+            <div class="concept-mini"><b>Cobre</b>Prazos, ferragens e pontos de atenção.</div>
+            <div class="concept-mini"><b>Mogno</b>Fundo técnico premium, pensado para marcenaria sob medida.</div>
+          </div>
         </div>
       </div>
     </section>
@@ -2381,10 +2520,10 @@
     <div class="wrap">
       <div class="footer__mark">VS <em>Consulting</em></div>
       <div class="footer__divider"></div>
-      <div class="footer__tagline">JL Marcenaria · v4.1</div>
+      <div class="footer__tagline">JL Marcenaria · v4.2</div>
       <p class="footer__meta">
         Desenvolvido por VS Consulting · Sistema de orçamento técnico,<br>
-        proposta comercial em PDF, histórico e KPIs financeiros · MMXXVI
+        proposta comercial em PDF, histórico e KPIs financeiros · Design VS Marcenaria · MMXXVI
       </p>
     </div>
   </footer>

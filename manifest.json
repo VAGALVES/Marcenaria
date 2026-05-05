@@ -1,13 +1,13 @@
 {
-  "name": "JL Marcenaria · Inteligência de orçamento",
+  "name": "JL Marcenaria · Orçamento Premium",
   "short_name": "JL Marcenaria",
-  "description": "Sistema de orçamento técnico, formação de preço, KPIs financeiros e proposta comercial em PDF para a JL Marcenaria. Desenvolvido por VS Consulting.",
+  "description": "Sistema de orçamento técnico com design VS Marcenaria, formação de preço, KPIs e proposta comercial em PDF.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#0A1220",
-  "theme_color": "#0A1220",
+  "background_color": "#120D07",
+  "theme_color": "#120D07",
   "lang": "pt-BR",
   "dir": "ltr",
   "categories": [

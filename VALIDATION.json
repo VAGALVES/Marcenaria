@@ -1,10 +1,10 @@
 {
-  "css_broken_removed": true,
-  "empresaEndereco_saved": true,
-  "savedAt_history": true,
-  "history_indicadores": true,
-  "status_normalized": true,
-  "envId_present": true,
-  "banner_compact": true,
-  "icons_created": true
+  "fonts_vs_marcenaria": true,
+  "palette_mogno": true,
+  "amber_copper": true,
+  "wood_grain": true,
+  "hero_text_updated": true,
+  "version_updated": true,
+  "sw_version_updated": true,
+  "manifest_updated": true
 }

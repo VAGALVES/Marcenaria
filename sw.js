@@ -18,7 +18,7 @@
  *  Quando muda → caches antigos são apagados → app força refresh.
  */
 
-const CACHE_VERSION = 'jl-v1-20260503-205316';
+const CACHE_VERSION = 'jl-v42-vs-marcenaria-20260505';
 const APP_SHELL_CACHE = `${CACHE_VERSION}-shell`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 

@@ -22,3 +22,15 @@ git add .
 git commit -m "fix: stabilize Supabase integration and PWA assets"
 git push
 ```
+
+
+## Versão v4.2 — Design VS Marcenaria aplicado
+
+Esta versão aplica o design system de marcenaria premium ao app:
+
+- Paleta mogno/noite, âmbar mel e cobre.
+- Tipografia Playfair Display + Source Serif 4 + JetBrains Mono.
+- Textura sutil de veios de madeira no fundo.
+- Raios menores, com sensação de corte preciso.
+- Cards, botões, abas, inputs, KPIs e proposta PDF ajustados ao novo visual.
+- Manifest e Service Worker atualizados para nova versão visual.
